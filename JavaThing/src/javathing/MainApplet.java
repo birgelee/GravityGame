@@ -4,11 +4,7 @@
  */
 package javathing;
 
-import javathing.settings.Settings;
-import javathing.render.Paintable;
-import javathing.level.LevelManager;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import javax.swing.JApplet;
 
 /**

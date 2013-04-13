@@ -32,12 +32,14 @@ public class RectangleMenuButton extends MenuButton {
         position = new Point(x, y);
         this.backgroundColor = color;
         this.buttonEvent = buttonEvent;
+	this.text = text;
     }
     public RectangleMenuButton(int x, int y, int width, int height, BufferedImage backgroundImage, String text, ButtonEvent buttonEvent) {
         size = new Dimension(width, height);
         position = new Point(x, y);
         this.backgroundImage = backgroundImage;
         this.buttonEvent = buttonEvent;
+	this.text = text;
     }
 
     @Override
@@ -49,9 +51,9 @@ public class RectangleMenuButton extends MenuButton {
         else {
             g.drawImage(backgroundImage, position.x, position.y, null);
         }
-        
+        g.setColor(Color.black);
         FontMetrics fm = g.getFontMetrics();
-        g.drawString(text, position.x + (size.width - fm.stringWidth(text)) / 2, position.y + 5);
+        g.drawString(text, position.x + (size.width - fm.stringWidth(text)) / 2, position.y + 20);
             
         
     }
