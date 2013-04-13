@@ -37,7 +37,7 @@ public class Player extends Sprite {
         super(x, y, 20, 20);
         
         keyListener = new PlayerKeyListener();
-        MainClass.addKeyListener(keyListener);
+        MainClass.getLevelManager().addKeyListener(keyListener);
         spriteColor = Color.white;
     }
     boolean rightArrow = false;

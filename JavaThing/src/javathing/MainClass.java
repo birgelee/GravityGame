@@ -34,7 +34,14 @@ public class MainClass {
     private static MainApplet mainApplet;
     
     public static void main(String[] args) {
-        
+        /*init order:
+	 * frame
+	 * menu
+	 * app
+	 * start thread
+	 * 
+	 * also, level must be inited before screen.
+	 */
         frame = new JFrame();
         setSettings(frame);
         
@@ -87,6 +94,7 @@ public class MainClass {
         }
         player = Player.initNewPlayer();
         
+	levelManager.activateListeners();
         setContainer(new GameContainer() {
             @Override
             public void paint(Graphics g) {
@@ -111,6 +119,11 @@ public class MainClass {
             public String getName() {
                 return "Game:Level";
             }
+
+	    @Override
+	    public void dispose() {
+		levelManager.deactivateListeners();
+	    }
         });
         
     }
@@ -132,6 +145,10 @@ public class MainClass {
     public static void addKeyListener(KeyListener keyListener) {
         frame.addKeyListener(keyListener);
     }
+    
+    public static void removeKeyListener(KeyListener keyListener) {
+        frame.removeKeyListener(keyListener);
+    }
 
     /**
      * @return the player
@@ -151,6 +168,8 @@ public class MainClass {
      * @param aContainer the container to set
      */
     public static void setContainer(GameContainer aContainer) {
+	if (container != null)
+	container.dispose();
         container = aContainer;
     }
 }

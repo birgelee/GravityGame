@@ -5,9 +5,12 @@
 package javathing.level;
 
 import java.awt.Point;
+import java.awt.event.KeyListener;
+import java.util.LinkedList;
 import javathing.sprite.Sprite;
 import java.util.List;
 import javathing.GameObject;
+import javathing.MainClass;
 import javathing.render.Paintable;
 import javathing.Updateable;
 import javathing.block.Block;
@@ -85,5 +88,35 @@ public class LevelManager {
      */
     public void setStartingPosition(Point startingPosition) {
         this.startingPosition = startingPosition;
+    }
+    
+    private boolean listenersAreActive = false;
+    private List<KeyListener> keyListeners = new LinkedList<KeyListener>();
+    public void addKeyListener(KeyListener keyListener) {
+	keyListeners.add(keyListener);
+	if (listenersAreActive) {
+	    MainClass.addKeyListener(keyListener);
+	}
+    }
+    
+    public void removeKeyListener(KeyListener keyListener) {
+	keyListeners.remove(keyListener);
+	if (listenersAreActive) {
+	    MainClass.removeKeyListener(keyListener);
+	}
+    }
+    
+    public void activateListeners() {
+	listenersAreActive = true;
+	for (KeyListener kl : keyListeners) {
+	    MainClass.addKeyListener(kl);
+	}
+    }
+    
+    public void deactivateListeners() {
+	listenersAreActive = false;
+	for (KeyListener kl : keyListeners) {
+	    MainClass.removeKeyListener(kl);
+	}
     }
 }

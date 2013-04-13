@@ -14,4 +14,5 @@ public interface GameContainer {
     public void paint(Graphics g);
     public void update();
     public String getName();
+    public void dispose();
 }
