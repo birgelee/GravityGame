@@ -9,5 +9,5 @@ package javathing.settings;
  * @author lausd_user
  */
 public class GameplaySettings {
-    public static final double ACCELERATION_DUE_TO_GRAVITY = .001;
+    public static final double GRAVITATIONAL_FEILD = -.001;
 }

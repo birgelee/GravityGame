@@ -19,10 +19,12 @@ import javathing.input.PlayerKeyListener;
  */
 public class Player extends Sprite {
 
+    private double matter = 1;
+    private double mass = 1;
     private double yVolocity = 0;
     private double xVolocity = 0;
     private double xAcceleration = 0;
-    private double yAcceleration = -GameplaySettings.ACCELERATION_DUE_TO_GRAVITY;
+    private double yAcceleration = 0;
     double runSpeed = .2;
     private double vOfJump = .4;
 
@@ -45,7 +47,9 @@ public class Player extends Sprite {
 
     @Override
     public void update() {
-        //Block 1: update volocity
+        //Block 1: update volocity and acceleration
+	
+	yAcceleration = (matter * GameplaySettings.GRAVITATIONAL_FEILD) / mass;
 
         xVolocity += xAcceleration * Settings.SLEEPTIME;
         yVolocity += yAcceleration * Settings.SLEEPTIME;
@@ -259,6 +263,20 @@ public class Player extends Sprite {
             return true;
         }
         return false;
+    }
+    
+    public void decreaseMass() {
+	mass -= .1;
+    }
+    
+    public void undoMassDecrease() {
+	mass += .1;
+    }
+    public void increaseMass() {
+	mass += .1;
+    }
+    public void undoMassIncrease() {
+	mass -= .1;
     }
 
     /*

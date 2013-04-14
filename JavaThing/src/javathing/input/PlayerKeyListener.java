@@ -16,10 +16,18 @@ public class PlayerKeyListener extends KeyAdapter {
 
     private boolean[] arrowKeys = new boolean[4];
     private boolean space = false;
+    private boolean[] dandf = new boolean[2];
 
     @Override
     public void keyPressed(KeyEvent ke) {
         switch (ke.getKeyCode()) {
+	    
+	    case KeyEvent.VK_F:
+		dandf[1] = true;
+		break;
+	    case KeyEvent.VK_D:
+		MainClass.getPlayer().decreaseMass();
+		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = true;
                 //MainClass.getPlayer().arrowKeyReleased(0);
@@ -47,6 +55,12 @@ public class PlayerKeyListener extends KeyAdapter {
     public void keyReleased(KeyEvent ke) {
 
         switch (ke.getKeyCode()) {
+	    case KeyEvent.VK_F:
+		MainClass.getPlayer().undoMassIncrease();
+		break;
+	    case KeyEvent.VK_D:
+		MainClass.getPlayer().undoMassDecrease();
+		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = false;
                 //MainClass.getPlayer().arrowKeyReleased(0);
