@@ -14,6 +14,7 @@ import javathing.level.LevelManager;
 import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.Block;
+import javathing.block.LevelEnd;
 import javathing.utils.Convenience;
 
 /**
@@ -48,6 +49,11 @@ public class LevelLoader {
                 case '#':
                     levelManager.setStartingPosition(new Point(x * Settings.TileSize, y * Settings.TileSize));
                     x++;
+		    break;
+		case '*':
+		    levelManager.addBlock(new LevelEnd(x, y));
+		    x++;
+		    break;
                     
             }
             

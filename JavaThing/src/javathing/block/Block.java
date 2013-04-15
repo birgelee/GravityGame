@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import javathing.GameObject;
 import javathing.MainClass;
 import javathing.settings.Settings;
+import javathing.sprite.Sprite;
 
 
 public abstract class Block extends GameObject {
@@ -39,4 +40,6 @@ public abstract class Block extends GameObject {
     public Rectangle getRectangle() {
         return new Rectangle(getX(), getY(), Settings.TileSize, Settings.TileSize);
     }
+    
+    public void onContact(Sprite interactor) {}
 }

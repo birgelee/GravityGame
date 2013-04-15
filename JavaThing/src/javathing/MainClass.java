@@ -104,7 +104,9 @@ public class MainClass {
 
 	    @Override
 	    public void pressed() {
+		
 		initLevel();
+		menuManager = null;
 	    }
 	    
 	}));

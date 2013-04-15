@@ -4,17 +4,19 @@
  */
 package javathing.block;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import javathing.render.PlatformerGraphicsUtil;
+import javathing.settings.Settings;
 
 /**
  *
  * @author lausd_user
  */
-public class AirBlock extends Block {
+public class LevelEnd extends Block {
 
     
-    public AirBlock(int x, int y) {
+    public LevelEnd(int x, int y) {
         super(x, y);
     }
     
@@ -25,7 +27,10 @@ public class AirBlock extends Block {
 
     @Override
     public void paint(Graphics g) {
-       
+       PlatformerGraphicsUtil.translateGraphics(g);
+       g.setColor(Color.white);
+       g.fillRect(getX(), getY(), Settings.TileSize, Settings.TileSize);
+       PlatformerGraphicsUtil.unTranslateGraphics(g);
     }
 
     @Override
