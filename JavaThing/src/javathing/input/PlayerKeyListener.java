@@ -7,6 +7,7 @@ package javathing.input;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javathing.MainClass;
+import javathing.settings.GameplaySettings;
 
 /**
  *
@@ -23,10 +24,10 @@ public class PlayerKeyListener extends KeyAdapter {
         switch (ke.getKeyCode()) {
 	    
 	    case KeyEvent.VK_F:
-		dandf[1] = true;
+		MainClass.getPlayer().processFPress();
 		break;
 	    case KeyEvent.VK_D:
-		MainClass.getPlayer().decreaseMass();
+		MainClass.getPlayer().processDPress();
 		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = true;
@@ -56,10 +57,10 @@ public class PlayerKeyListener extends KeyAdapter {
 
         switch (ke.getKeyCode()) {
 	    case KeyEvent.VK_F:
-		MainClass.getPlayer().undoMassIncrease();
+		MainClass.getPlayer().processFRelease();
 		break;
 	    case KeyEvent.VK_D:
-		MainClass.getPlayer().undoMassDecrease();
+		MainClass.getPlayer().processDRelease();
 		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = false;
