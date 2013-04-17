@@ -214,13 +214,12 @@ public class MainClass {
 
     public static void addKeyListener(KeyListener keyListener) {
         mainApplet.addKeyListener(keyListener);
-	//frame.addKeyListener(keyListener);
-        System.err.println("fdsaaffdas");
+	frame.addKeyListener(keyListener);
     }
 
     public static void removeKeyListener(KeyListener keyListener) {
         mainApplet.removeKeyListener(keyListener);
-	//frame.removeKeyListener(keyListener);
+	frame.removeKeyListener(keyListener);
     }
     
     public static void addMouseListener(MouseListener mouseListener) {

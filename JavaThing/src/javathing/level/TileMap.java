@@ -5,6 +5,7 @@
 package javathing.level;
 
 import java.awt.Point;
+import javathing.block.AirBlock;
 import javathing.settings.Settings;
 import javathing.block.Block;
 import javathing.block.DirtBlock;
@@ -58,6 +59,10 @@ public class TileMap {
     }
     
     public Block getBlock(int xTilePosition, int yTilePosition) {
+	//System.out.println(blocks.);
+	if (xTilePosition == blocks.length || yTilePosition == blocks[0].length || xTilePosition < 0 || yTilePosition < 0) {
+	    return new AirBlock(xTilePosition, yTilePosition);
+	}
         return blocks[xTilePosition][yTilePosition];
     }
     
