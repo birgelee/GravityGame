@@ -151,7 +151,6 @@ public class MainClass {
 	} catch (FileNotFoundException ex) {
 	    ex.printStackTrace();
 	}
-	player = Player.initNewPlayer();
 
 	levelManager.activateListeners();
 	setContainer(new GameContainer() {
@@ -185,7 +184,8 @@ public class MainClass {
 	    }
 	});
 	screen = new Screen(levelManager.getStartingPosition().x - 20, levelManager.getStartingPosition().y - 20);
-	levelManager.activateListeners();
+	//levelManager.activateListeners();
+        player = Player.initNewPlayer();
 
     }
 

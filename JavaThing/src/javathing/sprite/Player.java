@@ -47,6 +47,7 @@ public class Player extends Sprite {
 
     @Override
     public void update() {
+        super.update();
 	//Block 1: update volocity and acceleration
 
 	yAcceleration = (matter * GameplaySettings.GRAVITATIONAL_FEILD) / mass;

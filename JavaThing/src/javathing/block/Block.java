@@ -6,7 +6,6 @@ package javathing.block;
 
 import java.awt.Rectangle;
 import javathing.GameObject;
-import javathing.MainClass;
 import javathing.settings.Settings;
 import javathing.sprite.Sprite;
 
@@ -42,4 +41,6 @@ public abstract class Block extends GameObject {
     }
     
     public void onContact(Sprite interactor) {}
+    
+    public void whenInside(Sprite interactor) {}
 }

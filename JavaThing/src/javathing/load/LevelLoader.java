@@ -36,6 +36,7 @@ public class LevelLoader {
         for (int i = 0; i < chars.length; i++) {
             switch (chars[i]) {
                 case ' ':
+                    Convenience.addAirBlock(levelManager, x, y);
                     x++;
                     break;
                 case 'x':
@@ -48,6 +49,7 @@ public class LevelLoader {
                     break;
                 case '#':
                     levelManager.setStartingPosition(new Point(x * Settings.TileSize, y * Settings.TileSize));
+                    Convenience.addAirBlock(levelManager, x, y);
                     x++;
 		    break;
 		case '*':
