@@ -5,6 +5,8 @@
 package javathing;
 
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JApplet;
 
 /**
@@ -20,6 +22,14 @@ public class MainApplet extends JApplet {
         MainClass.getContainer().update();
         MainClass.getContainer().paint(g);
         
+        /*this.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                System.out.println("key pressed");
+            }
+            
+        });*/
         
     }
 }

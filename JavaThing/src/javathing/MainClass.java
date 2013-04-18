@@ -138,6 +138,7 @@ public class MainClass {
 		menuManager.deactivateListeners();
 	    }
 	});
+       
 	
     }
     
@@ -152,7 +153,7 @@ public class MainClass {
 	    ex.printStackTrace();
 	}
 
-	levelManager.activateListeners();
+	//levelManager.activateListeners();
 	setContainer(new GameContainer() {
 	    @Override
 	    public void paint(Graphics g) {
@@ -183,10 +184,11 @@ public class MainClass {
 		levelManager.deactivateListeners();
 	    }
 	});
+        levelManager.activateListeners();
 	screen = new Screen(levelManager.getStartingPosition().x - 20, levelManager.getStartingPosition().y - 20);
-	//levelManager.activateListeners();
+	
         player = Player.initNewPlayer();
-
+        //levelManager.activateListeners();
     }
 
     /**
@@ -211,11 +213,14 @@ public class MainClass {
     }
 
     public static void addKeyListener(KeyListener keyListener) {
-	frame.addKeyListener(keyListener);
+        mainApplet.addKeyListener(keyListener);
+	//frame.addKeyListener(keyListener);
+        System.err.println("fdsaaffdas");
     }
 
     public static void removeKeyListener(KeyListener keyListener) {
-	frame.removeKeyListener(keyListener);
+        mainApplet.removeKeyListener(keyListener);
+	//frame.removeKeyListener(keyListener);
     }
     
     public static void addMouseListener(MouseListener mouseListener) {

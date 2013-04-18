@@ -20,17 +20,13 @@ import javathing.block.Block;
  * @author lausd_user
  */
 public class LevelManager {
-    
+
     private List<Updateable> updateables;
-    
     private List<Paintable> paintables;
-    
     private List<Sprite> sprites;
-    
     private Point startingPosition;
-    
     private TileMap tileMap;
-    
+
     public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition) {
         this.updateables = updateables;
         this.paintables = paintales;
@@ -38,7 +34,7 @@ public class LevelManager {
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
     }
-    
+
     public List<Updateable> getUpdateables() {
         return updateables;
     }
@@ -49,21 +45,21 @@ public class LevelManager {
     public List<Paintable> getPaintables() {
         return paintables;
     }
-    
+
     public TileMap getTileMap() {
         return tileMap;
     }
-    
+
     public void addGameObject(GameObject gameObject) {
         getUpdateables().add(gameObject);
         getPaintables().add(gameObject);
     }
-   
+
     public void addSprite(Sprite sprite) {
         getSprites().add(sprite);
         addGameObject(sprite);
     }
-    
+
     public void addBlock(Block block) {
         addGameObject(block);
         getTileMap().addBlock(block);
@@ -89,34 +85,39 @@ public class LevelManager {
     public void setStartingPosition(Point startingPosition) {
         this.startingPosition = startingPosition;
     }
-    
     private boolean listenersAreActive = false;
     private List<KeyListener> keyListeners = new LinkedList<KeyListener>();
+
     public void addKeyListener(KeyListener keyListener) {
-	keyListeners.add(keyListener);
-	if (listenersAreActive) {
-	    MainClass.addKeyListener(keyListener);
-	}
+        keyListeners.add(keyListener);
+        if (listenersAreActive) {System.err.println("method 1");
+            MainClass.addKeyListener(keyListener);
+        }
     }
-    
+
     public void removeKeyListener(KeyListener keyListener) {
-	keyListeners.remove(keyListener);
-	if (listenersAreActive) {
-	    MainClass.removeKeyListener(keyListener);
-	}
+        keyListeners.remove(keyListener);
+        if (listenersAreActive) {
+            
+            MainClass.removeKeyListener(keyListener);
+        }
     }
-    
+
     public void activateListeners() {
-	listenersAreActive = true;
-	for (KeyListener kl : keyListeners) {
-	    MainClass.addKeyListener(kl);
-	}
+        System.err.println("method 1");
+        if (listenersAreActive == false) {
+            listenersAreActive = true;
+            for (KeyListener kl : keyListeners) {
+                System.err.println("method 1");
+                MainClass.addKeyListener(kl);
+            }
+        }
     }
-    
+
     public void deactivateListeners() {
-	listenersAreActive = false;
-	for (KeyListener kl : keyListeners) {
-	    MainClass.removeKeyListener(kl);
-	}
+        listenersAreActive = false;
+        for (KeyListener kl : keyListeners) {
+            MainClass.removeKeyListener(kl);
+        }
     }
 }

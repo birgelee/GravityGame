@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javathing.render.PlatformerGraphicsUtil;
 import javathing.settings.Settings;
+import javathing.sprite.Player;
+import javathing.sprite.Sprite;
 
 /**
  *
@@ -35,6 +37,13 @@ public class LevelEnd extends Block {
 
     @Override
     public void update() {
+    }
+    
+    @Override
+    public void whenInside(Sprite interactor) {
+        if (interactor instanceof Player) {
+            System.out.println("yo win");
+        }
     }
     
 }

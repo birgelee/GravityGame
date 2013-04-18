@@ -7,7 +7,6 @@ package javathing.input;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javathing.MainClass;
-import javathing.settings.GameplaySettings;
 
 /**
  *
@@ -17,7 +16,6 @@ public class PlayerKeyListener extends KeyAdapter {
 
     private boolean[] arrowKeys = new boolean[4];
     private boolean space = false;
-    private boolean[] dandf = new boolean[2];
 
     @Override
     public void keyPressed(KeyEvent ke) {
@@ -35,7 +33,7 @@ public class PlayerKeyListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_RIGHT:
                 arrowKeys[1] = true;
-                //MainClass.getPlayer().arrowKeyReleased(1);
+                //MainClas0s.getPlayer().arrowKeyReleased(1);
                 break;
             case KeyEvent.VK_UP:
                 arrowKeys[2] = true;

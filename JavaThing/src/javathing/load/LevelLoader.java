@@ -13,7 +13,6 @@ import java.util.Scanner;
 import javathing.level.LevelManager;
 import javathing.settings.Settings;
 import javathing.level.TileMap;
-import javathing.block.Block;
 import javathing.block.LevelEnd;
 import javathing.utils.Convenience;
 
