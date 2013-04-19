@@ -79,7 +79,10 @@ public class Convenience {
 	    public String getName() {
 		return "Game:Level";
 	    }
-
+	    
+	    @Override
+	    public void init() {}
+	    
 	    @Override
 	    public void dispose() {
 		MainClass.getLevelManager().deactivateListeners();

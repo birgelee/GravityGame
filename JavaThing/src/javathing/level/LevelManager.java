@@ -23,12 +23,7 @@ import javathing.sprite.Player;
  */
 public class LevelManager {
 
-    /**
-     * @return the player
-     */
-    public Player getPlayer() {
-	return player;
-    }
+    
 
     private List<Updateable> updateables;
     private List<Paintable> paintables;
@@ -38,13 +33,17 @@ public class LevelManager {
     private Player player;
     private Screen screen;
 
-    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition) {
+    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition, Player player) {
         this.updateables = updateables;
         this.paintables = paintales;
         this.sprites = sprites;
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
-	this.player = new Player(startingPosition.x, startingPosition.y);
+	this.player = player;
+	if (player != null) {
+	    addSprite(player);
+	    addKeyListener(player.getKeyListener());
+	}
 	this.screen = new Screen(startingPosition.x - 20, startingPosition.y - 20);
     }
 
@@ -65,6 +64,13 @@ public class LevelManager {
 
     public Screen getScreen() {
 	return screen;
+    }
+    
+    /**
+     * @return the player
+     */
+    public Player getPlayer() {
+	return player;
     }
     public void addGameObject(GameObject gameObject) {
         getUpdateables().add(gameObject);
@@ -135,5 +141,12 @@ public class LevelManager {
         for (KeyListener kl : keyListeners) {
             MainClass.removeKeyListener(kl);
         }
+    }
+
+    /**
+     * @param player the player to set
+     */
+    public void setPlayer(Player player) {
+	this.player = player;
     }
 }

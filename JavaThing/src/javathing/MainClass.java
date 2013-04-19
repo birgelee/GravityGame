@@ -5,25 +5,19 @@
 package javathing;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import javathing.settings.Settings;
 import javathing.level.LevelManager;
-import javathing.load.LevelLoader;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javathing.container.MenuContainer;
-import javathing.input.MenuMouseListener;
 import javathing.menu.ButtonEvent;
 import javathing.menu.MenuButton;
 import javathing.menu.MenuManager;
 import javathing.menu.RectangleMenuButton;
-import javathing.render.Paintable;
 import javathing.sprite.Player;
 import javathing.utils.Convenience;
 import javax.swing.JFrame;

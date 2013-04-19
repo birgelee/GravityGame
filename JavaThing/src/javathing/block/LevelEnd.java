@@ -18,6 +18,7 @@ import javathing.render.PlatformerGraphicsUtil;
 import javathing.settings.Settings;
 import javathing.sprite.Player;
 import javathing.sprite.Sprite;
+import javathing.utils.Convenience;
 
 /**
  *
@@ -54,7 +55,7 @@ public class LevelEnd extends Block {
 
 	    @Override
 	    public void pressed() {
-		MainClass.initLevel();
+		Convenience.initLevel(0, "C:\\users\\henry\\desktop\\level.txt");
                 //MainClass.setPlayer(Player.initNewPlayer());
                 
 		MainClass.setMenuManager(null);

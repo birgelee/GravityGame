@@ -11,6 +11,7 @@ import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.Block;
 import javathing.input.PlayerKeyListener;
+import javathing.level.LevelManager;
 import javathing.settings.GameplaySettings;
 
 /**
@@ -32,11 +33,10 @@ public class Player extends Sprite {
 
     public Player(int x, int y) {
 	super(x, y, 20, 20);
-
 	keyListener = new PlayerKeyListener();
-	MainClass.getLevelManager().addKeyListener(keyListener);
 	spriteColor = Color.white;
     }
+    
     boolean rightArrow = false;
     boolean leftArrow = false;
     boolean[] fandd = new boolean[2];
@@ -56,17 +56,17 @@ public class Player extends Sprite {
 
 	//Variable def
 
-	int xTilePosition = TileMap.getTileLocation(x);
+	int xTilePosition = TileMap.getTileLocation(getX());
 	int xTilePosition2;
 	if (!TileMap.isOnTile(x + width)) {
-	    xTilePosition2 = TileMap.getTileLocation(x + width);
+	    xTilePosition2 = TileMap.getTileLocation(getX() + width);
 	} else {
 	    xTilePosition2 = xTilePosition;
 	}
-	int yTilePosition = TileMap.getTileLocation(y);
+	int yTilePosition = TileMap.getTileLocation(getY());
 	int yTilePosition2;
 	if (!TileMap.isOnTile(y + height)) {
-	    yTilePosition2 = TileMap.getTileLocation(y + height);
+	    yTilePosition2 = TileMap.getTileLocation(getY() + height);
 	} else {
 	    yTilePosition2 = yTilePosition;
 	}
@@ -163,34 +163,34 @@ public class Player extends Sprite {
 
 	//Block 3: update position
 
-	if (x + width + xVolocity * Settings.SLEEPTIME < xMax) {
-	    if (x + xVolocity * Settings.SLEEPTIME > xMin) {
-		if (keyListener.getArrowKeys()[0]) {
-		    x += xVolocity * Settings.SLEEPTIME;
+	if (getX() + width + xVolocity * Settings.SLEEPTIME < xMax) {
+	    if (getX() + xVolocity * Settings.SLEEPTIME > xMin) {
+		if (getKeyListener().getArrowKeys()[0]) {
+		    setX(getX() + xVolocity * Settings.SLEEPTIME);
 		}
 
-		if (keyListener.getArrowKeys()[1]) {
-		    x += xVolocity * Settings.SLEEPTIME;
+		if (getKeyListener().getArrowKeys()[1]) {
+		    setX(getX() + xVolocity * Settings.SLEEPTIME);
 		}
 
 	    } else {
-		x = xMin;
+		setX(xMin);
 		xVolocity = getXVolocityAfterWall();
 	    }
 	} else {
-	    x = xMax - width;
+	    setX(xMax - width);
 	    xVolocity = getXVolocityAfterWall();
 	}
 
-	if (y + height - yVolocity * Settings.SLEEPTIME < yMax) {
-	    if (y - yVolocity * Settings.SLEEPTIME > yMin) {
-		y -= yVolocity * Settings.SLEEPTIME;
+	if (getY() + height - yVolocity * Settings.SLEEPTIME < yMax) {
+	    if (getY() - yVolocity * Settings.SLEEPTIME > yMin) {
+		setY(getY() - yVolocity * Settings.SLEEPTIME);
 	    } else {
-		y = yMin;
+		setY(yMin);
 		yVolocity = 0;
 	    }
 	} else {
-	    y = yMax - height;
+	    setY(yMax - height);
 	    yVolocity = 0;
 	}
 
@@ -200,49 +200,49 @@ public class Player extends Sprite {
 
     private void moveScreen() {
 	Point screenPosition = MainClass.getLevelManager().getScreen().getScreenPosition();
-	if (x - screenPosition.x < Settings.SCREEN_WIDTH / 4) {
+	if (getX() - screenPosition.x < Settings.SCREEN_WIDTH / 4) {
 	    if (screenPosition.x != 0) {
-		screenPosition.x = (int) (x - Settings.SCREEN_WIDTH / 4);
+		screenPosition.x = (int) (getX() - Settings.SCREEN_WIDTH / 4);
 	    }
-	} else if (x - screenPosition.x > Settings.SCREEN_WIDTH * 3 / 4) {
+	} else if (getX() - screenPosition.x > Settings.SCREEN_WIDTH * 3 / 4) {
 	    if (screenPosition.x + Settings.SCREEN_WIDTH != TileMap.getPixleLocation(MainClass.getLevelManager().getTileMap().xDimention)) {
-		screenPosition.x = (int) (x + Settings.SCREEN_WIDTH / 4 - Settings.SCREEN_WIDTH);
+		screenPosition.x = (int) (getX() + Settings.SCREEN_WIDTH / 4 - Settings.SCREEN_WIDTH);
 	    }
 	}
 
-	if (y - screenPosition.y < Settings.SCREEN_HTIGHT / 4) {
+	if (getY() - screenPosition.y < Settings.SCREEN_HTIGHT / 4) {
 	    if (screenPosition.y != 0) {
-		screenPosition.y = (int) (y - Settings.SCREEN_HTIGHT / 4);
+		screenPosition.y = (int) (getY() - Settings.SCREEN_HTIGHT / 4);
 	    }
-	} else if (y - screenPosition.y > Settings.SCREEN_HTIGHT * 3 / 4) {
+	} else if (getY() - screenPosition.y > Settings.SCREEN_HTIGHT * 3 / 4) {
 	    if (screenPosition.y + Settings.SCREEN_HTIGHT != TileMap.getPixleLocation(MainClass.getLevelManager().getTileMap().yDimention)) {
-		screenPosition.y = (int) (y + Settings.SCREEN_HTIGHT / 4 - Settings.SCREEN_HTIGHT);
+		screenPosition.y = (int) (getY() + Settings.SCREEN_HTIGHT / 4 - Settings.SCREEN_HTIGHT);
 	    }
 	}
     }
     
     private void provessKeyInput() {
-	if (rightArrow == false && keyListener.getArrowKeys()[1] == true) {
+	if (rightArrow == false && getKeyListener().getArrowKeys()[1] == true) {
 	    xVolocity += GameplaySettings.RUN_SPEED;
 	    rightArrow = true;
 	}
 
-	if (rightArrow == true && keyListener.getArrowKeys()[1] == false) {
+	if (rightArrow == true && getKeyListener().getArrowKeys()[1] == false) {
 	    xVolocity -= GameplaySettings.RUN_SPEED;
 	    rightArrow = false;
 	}
 
-	if (leftArrow == false && keyListener.getArrowKeys()[0] == true) {
+	if (leftArrow == false && getKeyListener().getArrowKeys()[0] == true) {
 	    xVolocity -= GameplaySettings.RUN_SPEED;
 	    leftArrow = true;
 	}
 
-	if (leftArrow == true && keyListener.getArrowKeys()[0] == false) {
+	if (leftArrow == true && getKeyListener().getArrowKeys()[0] == false) {
 	    xVolocity += GameplaySettings.RUN_SPEED;
 	    leftArrow = false;
 	}
 
-	if (keyListener.isSpace() && canJump()) {
+	if (getKeyListener().isSpace() && canJump()) {
 	    yVolocity = vOfJump;
 	}
     }
@@ -258,10 +258,10 @@ public class Player extends Sprite {
     }
 
     private boolean canJump() {
-	if (TileMap.getTileLocation(y + height) == MainClass.getLevelManager().getTileMap().yDimention) {
+	if (TileMap.getTileLocation(getY() + height) == MainClass.getLevelManager().getTileMap().yDimention) {
 	    return true;
 	}
-	if (TileMap.isOnTile(y + height)
+	if (TileMap.isOnTile(getY() + height)
 		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y + height)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x + width), TileMap.getTileLocation(y + height)))) {
 	    return true;
 	}
@@ -310,4 +310,11 @@ public class Player extends Sprite {
      * public void arrowKeyReleased(int arrowKey) { switch (arrowKey) { case 0:
      * xVolocity += GameplaySettings.RUN_SPEED; break; case 1: xVolocity -= GameplaySettings.RUN_SPEED; break; } }
      */
+
+    /**
+     * @return the keyListener
+     */
+    public PlayerKeyListener getKeyListener() {
+	return keyListener;
+    }
 }
