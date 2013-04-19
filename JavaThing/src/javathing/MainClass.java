@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javathing.container.MenuContainer;
 import javathing.input.MenuMouseListener;
 import javathing.menu.ButtonEvent;
 import javathing.menu.MenuButton;
@@ -75,6 +76,10 @@ public class MainClass {
 	    @Override
 	    public void run() {
 		while (true) {
+                    if (containerChange) {
+                        container.init();
+                        containerChange = false;
+                    }
 		    mainApplet.repaint();
 		    try {
 			Thread.sleep(Settings.SLEEPTIME);
@@ -98,7 +103,7 @@ public class MainClass {
 
     }
     
-    private static void initMenu() {
+    public static void initMenu() {
 	List<MenuButton> buttons = new ArrayList<MenuButton>();
 	buttons.add(new RectangleMenuButton(20, 20, 100, 50, Color.red, "Start Game", new ButtonEvent() {
 
@@ -106,49 +111,24 @@ public class MainClass {
 	    public void pressed() {
 		
 		initLevel();
-		menuManager = null;
+		setMenuManager(null);
 	    }
 	    
 	}));
-	menuManager = new MenuManager(buttons, Color.BLACK);
-	menuManager.addMouseListener(new MenuMouseListener());
-	setContainer(new GameContainer() {
-	    @Override
-	    public void paint(Graphics g) {
-		BufferedImage buf = new BufferedImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT, BufferedImage.TYPE_INT_BGR);
-		Graphics gr = buf.createGraphics();
-
-		menuManager.paint(gr);
-
-		g.drawImage(buf, 0, 0, null);
-	    }
-
-	    @Override
-	    public void update() {
-		
-	    }
-
-	    @Override
-	    public String getName() {
-		return "Game:Menu";
-	    }
-
-	    @Override
-	    public void dispose() {
-		menuManager.deactivateListeners();
-	    }
-	});
-       
+	setMenuManager(new MenuManager(buttons, Color.BLACK));
+	//menuManager.addMouseListener(new MenuMouseListener());
+	setContainer(new MenuContainer("Game:Menu:Main"));
+        
 	
     }
     
     private static Player player;
 
-    private static void initLevel() {
+    public static void initLevel() {
 
 	try {
 	    LevelLoader loader = new LevelLoader("C:\\users\\henry\\desktop\\level.txt");
-	    levelManager = loader.getLevelManager();
+	    setLevelManager(loader.getLevelManager());
 	} catch (FileNotFoundException ex) {
 	    ex.printStackTrace();
 	}
@@ -183,11 +163,16 @@ public class MainClass {
 	    public void dispose() {
 		levelManager.deactivateListeners();
 	    }
+
+            @Override
+            public void init() {
+                
+            }
 	});
         levelManager.activateListeners();
 	screen = new Screen(levelManager.getStartingPosition().x - 20, levelManager.getStartingPosition().y - 20);
 	
-        player = Player.initNewPlayer();
+        setPlayer(Player.initNewPlayer());
         //levelManager.activateListeners();
     }
 
@@ -243,14 +228,37 @@ public class MainClass {
     public static GameContainer getContainer() {
 	return container;
     }
-
+    
+    private static boolean containerChange;
     /**
      * @param aContainer the container to set
      */
     public static void setContainer(GameContainer aContainer) {
+        containerChange = true;
 	if (container != null) {
 	    container.dispose();
 	}
 	container = aContainer;
+    }
+
+    /**
+     * @param aLevelManager the levelManager to set
+     */
+    public static void setLevelManager(LevelManager aLevelManager) {
+        levelManager = aLevelManager;
+    }
+
+    /**
+     * @param aMenuManager the menuManager to set
+     */
+    public static void setMenuManager(MenuManager aMenuManager) {
+        menuManager = aMenuManager;
+    }
+
+    /**
+     * @param aPlayer the player to set
+     */
+    public static void setPlayer(Player aPlayer) {
+        player = aPlayer;
     }
 }

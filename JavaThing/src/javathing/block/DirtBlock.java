@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javathing.render.PlatformerGraphicsUtil;
 import javathing.settings.Settings;
+import javathing.sprite.Player;
+import javathing.sprite.Sprite;
 
 /**
  *
@@ -37,4 +39,11 @@ public class DirtBlock extends Block {
     public void update() {
     }
     
+    @Override
+    public void onContact(Sprite interactor) {
+    if (interactor instanceof Player) {
+           Player player = (Player) interactor;
+           //player.accel();
+        }
+    }
 }

@@ -301,6 +301,10 @@ public class Player extends Sprite {
 	    fandd[1] = false;
 	}
     }
+    
+    public  void accel() {
+        xVolocity +=  .1;
+    }
 
     /*
      * public void arrowKeyPressed(int arrowKey) { switch (arrowKey) { case 0:

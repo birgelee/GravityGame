@@ -24,7 +24,7 @@ public class MenuManager {
     public MenuManager(List<MenuButton> buttons, Color bgColor) {
         this.buttons = buttons;
 	this.bgColor = bgColor;
-	//addMouseListener(new MenuMouseListener());//Yea... I might move this somewhere else, but it will be here for now.
+	addMouseListener(new MenuMouseListener());//Yea... I might move this somewhere else, but it will be here for now.
     }
     
     private Color bgColor;

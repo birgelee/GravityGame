@@ -11,6 +11,7 @@ import java.awt.Graphics;
  * @author Henry
  */
 public interface GameContainer {
+    public void init();
     public void paint(Graphics g);
     public void update();
     public String getName();
