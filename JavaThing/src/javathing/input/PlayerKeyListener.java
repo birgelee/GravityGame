@@ -22,14 +22,14 @@ public class PlayerKeyListener extends KeyAdapter {
         switch (ke.getKeyCode()) {
 	    
 	    case KeyEvent.VK_F:
-		MainClass.getPlayer().processFPress();
+		MainClass.getLevelManager().getPlayer().processFPress();
 		break;
 	    case KeyEvent.VK_D:
-		MainClass.getPlayer().processDPress();
+		MainClass.getLevelManager().getPlayer().processDPress();
 		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = true;
-                //MainClass.getPlayer().arrowKeyReleased(0);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(0);
                 break;
             case KeyEvent.VK_RIGHT:
                 arrowKeys[1] = true;
@@ -37,12 +37,12 @@ public class PlayerKeyListener extends KeyAdapter {
                 break;
             case KeyEvent.VK_UP:
                 arrowKeys[2] = true;
-                //MainClass.getPlayer().arrowKeyReleased(2);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(2);
                 break;
 
             case KeyEvent.VK_DOWN:
                 arrowKeys[3] = true;
-                //MainClass.getPlayer().arrowKeyReleased(3);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(3);
                 break;
             case KeyEvent.VK_SPACE:
                 space = true;
@@ -55,27 +55,27 @@ public class PlayerKeyListener extends KeyAdapter {
 
         switch (ke.getKeyCode()) {
 	    case KeyEvent.VK_F:
-		MainClass.getPlayer().processFRelease();
+		MainClass.getLevelManager().getPlayer().processFRelease();
 		break;
 	    case KeyEvent.VK_D:
-		MainClass.getPlayer().processDRelease();
+		MainClass.getLevelManager().getPlayer().processDRelease();
 		break;
             case KeyEvent.VK_LEFT:
                 arrowKeys[0] = false;
-                //MainClass.getPlayer().arrowKeyReleased(0);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(0);
                 break;
             case KeyEvent.VK_RIGHT:
                 arrowKeys[1] = false;
-                //MainClass.getPlayer().arrowKeyReleased(1);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(1);
                 break;
             case KeyEvent.VK_UP:
                 arrowKeys[2] = false;
-                //MainClass.getPlayer().arrowKeyReleased(2);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(2);
                 break;
 
             case KeyEvent.VK_DOWN:
                 arrowKeys[3] = false;
-                //MainClass.getPlayer().arrowKeyReleased(3);
+                //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(3);
                 break;
             case KeyEvent.VK_SPACE:
                 space = false;

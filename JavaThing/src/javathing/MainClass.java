@@ -25,6 +25,7 @@ import javathing.menu.MenuManager;
 import javathing.menu.RectangleMenuButton;
 import javathing.render.Paintable;
 import javathing.sprite.Player;
+import javathing.utils.Convenience;
 import javax.swing.JFrame;
 
 /**
@@ -109,8 +110,7 @@ public class MainClass {
 
 	    @Override
 	    public void pressed() {
-		
-		initLevel();
+		Convenience.initLevel(0, "C:\\users\\henry\\desktop\\level.txt");
 		setMenuManager(null);
 	    }
 	    
@@ -123,58 +123,6 @@ public class MainClass {
     }
     
     private static Player player;
-
-    public static void initLevel() {
-
-	try {
-	    LevelLoader loader = new LevelLoader("C:\\users\\henry\\desktop\\level.txt");
-	    setLevelManager(loader.getLevelManager());
-	} catch (FileNotFoundException ex) {
-	    ex.printStackTrace();
-	}
-
-	//levelManager.activateListeners();
-	setContainer(new GameContainer() {
-	    @Override
-	    public void paint(Graphics g) {
-		BufferedImage buf = new BufferedImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT, BufferedImage.TYPE_INT_BGR);
-		Graphics gr = buf.createGraphics();
-
-		for (Paintable paintable : levelManager.getPaintables()) {
-		    paintable.paint(gr);
-		}
-
-		g.drawImage(buf, 0, 0, null); //To change body of generated methods, choose Tools | Templates.
-	    }
-
-	    @Override
-	    public void update() {
-		for (Updateable updateable : levelManager.getUpdateables()) {
-		    updateable.update();
-		}
-	    }
-
-	    @Override
-	    public String getName() {
-		return "Game:Level";
-	    }
-
-	    @Override
-	    public void dispose() {
-		levelManager.deactivateListeners();
-	    }
-
-            @Override
-            public void init() {
-                
-            }
-	});
-        levelManager.activateListeners();
-	screen = new Screen(levelManager.getStartingPosition().x - 20, levelManager.getStartingPosition().y - 20);
-	
-        setPlayer(Player.initNewPlayer());
-        //levelManager.activateListeners();
-    }
 
     /**
      * @return the levelManager
@@ -216,13 +164,6 @@ public class MainClass {
     }
 
     /**
-     * @return the player
-     */
-    public static Player getPlayer() {
-	return player;
-    }
-
-    /**
      * @return the container
      */
     public static GameContainer getContainer() {
@@ -245,7 +186,7 @@ public class MainClass {
      * @param aLevelManager the levelManager to set
      */
     public static void setLevelManager(LevelManager aLevelManager) {
-        levelManager = aLevelManager;
+     levelManager = aLevelManager;
     }
 
     /**

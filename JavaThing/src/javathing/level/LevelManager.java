@@ -11,9 +11,11 @@ import javathing.sprite.Sprite;
 import java.util.List;
 import javathing.GameObject;
 import javathing.MainClass;
+import javathing.Screen;
 import javathing.render.Paintable;
 import javathing.Updateable;
 import javathing.block.Block;
+import javathing.sprite.Player;
 
 /**
  *
@@ -21,11 +23,20 @@ import javathing.block.Block;
  */
 public class LevelManager {
 
+    /**
+     * @return the player
+     */
+    public Player getPlayer() {
+	return player;
+    }
+
     private List<Updateable> updateables;
     private List<Paintable> paintables;
     private List<Sprite> sprites;
     private Point startingPosition;
     private TileMap tileMap;
+    private Player player;
+    private Screen screen;
 
     public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition) {
         this.updateables = updateables;
@@ -33,6 +44,8 @@ public class LevelManager {
         this.sprites = sprites;
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
+	this.player = new Player(startingPosition.x, startingPosition.y);
+	this.screen = new Screen(startingPosition.x - 20, startingPosition.y - 20);
     }
 
     public List<Updateable> getUpdateables() {
@@ -50,6 +63,9 @@ public class LevelManager {
         return tileMap;
     }
 
+    public Screen getScreen() {
+	return screen;
+    }
     public void addGameObject(GameObject gameObject) {
         getUpdateables().add(gameObject);
         getPaintables().add(gameObject);

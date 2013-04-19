@@ -26,12 +26,8 @@ public class Player extends Sprite {
     private double xAcceleration = 0;
     private double yAcceleration = 0;
     private double vOfJump = .4;
-
-    public static Player initNewPlayer() {
-
-	Player p = new Player(MainClass.getLevelManager().getStartingPosition().x, MainClass.getLevelManager().getStartingPosition().y);
-	return p;
-    }
+    
+    
     private PlayerKeyListener keyListener;
 
     public Player(int x, int y) {
@@ -203,7 +199,7 @@ public class Player extends Sprite {
     }
 
     private void moveScreen() {
-	Point screenPosition = MainClass.getScreen().getScreenPosition();
+	Point screenPosition = MainClass.getLevelManager().getScreen().getScreenPosition();
 	if (x - screenPosition.x < Settings.SCREEN_WIDTH / 4) {
 	    if (screenPosition.x != 0) {
 		screenPosition.x = (int) (x - Settings.SCREEN_WIDTH / 4);
