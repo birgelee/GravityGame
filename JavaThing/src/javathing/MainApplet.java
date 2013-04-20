@@ -5,8 +5,6 @@
 package javathing;
 
 import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JApplet;
 
 /**

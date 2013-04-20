@@ -11,6 +11,6 @@ package javathing.statics;
  */
 public class Statics {
     
-    
+    public final static LevelVariables levelVariables = new LevelVariables();
     
 }

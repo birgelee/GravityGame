@@ -112,7 +112,7 @@ public class LevelManager {
 
     public void addKeyListener(KeyListener keyListener) {
         keyListeners.add(keyListener);
-        if (listenersAreActive) {System.err.println("method 1");
+        if (listenersAreActive) {
             MainClass.addKeyListener(keyListener);
         }
     }
@@ -126,11 +126,9 @@ public class LevelManager {
     }
 
     public void activateListeners() {
-        System.err.println("method 1");
         if (listenersAreActive == false) {
             listenersAreActive = true;
             for (KeyListener kl : keyListeners) {
-                System.err.println("method 1");
                 MainClass.addKeyListener(kl);
             }
         }

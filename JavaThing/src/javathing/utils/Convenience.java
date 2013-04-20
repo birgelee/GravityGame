@@ -4,22 +4,30 @@
  */
 package javathing.utils;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import javathing.GameContainer;
 import javathing.level.LevelManager;
 import javathing.MainClass;
 import static javathing.MainClass.setContainer;
-import javathing.Screen;
+import static javathing.MainClass.setMenuManager;
 import javathing.Updateable;
 import javathing.block.AirBlock;
 import javathing.block.Block;
 import javathing.block.DirtBlock;
+import javathing.container.MenuContainer;
 import javathing.load.LevelLoader;
+import javathing.menu.ButtonEvent;
+import javathing.menu.MenuButton;
+import javathing.menu.MenuManager;
+import javathing.menu.RectangleMenuButton;
 import javathing.render.Paintable;
 import javathing.settings.Settings;
-import javathing.sprite.Player;
+import javathing.statics.Statics;
 
 /**
  *
@@ -46,7 +54,7 @@ public class Convenience {
     }
     
      public static void initLevel(int levelNumber, String levelPath) {
-
+	 final int finalLevelNumber = levelNumber;
 	try {
 	    LevelLoader loader = new LevelLoader(levelPath);
 	    MainClass.setLevelManager(loader.getLevelManager());
@@ -77,7 +85,7 @@ public class Convenience {
 	    
 	    @Override
 	    public String getName() {
-		return "Game:Level";
+		return "Game:Level:" + finalLevelNumber;
 	    }
 	    
 	    @Override
@@ -90,5 +98,25 @@ public class Convenience {
 	});
         MainClass.getLevelManager().activateListeners();
         //levelManager.activateListeners();
+    }
+     
+     public static void initMainMenu() {
+	List<MenuButton> buttons = new ArrayList<MenuButton>();
+	buttons.add(new RectangleMenuButton(20, 20, 100, 50, Color.red, "Start Game", new ButtonEvent() {
+
+	    @Override
+	    public void pressed() {
+		Statics.levelVariables.setLevelNumber(1);
+		Convenience.initLevel(1, "C:\\users\\henry\\desktop\\level\\level1.txt");
+		setMenuManager(null);
+	    }
+	    
+	}));
+	setMenuManager(new MenuManager(buttons, Color.BLACK));
+	//menuManager.addMouseListener(new MenuMouseListener());
+	setContainer(new MenuContainer("Game:Menu:Main"));
+	MainClass.getMenuManager().activateListeners();
+        
+	
     }
 }

@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javathing.container.MenuContainer;
+import javathing.load.MetadataLoader;
 import javathing.menu.ButtonEvent;
 import javathing.menu.MenuButton;
 import javathing.menu.MenuManager;
 import javathing.menu.RectangleMenuButton;
-import javathing.sprite.Player;
+import javathing.statics.Statics;
 import javathing.utils.Convenience;
 import javax.swing.JFrame;
 
@@ -34,16 +35,15 @@ public class MainClass {
     private static LevelManager levelManager;
     private static MenuManager menuManager;
     private static GameContainer container;
-    private static Screen screen;
     private static JFrame frame;
     private static MainApplet mainApplet;
 
     public static void main(String[] args) {
 	/*init order:
+	 * load metadata
 	 * frame
-	 * menu
 	 * app
-	 * event listeners
+	 * menu
 	 * start thread
 	 * ...
 	 * player
@@ -51,14 +51,14 @@ public class MainClass {
 	 * screen
 	 * 
 	 */
+	MetadataLoader mdl = new MetadataLoader("C:\\users\\henry\\desktop\\level\\levelmd.txt");
+	Statics.levelVariables.setMaxLevelNumber(mdl.getAsInt("maxlevel"));
+	
 	frame = new JFrame();
 	setSettings(frame);
-
-	//initLevel();
-	//screen = new Screen(levelManager.getStartingPosition().x - 20, levelManager.getStartingPosition().y - 20);
-	initMenu();
+	
 	mainApplet = new MainApplet();
-	menuManager.activateListeners();
+	Convenience.initMainMenu();
 	
 	frame.add(mainApplet);
 	mainApplet.setVisible(true);
@@ -104,7 +104,8 @@ public class MainClass {
 
 	    @Override
 	    public void pressed() {
-		Convenience.initLevel(0, "C:\\users\\henry\\desktop\\level.txt");
+		Statics.levelVariables.setLevelNumber(1);
+		Convenience.initLevel(1, "C:\\users\\henry\\desktop\\level\\level1.txt");
 		setMenuManager(null);
 	    }
 	    
@@ -115,8 +116,6 @@ public class MainClass {
         
 	
     }
-    
-    private static Player player;
 
     /**
      * @return the levelManager
@@ -132,12 +131,6 @@ public class MainClass {
 	return menuManager;
     }
 
-    /**
-     * @return the screen
-     */
-    public static Screen getScreen() {
-	return screen;
-    }
 
     public static void addKeyListener(KeyListener keyListener) {
         mainApplet.addKeyListener(keyListener);
@@ -188,12 +181,5 @@ public class MainClass {
      */
     public static void setMenuManager(MenuManager aMenuManager) {
         menuManager = aMenuManager;
-    }
-
-    /**
-     * @param aPlayer the player to set
-     */
-    public static void setPlayer(Player aPlayer) {
-        player = aPlayer;
     }
 }

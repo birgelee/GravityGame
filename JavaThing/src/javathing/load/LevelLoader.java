@@ -24,7 +24,7 @@ import javathing.utils.Convenience;
 public class LevelLoader {
     private LevelManager levelManager;
     public LevelLoader(String filePath) throws FileNotFoundException {
-        String fileString = fileReader(filePath);
+        String fileString = LoadingUtils.fileReader(filePath);
         int yDimention = fileString.replaceAll("[^\n]", "").length();
         //int yDimention = fileString.split("\n").length;
         int xDimention = fileString.indexOf("\n");
@@ -48,8 +48,8 @@ public class LevelLoader {
                     x = 0;
                     break;
                 case '#':
-		    levelManager.getPlayer().setX(x);
-		    levelManager.getPlayer().setY(y);
+		    levelManager.getPlayer().setX(x * Settings.TileSize);
+		    levelManager.getPlayer().setY(y * Settings.TileSize);
                     levelManager.setStartingPosition(new Point(x * Settings.TileSize, y * Settings.TileSize));
                     Convenience.addAirBlock(levelManager, x, y);
                     x++;
@@ -66,17 +66,7 @@ public class LevelLoader {
         
     }
     
-    private String fileReader(String filePath) throws FileNotFoundException {
-        InputStream fsStream = new FileInputStream(filePath);
-        Scanner in = new Scanner(fsStream);
-        String output = "";
-        while (in.hasNext()) {
-            output = output + in.nextLine() + "\n";
-        }
-        
-        
-        return output;
-    }
+    
     
     public LevelManager getLevelManager() {
         return levelManager;
