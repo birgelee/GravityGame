@@ -11,7 +11,6 @@ import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.Block;
 import javathing.input.PlayerKeyListener;
-import javathing.level.LevelManager;
 import javathing.settings.GameplaySettings;
 
 /**
@@ -45,8 +44,9 @@ public class Player extends Sprite {
     public void update() {
         super.update();
 	//Block 1: update volocity and acceleration
-
-	yAcceleration = (matter * GameplaySettings.GRAVITATIONAL_FEILD) / mass;
+	double[] gravitationalFeild = MainClass.getLevelManager().getGravity(x, y);
+	xAcceleration = (matter * gravitationalFeild[0]) / mass;
+	yAcceleration = (matter * gravitationalFeild[1]) / mass;
 
 	xVolocity += xAcceleration * Settings.SLEEPTIME;
 	yVolocity += yAcceleration * Settings.SLEEPTIME;

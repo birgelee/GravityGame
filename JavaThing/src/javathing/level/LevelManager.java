@@ -4,8 +4,11 @@
  */
 package javathing.level;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyListener;
+import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import javathing.sprite.Sprite;
 import java.util.List;
@@ -15,6 +18,8 @@ import javathing.Screen;
 import javathing.render.Paintable;
 import javathing.Updateable;
 import javathing.block.Block;
+import javathing.level.gravity.GravitationalFeild;
+import javathing.settings.GameplaySettings;
 import javathing.sprite.Player;
 
 /**
@@ -32,8 +37,9 @@ public class LevelManager {
     private TileMap tileMap;
     private Player player;
     private Screen screen;
+    private GravitationalFeild gravitationalFeild;
 
-    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition, Player player) {
+    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
         this.updateables = updateables;
         this.paintables = paintales;
         this.sprites = sprites;
@@ -45,6 +51,17 @@ public class LevelManager {
 	    addKeyListener(player.getKeyListener());
 	}
 	this.screen = new Screen(startingPosition.x - 20, startingPosition.y - 20);
+	if (gravitationalFeild == null) {
+	    double[] temp = {0, GameplaySettings.GRAVITATIONAL_FEILD};
+	    this.gravitationalFeild = new GravitationalFeild(new ArrayList(), temp);
+	} else {
+	this.gravitationalFeild = gravitationalFeild;
+	}
+    }
+    
+    public double[] getGravity(double x, double y) {
+	
+	return gravitationalFeild.getGravity(x, y);
     }
 
     public List<Updateable> getUpdateables() {
