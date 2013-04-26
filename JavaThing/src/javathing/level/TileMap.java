@@ -20,11 +20,11 @@ public class TileMap {
     public final int yDimention;
     
      public static boolean isOnTile(double pixle) {
-        return pixle % Settings.TileSize == 0;
+        return pixle % Settings.TILE_SIZE == 0;
     }
     
     public static int getTileLocation(double pixle) {
-        return ((int) (pixle / Settings.TileSize));
+        return ((int) (pixle / Settings.TILE_SIZE));
     }
     
     public static Point getTileLocation(Point point) {
@@ -32,7 +32,7 @@ public class TileMap {
     }
     
     public static int getPixleLocation(int tile) {
-        return (tile) * Settings.TileSize;
+        return (tile) * Settings.TILE_SIZE;
     }
     
     public static Point getPixleLocation(Point point) {

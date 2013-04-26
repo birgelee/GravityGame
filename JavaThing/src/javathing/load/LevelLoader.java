@@ -5,11 +5,8 @@
 package javathing.load;
 
 import java.awt.Point;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javathing.level.LevelManager;
 import javathing.settings.Settings;
 import javathing.level.TileMap;
@@ -29,7 +26,7 @@ public class LevelLoader {
         //int yDimention = fileString.split("\n").length;
         int xDimention = fileString.indexOf("\n");
         //int startingChar = fileString.indexOf("#");
-        levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), null);
+        levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), null);
         char[] chars = fileString.toLowerCase().toCharArray();
         int x =0;
         int y =0;
@@ -48,9 +45,9 @@ public class LevelLoader {
                     x = 0;
                     break;
                 case '#':
-		    levelManager.getPlayer().setX(x * Settings.TileSize);
-		    levelManager.getPlayer().setY(y * Settings.TileSize);
-                    levelManager.setStartingPosition(new Point(x * Settings.TileSize, y * Settings.TileSize));
+		    levelManager.getPlayer().setX(x * Settings.TILE_SIZE);
+		    levelManager.getPlayer().setY(y * Settings.TILE_SIZE);
+                    levelManager.setStartingPosition(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
                     Convenience.addAirBlock(levelManager, x, y);
                     x++;
 		    break;

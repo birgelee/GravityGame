@@ -112,10 +112,10 @@ public class Player extends Sprite {
 		Block b2 = MainClass.getLevelManager().getTileMap().getBlock(xTilePosition + i, yTilePosition2);
 		if ((b != null && !b.getPassable()) || (b2 != null && !b2.getPassable())) {
 		    if (b == null || b.getPassable()) {
-			xMin = b2.getX() + Settings.TileSize;
+			xMin = b2.getX() + Settings.TILE_SIZE;
 			break;
 		    }
-		    xMin = b.getX() + Settings.TileSize;
+		    xMin = b.getX() + Settings.TILE_SIZE;
 		    break;
 		}
 	    }
@@ -131,10 +131,10 @@ public class Player extends Sprite {
 		Block b2 = MainClass.getLevelManager().getTileMap().getBlock(xTilePosition2, yTilePosition + i);
 		if ((b != null && !b.getPassable()) || (b2 != null && !b2.getPassable())) {
 		    if (b == null || b.getPassable()) {
-			yMin = b2.getY() + Settings.TileSize;
+			yMin = b2.getY() + Settings.TILE_SIZE;
 			break;
 		    }
-		    yMin = b.getY() + Settings.TileSize;
+		    yMin = b.getY() + Settings.TILE_SIZE;
 		    break;
 		}
 	    }

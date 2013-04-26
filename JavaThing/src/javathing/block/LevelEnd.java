@@ -41,7 +41,7 @@ public class LevelEnd extends Block {
     public void paint(Graphics g) {
        PlatformerGraphicsUtil.translateGraphics(g);
        g.setColor(Color.white);
-       g.fillRect(getX(), getY(), Settings.TileSize, Settings.TileSize);
+       g.fillRect(getX(), getY(), Settings.TILE_SIZE, Settings.TILE_SIZE);
        PlatformerGraphicsUtil.unTranslateGraphics(g);
     }
 
@@ -69,7 +69,18 @@ public class LevelEnd extends Block {
         MainClass.getMenuManager().activateListeners();
         MainClass.setContainer(new MenuContainer("Game:Menu:Transition"));
 	} else {
-	    Convenience.initMainMenu();
+	    List<MenuButton> buttons = new ArrayList<MenuButton>();
+	buttons.add(new RectangleMenuButton(20, 20, 100, 50, Color.GREEN, "Go to main menu", new ButtonEvent() {
+
+	    @Override
+	    public void pressed() {
+		Convenience.initMainMenu();
+	    }
+	    
+	}));
+        MainClass.setMenuManager(new MenuManager(buttons, Color.CYAN));
+        MainClass.getMenuManager().activateListeners();
+        MainClass.setContainer(new MenuContainer("Game:Menu:Transition"));
 	}
     }
     @Override

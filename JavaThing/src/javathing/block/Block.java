@@ -21,11 +21,11 @@ public abstract class Block extends GameObject {
     }
     
     public int getX() {
-        return xTileLocation * Settings.TileSize;
+        return xTileLocation * Settings.TILE_SIZE;
     }
     
     public int getY() {
-        return yTileLocation * Settings.TileSize;
+        return yTileLocation * Settings.TILE_SIZE;
     }
     
     public int getXTileLocation() {
@@ -37,7 +37,7 @@ public abstract class Block extends GameObject {
     }
     
     public Rectangle getRectangle() {
-        return new Rectangle(getX(), getY(), Settings.TileSize, Settings.TileSize);
+        return new Rectangle(getX(), getY(), Settings.TILE_SIZE, Settings.TILE_SIZE);
     }
     
     public void onContact(Sprite interactor) {}

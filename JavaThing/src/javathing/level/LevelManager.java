@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 import java.awt.geom.Dimension2D;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import javathing.sprite.Sprite;
@@ -31,7 +32,7 @@ public class LevelManager {
     
 
     private List<Updateable> updateables;
-    private List<Paintable> paintables;
+    private List<Paintable>[] paintables;
     private List<Sprite> sprites;
     private Point startingPosition;
     private TileMap tileMap;
@@ -39,7 +40,8 @@ public class LevelManager {
     private Screen screen;
     private GravitationalFeild gravitationalFeild;
 
-    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable> paintales, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
+    
+    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable>[] paintales, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
         this.updateables = updateables;
         this.paintables = paintales;
         this.sprites = sprites;
@@ -63,6 +65,19 @@ public class LevelManager {
 	
 	return gravitationalFeild.getGravity(x, y);
     }
+    
+    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
+        this(tileMap, sprites, updateables, getEmptyPaintables(), startingPosition, player, gravitationalFeild);
+    }
+    
+    private static List<Paintable>[] getEmptyPaintables() {
+        List<Paintable>[] paintablesReturn = new List[5];
+        for (int i = 0; i < paintablesReturn.length; i++) {
+            paintablesReturn[i] = new ArrayList();
+        }
+        return paintablesReturn;
+        
+    }
 
     public List<Updateable> getUpdateables() {
         return updateables;
@@ -71,7 +86,7 @@ public class LevelManager {
     /**
      * @return the paintables
      */
-    public List<Paintable> getPaintables() {
+    public List<Paintable>[] getPaintables() {
         return paintables;
     }
 
@@ -91,7 +106,7 @@ public class LevelManager {
     }
     public void addGameObject(GameObject gameObject) {
         getUpdateables().add(gameObject);
-        getPaintables().add(gameObject);
+        getPaintables()[2].add(gameObject);
     }
 
     public void addSprite(Sprite sprite) {
@@ -126,6 +141,7 @@ public class LevelManager {
     }
     private boolean listenersAreActive = false;
     private List<KeyListener> keyListeners = new LinkedList<KeyListener>();
+    
 
     public void addKeyListener(KeyListener keyListener) {
         keyListeners.add(keyListener);
@@ -141,12 +157,30 @@ public class LevelManager {
             MainClass.removeKeyListener(keyListener);
         }
     }
+    
+    private List<MouseListener> mouseListeners = new LinkedList<MouseListener>();
+    public void addMouseListener(MouseListener mouseListener) {
+	mouseListeners.add(mouseListener);
+	if (listenersAreActive) {
+	    MainClass.addMouseListener(mouseListener);
+	}
+    }
+    
+    public void removeMouseListener(MouseListener mouseListener) {
+	mouseListeners.remove(mouseListener);
+	if (listenersAreActive) {
+	    MainClass.removeMouseListener(mouseListener);
+	}
+    }
 
     public void activateListeners() {
         if (listenersAreActive == false) {
             listenersAreActive = true;
             for (KeyListener kl : keyListeners) {
                 MainClass.addKeyListener(kl);
+            }
+            for (MouseListener ml : mouseListeners) {
+                MainClass.addMouseListener(ml);
             }
         }
     }
@@ -156,6 +190,9 @@ public class LevelManager {
         for (KeyListener kl : keyListeners) {
             MainClass.removeKeyListener(kl);
         }
+        for (MouseListener ml : mouseListeners) {
+                MainClass.removeMouseListener(ml);
+            }
     }
 
     /**
@@ -163,5 +200,13 @@ public class LevelManager {
      */
     public void setPlayer(Player player) {
 	this.player = player;
+    }
+    
+    public void addUpdateable(Updateable updateable) {
+        getUpdateables().add(updateable);
+    }
+    
+    public void addPaintable(Paintable paintable, int zlevel) {
+        getPaintables()[zlevel].add(paintable);
     }
 }

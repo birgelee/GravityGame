@@ -30,7 +30,7 @@ public class DirtBlock extends Block {
     public void paint(Graphics g) {
        PlatformerGraphicsUtil.translateGraphics(g);
        g.setColor(Color.blue);
-       g.fillRect(getX(), getY(), Settings.TileSize, Settings.TileSize);
+       g.fillRect(getX(), getY(), Settings.TILE_SIZE, Settings.TILE_SIZE);
        PlatformerGraphicsUtil.unTranslateGraphics(g);
        
     }
