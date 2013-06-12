@@ -76,6 +76,7 @@ public class MenuManager {
 	}
     }
     public void activateListeners() {
+	System.out.println("listeners active (menu manager)");
 	listenersAreActive = true;
 	for (KeyListener kl : keyListeners) {
 	    MainClass.addKeyListener(kl);
@@ -86,6 +87,7 @@ public class MenuManager {
     }
     
     public void deactivateListeners() {
+	System.out.println("listeners inactive");
 	listenersAreActive = false;
 	for (KeyListener kl : keyListeners) {
 	    MainClass.removeKeyListener(kl);

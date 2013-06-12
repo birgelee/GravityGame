@@ -5,10 +5,15 @@
 package javathing.render;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javathing.MainClass;
+import javathing.settings.Settings;
 
 /**
  *
@@ -43,11 +48,16 @@ public class PlatformerGraphicsUtil {
     }
     
     public static void translateGraphics(Graphics g) {
+	//AffineTransform transform = new AffineTransform();
+	//transform.rotate(MainClass.getLevelManager().getScreen().getTilt());
+	//transform.translate(Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HTIGHT / 2);
+	//g2D.setTransform(transform);
         Point screenPosition = MainClass.getLevelManager().getScreen().getScreenPosition();
         g.translate(-screenPosition.x, -screenPosition.y);
     }
     
      public static void unTranslateGraphics(Graphics g) {
+	 //((Graphics2D) g).setTransform(new AffineTransform());
         Point screenPosition = MainClass.getLevelManager().getScreen().getScreenPosition();
         g.translate(screenPosition.x, screenPosition.y);
     }

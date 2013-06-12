@@ -17,7 +17,6 @@ public class MainApplet extends JApplet {
     
     @Override
     public void paint(Graphics g) {
-        MainClass.getContainer().update();
         MainClass.getContainer().paint(g);
         
         /*this.addKeyListener(new KeyAdapter() {

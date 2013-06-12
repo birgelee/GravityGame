@@ -6,17 +6,20 @@ package javathing.level;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import javathing.input.ButtonMouseListener;
 import javathing.menu.ButtonEvent;
 import javathing.render.Paintable;
 import javathing.settings.Settings;
+import javathing.ui.Component;
 import javathing.utils.Convenience;
 
 /**
  *
  * @author Henry
  */
-public class PauseButton implements Paintable{
+public class PauseButton extends Component {
 
     @Override
     public void paint(Graphics g) {
@@ -25,7 +28,7 @@ public class PauseButton implements Paintable{
     }
     
     public void addToLevel(LevelManager levelmanager) {
-        levelmanager.addPaintable(this, 4);
+        levelmanager.addPaintable((Paintable)this, 4);
         levelmanager.addMouseListener(new ButtonMouseListener(Settings.PAUSE_BUTTON_LOCATION[0], Settings.PAUSE_BUTTON_LOCATION[1], 20, 20, new ButtonEvent() {
 
             @Override
@@ -34,6 +37,25 @@ public class PauseButton implements Paintable{
             }
             
         }));
+	
+    }
+    
+    
+    @Override
+    public MouseListener getMouseListener() {
+	return new ButtonMouseListener(Settings.PAUSE_BUTTON_LOCATION[0], Settings.PAUSE_BUTTON_LOCATION[1], 20, 20, new ButtonEvent() {
+
+            @Override
+            public void pressed() {
+                Convenience.initMainMenu();
+            }
+            
+        });
+    }
+
+    @Override
+    public KeyListener getKeyListener() {
+	return null;
     }
     
 }

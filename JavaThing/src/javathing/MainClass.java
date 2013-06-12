@@ -66,7 +66,6 @@ public class MainClass {
 
 
 
-
 	Thread updateThread = new Thread(new Runnable() {
 	    @Override
 	    public void run() {
@@ -75,7 +74,25 @@ public class MainClass {
                         container.init();
                         containerChange = false;
                     }
+		    container.update();
+		    try {
+			Thread.sleep(Settings.SLEEPTIME);
+		    } catch (InterruptedException ex) {
+			Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
+		    }
+		}
+
+	    }
+	});
+	Thread paintThread = new Thread(new Runnable() {
+	    @Override
+	    public void run() {
+		while (true) {
+		    try {
 		    mainApplet.repaint();
+		    } catch (NullPointerException ex) {
+			
+		    }
 		    try {
 			Thread.sleep(Settings.SLEEPTIME);
 		    } catch (InterruptedException ex) {
@@ -86,6 +103,7 @@ public class MainClass {
 	    }
 	});
 	updateThread.start();
+	paintThread.start();
     }
 
     private static void setSettings(JFrame frame) {
