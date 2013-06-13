@@ -27,6 +27,8 @@ public class Player extends Sprite {
     private double yAcceleration = 0;
     private double vOfJump = .4;
     
+    private double addedXVolocity = 0;
+    private double addedYVolocity = 0;
     
     private PlayerKeyListener keyListener;
 
@@ -44,16 +46,19 @@ public class Player extends Sprite {
     public void update() {
         super.update();
 	//Block 1: update volocity and acceleration
+	processKeyInput();
 	double[] gravitationalFeild = MainClass.getLevelManager().getGravity(x, y);
 	xAcceleration = (matter * gravitationalFeild[0]) / mass;
 	yAcceleration = (matter * gravitationalFeild[1]) / mass;
 
 	xVolocity += xAcceleration * Settings.SLEEPTIME;
 	yVolocity += yAcceleration * Settings.SLEEPTIME;
+	double xEffectiveVolocity =  xVolocity + addedXVolocity;
+	double yEffectiveVolocity = yVolocity + addedYVolocity;
+	
 	
 
 	
-	provessKeyInput();
 
 	//Variable def
 
@@ -72,8 +77,8 @@ public class Player extends Sprite {
 	    yTilePosition2 = yTilePosition;
 	}
 
-	int xNumberOfBlocksToCheck = TileMap.getTileLocation(xVolocity) + 1;
-	int yNumberOfBlocksToCheck = TileMap.getTileLocation(yVolocity) + 1;
+	int xNumberOfBlocksToCheck = TileMap.getTileLocation(xEffectiveVolocity) + 1;
+	int yNumberOfBlocksToCheck = TileMap.getTileLocation(yEffectiveVolocity) + 1;
 
 	int xMax = 999999999; //These four values are in pixles
 	int xMin = -1;
@@ -82,7 +87,7 @@ public class Player extends Sprite {
 
 	//Block 2: calculate x and y max
 
-	if (xVolocity > 0) {
+	if (xEffectiveVolocity > 0) {
 	    for (int i = 1; i <= xNumberOfBlocksToCheck; i++) {
 		if (xTilePosition + i >= MainClass.getLevelManager().getTileMap().xDimention) {
 		    xMax = TileMap.getPixleLocation(MainClass.getLevelManager().getTileMap().xDimention);
@@ -103,7 +108,7 @@ public class Player extends Sprite {
 	    }
 	}
 
-	if (xVolocity < 0) {
+	if (xEffectiveVolocity < 0) {
 	    for (int i = -1; i >= -xNumberOfBlocksToCheck; i--) {
 		if (xTilePosition + i < 0) {
 		    xMin = 0;
@@ -122,7 +127,7 @@ public class Player extends Sprite {
 	    }
 	}
 
-	if (yVolocity > 0) {
+	if (yEffectiveVolocity > 0) {
 	    for (int i = -1; i >= -yNumberOfBlocksToCheck; i--) {
 		if (yTilePosition + i < 0) {
 		    yMin = 0;
@@ -141,7 +146,7 @@ public class Player extends Sprite {
 	    }
 	}
 
-	if (yVolocity < 0) {
+	if (yEffectiveVolocity < 0) {
 	    for (int i = 1; i <= yNumberOfBlocksToCheck; i++) {
 		if (yTilePosition + i >= MainClass.getLevelManager().getTileMap().yDimention) {
 		    yMax = TileMap.getPixleLocation(MainClass.getLevelManager().getTileMap().yDimention);
@@ -164,28 +169,23 @@ public class Player extends Sprite {
 
 	//Block 3: update position
 
-	if (getX() + width + xVolocity * Settings.SLEEPTIME < xMax) {
-	    if (getX() + xVolocity * Settings.SLEEPTIME > xMin) {
-		if (getKeyListener().getArrowKeys()[0]) {
-		    setX(getX() + xVolocity * Settings.SLEEPTIME);
-		}
-
-		if (getKeyListener().getArrowKeys()[1]) {
-		    setX(getX() + xVolocity * Settings.SLEEPTIME);
-		}
+	if (getX() + width + xEffectiveVolocity * Settings.SLEEPTIME < xMax) {
+	    if (getX() + xEffectiveVolocity * Settings.SLEEPTIME > xMin) {
+		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
+		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
 
 	    } else {
 		setX(xMin);
-		xVolocity = getXVolocityAfterWall();
+		xVolocity = 0;
 	    }
 	} else {
 	    setX(xMax - width);
-	    xVolocity = getXVolocityAfterWall();
+	    xVolocity = 0;
 	}
 
-	if (getY() + height - yVolocity * Settings.SLEEPTIME < yMax) {
-	    if (getY() - yVolocity * Settings.SLEEPTIME > yMin) {
-		setY(getY() - yVolocity * Settings.SLEEPTIME);
+	if (getY() + height - yEffectiveVolocity * Settings.SLEEPTIME < yMax) {
+	    if (getY() - yEffectiveVolocity * Settings.SLEEPTIME > yMin) {
+		setY(getY() - yEffectiveVolocity * Settings.SLEEPTIME);
 	    } else {
 		setY(yMin);
 		yVolocity = 0;
@@ -222,40 +222,24 @@ public class Player extends Sprite {
 	}
     }
     
-    private void provessKeyInput() {
-	if (rightArrow == false && getKeyListener().getArrowKeys()[1] == true) {
-	    xVolocity += GameplaySettings.RUN_SPEED;
-	    rightArrow = true;
+    private void processKeyInput() {
+	double[] gravity = MainClass.getLevelManager().getGravity(x, y);
+	double angle = Math.atan(gravity[1] / -gravity[0]);//       /_
+	addedXVolocity = 0;
+	addedYVolocity = 0;
+	if (getKeyListener().getArrowKeys()[1] == true) {
+	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle - Math.PI / 2);
+	    addedYVolocity += -GameplaySettings.RUN_SPEED * Math.sin(angle - Math.PI / 2);
 	}
-
-	if (rightArrow == true && getKeyListener().getArrowKeys()[1] == false) {
-	    xVolocity -= GameplaySettings.RUN_SPEED;
-	    rightArrow = false;
-	}
-
-	if (leftArrow == false && getKeyListener().getArrowKeys()[0] == true) {
-	    xVolocity -= GameplaySettings.RUN_SPEED;
-	    leftArrow = true;
-	}
-
-	if (leftArrow == true && getKeyListener().getArrowKeys()[0] == false) {
-	    xVolocity += GameplaySettings.RUN_SPEED;
-	    leftArrow = false;
+	
+	if (getKeyListener().getArrowKeys()[0] == true) {
+	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle + Math.PI / 2);
+	    addedYVolocity += -GameplaySettings.RUN_SPEED * Math.sin(angle + Math.PI / 2);
 	}
 
 	if (getKeyListener().isSpace() && canJump()) {
 	    yVolocity = vOfJump;
 	}
-    }
-
-    private double getXVolocityAfterWall() {
-	if (rightArrow && !leftArrow) {
-	    return GameplaySettings.RUN_SPEED;
-	}
-	if (!rightArrow && leftArrow) {
-	    return -GameplaySettings.RUN_SPEED;
-	}
-	return 0;
     }
 
     private boolean canJump() {
@@ -305,11 +289,11 @@ public class Player extends Sprite {
 
     /*
      * public void arrowKeyPressed(int arrowKey) { switch (arrowKey) { case 0:
-     * xVolocity -= GameplaySettings.RUN_SPEED; break; case 1: xVolocity += GameplaySettings.RUN_SPEED; break; } }
+     * xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; case 1: xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; } }
      */
     /*
      * public void arrowKeyReleased(int arrowKey) { switch (arrowKey) { case 0:
-     * xVolocity += GameplaySettings.RUN_SPEED; break; case 1: xVolocity -= GameplaySettings.RUN_SPEED; break; } }
+     * xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; case 1: xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; } }
      */
 
     /**

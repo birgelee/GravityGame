@@ -10,7 +10,8 @@ package javathing.settings;
  */
 public class GameplaySettings {
     public static final double GRAVITATIONAL_FEILD = -.001;
-    public static double RUN_SPEED = .35;
+    public static double RUN_SPEED = .15;
+    public static double ACCELERATION = .01;
     public static final double MASS_INCREASE_CONSTANT = .7;
     public static final double MASS_DECREASE_CONSTANT = .5;
 }
