@@ -50,6 +50,7 @@ public class Player extends Sprite {
 
 	xVolocity += xAcceleration * Settings.SLEEPTIME;
 	yVolocity += yAcceleration * Settings.SLEEPTIME;
+	
 
 	
 	provessKeyInput();
