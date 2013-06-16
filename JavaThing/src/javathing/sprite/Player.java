@@ -225,6 +225,7 @@ public class Player extends Sprite {
     private void processKeyInput() {
 	double[] gravity = MainClass.getLevelManager().getGravity(x, y);
 	double angle = Math.atan(gravity[1] / -gravity[0]);//       /_
+	System.out.println(angle);
 	addedXVolocity = 0;
 	addedYVolocity = 0;
 	if (getKeyListener().getArrowKeys()[1] == true) {

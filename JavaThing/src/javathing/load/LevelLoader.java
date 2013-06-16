@@ -7,10 +7,15 @@ package javathing.load;
 import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
+import javathing.MainClass;
 import javathing.level.LevelManager;
 import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.LevelEnd;
+import javathing.level.gravity.GravitationalFeild;
+import javathing.level.gravity.GravitySource;
+import javathing.level.gravity.PointMass;
 import javathing.sprite.Player;
 import javathing.utils.Convenience;
 
@@ -25,8 +30,13 @@ public class LevelLoader {
         int yDimention = fileString.replaceAll("[^\n]", "").length();
         //int yDimention = fileString.split("\n").length;
         int xDimention = fileString.indexOf("\n");
+	System.out.println(xDimention);
         //int startingChar = fileString.indexOf("#");
-        levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), null);
+	List<GravitySource> gs = new ArrayList();
+	PointMass pm = new PointMass(0, 1000, 0);
+	gs.add(pm);
+	GravitationalFeild gf = new GravitationalFeild(gs, new double[] {0, -.0001});
+        levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), gf);
         char[] chars = fileString.toLowerCase().toCharArray();
         int x =0;
         int y =0;
@@ -55,10 +65,19 @@ public class LevelLoader {
 		    levelManager.addBlock(new LevelEnd(x, y));
 		    x++;
 		    break;
+		case 'o':
+		    pm.setX(x * Settings.TILE_SIZE);
+		    pm.setY(y * Settings.TILE_SIZE);
+		    pm.setStrength(20);
+		    levelManager.setGravitationalFeild(new GravitationalFeild(gs, new double[] {0, 0}));
+		    x++;
+		    break;
                     
             }
             
         }
+	
+	
         
         
     }

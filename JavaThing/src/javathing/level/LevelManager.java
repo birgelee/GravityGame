@@ -66,6 +66,10 @@ public class LevelManager {
 	return gravitationalFeild.getGravity(x, y);
     }
     
+    public void setGravitationalFeild(GravitationalFeild feild) {
+	this.gravitationalFeild = feild;
+    }
+    
     public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
         this(tileMap, sprites, updateables, getEmptyPaintables(), startingPosition, player, gravitationalFeild);
     }
