@@ -23,7 +23,6 @@ public class MainApplet extends JApplet {
 
             @Override
             public void keyPressed(KeyEvent ke) {
-                System.out.println("key pressed");
             }
             
         });*/

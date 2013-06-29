@@ -180,11 +180,12 @@ public class MainClass {
      * @param aContainer the container to set
      */
     public static void setContainer(GameContainer aContainer) {
-        containerChange = true;
+        
 	if (container != null) {
 	    container.dispose();
 	}
 	container = aContainer;
+        containerChange = true;
     }
 
     /**

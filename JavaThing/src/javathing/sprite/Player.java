@@ -12,6 +12,7 @@ import javathing.level.TileMap;
 import javathing.block.Block;
 import javathing.input.PlayerKeyListener;
 import javathing.settings.GameplaySettings;
+import javathing.utils.MathUtils;
 
 /**
  *
@@ -224,18 +225,17 @@ public class Player extends Sprite {
     
     private void processKeyInput() {
 	double[] gravity = MainClass.getLevelManager().getGravity(x, y);
-	double angle = Math.atan(gravity[1] / -gravity[0]);//       /_
-	System.out.println(angle);
+	double angle = MathUtils.getAngle(-gravity[0],-gravity[1] );//       /_
 	addedXVolocity = 0;
 	addedYVolocity = 0;
 	if (getKeyListener().getArrowKeys()[1] == true) {
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle - Math.PI / 2);
-	    addedYVolocity += -GameplaySettings.RUN_SPEED * Math.sin(angle - Math.PI / 2);
+	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle - Math.PI / 2);
 	}
 	
 	if (getKeyListener().getArrowKeys()[0] == true) {
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle + Math.PI / 2);
-	    addedYVolocity += -GameplaySettings.RUN_SPEED * Math.sin(angle + Math.PI / 2);
+	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle + Math.PI / 2);
 	}
 
 	if (getKeyListener().isSpace() && canJump()) {

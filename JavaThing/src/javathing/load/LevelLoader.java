@@ -30,7 +30,6 @@ public class LevelLoader {
         int yDimention = fileString.replaceAll("[^\n]", "").length();
         //int yDimention = fileString.split("\n").length;
         int xDimention = fileString.indexOf("\n");
-	System.out.println(xDimention);
         //int startingChar = fileString.indexOf("#");
 	List<GravitySource> gs = new ArrayList();
 	PointMass pm = new PointMass(0, 1000, 0);

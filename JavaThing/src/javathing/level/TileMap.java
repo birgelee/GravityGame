@@ -59,7 +59,6 @@ public class TileMap {
     }
     
     public Block getBlock(int xTilePosition, int yTilePosition) {
-	//System.out.println(blocks.);
 	if (xTilePosition == blocks.length || yTilePosition == blocks[0].length || xTilePosition < 0 || yTilePosition < 0) {
 	    return new AirBlock(xTilePosition, yTilePosition);
 	}
