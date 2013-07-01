@@ -83,8 +83,5 @@ public class LevelEnd extends Block {
         MainClass.setContainer(new MenuContainer("Game:Menu:Transition"));
 	}
     }
-    @Override
-    public void onContact(Sprite interactor) {
-    }
     
 }

@@ -39,8 +39,4 @@ public class DirtBlock extends Block {
     public void update() {
     }
     
-    @Override
-    public void onContact(Sprite interactor) {
-    
-    }
 }

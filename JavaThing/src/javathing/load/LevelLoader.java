@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import javathing.MainClass;
 import javathing.block.Accelerator;
 import javathing.level.LevelManager;
 import javathing.settings.Settings;
@@ -76,7 +75,7 @@ public class LevelLoader {
 		    x++;
 		    break;
 		    case '<':
-		    levelManager.addBlock(new Accelerator(x, y, -1));
+		    levelManager.addBlock(new Accelerator(x, y, -GameplaySettings.ACCELERATOR_STRENGTH));
 		    x++;
 		    break;
             }

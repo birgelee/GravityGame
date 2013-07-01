@@ -13,6 +13,10 @@ public class GameplaySettings {
     public static double RUN_SPEED = .15;
     public static final double MASS_INCREASE_CONSTANT = .7;
     public static final double MASS_DECREASE_CONSTANT = .5;
+    
+    
+    
     public static final double POINT_MASS_STRENGTH = 5;
+    public static final double ACCELERATOR_STRENGTH = .2;
 
 }

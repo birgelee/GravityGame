@@ -32,6 +32,7 @@ public abstract class Sprite extends GameObject {
     protected double singleFrameYVolocity;
     protected double singleFrameXAcceleration;
     protected double singleFrameYAcceleration;
+    private BlockSide BlockSide;
     
     public Sprite(double x, double y, double width, double height) {
         this.x = x;
@@ -80,30 +81,30 @@ public abstract class Sprite extends GameObject {
         }
 
         if (TileMap.isOnTile(getX() + width)) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width + 1), TileMap.getTileLocation(getY())).onContact(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width + 1), TileMap.getTileLocation(getY())).onContact(this, BlockSide.Left);
             if (TileMap.getTileLocation(getY()) != TileMap.getTileLocation(getY() + height)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width + 1), TileMap.getTileLocation(getY() + height)).onContact(this);
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width + 1), TileMap.getTileLocation(getY() + height)).onContact(this, BlockSide.Left);
             }
         }
 
         if (TileMap.isOnTile(getY())) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() - 1)).onContact(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() - 1)).onContact(this, BlockSide.Bottom);
             if (TileMap.getTileLocation(getX()) != TileMap.getTileLocation(getX() + width)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() - 1)).onContact(this);
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() - 1)).onContact(this, BlockSide.Bottom);
             }
         }
 
         if (TileMap.isOnTile(getX())) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY())).onContact(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY())).onContact(this, BlockSide.Right);
             if (TileMap.getTileLocation(getY()) != TileMap.getTileLocation(getY() + height)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY() + height)).onContact(this);
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY() + height)).onContact(this, BlockSide.Right);
             }
         }
 
         if (TileMap.isOnTile(getY() + height)) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + height + 1)).onContact(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
             if (TileMap.getTileLocation(getX()) != TileMap.getTileLocation(getX() + width)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height + 1)).onContact(this);
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
             }
         }
 

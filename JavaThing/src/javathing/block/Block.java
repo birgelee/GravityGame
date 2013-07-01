@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import javathing.GameObject;
 import javathing.render.PlatformerGraphicsUtil;
 import javathing.settings.Settings;
+import javathing.sprite.BlockSide;
 import javathing.sprite.Sprite;
 
 
@@ -48,7 +49,7 @@ public abstract class Block extends GameObject {
 	g.fillRect(xTileLocation * Settings.TILE_SIZE, yTileLocation * Settings.TILE_SIZE, Settings.TILE_SIZE, Settings.TILE_SIZE);
 	PlatformerGraphicsUtil.unTranslateGraphics(g);
     }
-    public void onContact(Sprite interactor) {}
+    public void onContact(Sprite interactor, BlockSide side) {}
     
     public void whenInside(Sprite interactor) {}
 }
