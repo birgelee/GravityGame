@@ -19,6 +19,10 @@ public class GravitationalFeild {
 	this.gravitySources = gravitySources;
 	this.constatnGravity = constantGravity;
     }
+    
+    public List<GravitySource> getGravitySources() {
+    return gravitySources;
+    }
 
     public double[] getGravity(double x, double y) {
 	double[] gravity = new double[2];

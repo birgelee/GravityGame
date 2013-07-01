@@ -26,7 +26,13 @@ public abstract class Sprite extends GameObject {
     protected double height;
     protected Color spriteColor;
     protected Image spriteImage;
-
+    protected double xVolocity;
+    protected double yVolocity;
+    protected double singleFrameXVolocity;
+    protected double singleFrameYVolocity;
+    protected double singleFrameXAcceleration;
+    protected double singleFrameYAcceleration;
+    
     public Sprite(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
@@ -104,7 +110,17 @@ public abstract class Sprite extends GameObject {
 
 
     }
-
+    
+    public void addSingleFrameAcceleration(double xAccelerationToAdd, double yAccelerationToAdd) {
+	singleFrameXAcceleration += xAccelerationToAdd;
+	singleFrameYAcceleration += yAccelerationToAdd;
+    }
+    
+    public void addSingleFrameVolocity(double xVolocityToAdd, double yVolocityToAdd) {
+	singleFrameXVolocity += xVolocityToAdd;
+	singleFrameYVolocity += yVolocityToAdd;
+    }
+    
     /**
      * @return the x
      */

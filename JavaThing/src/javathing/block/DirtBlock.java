@@ -41,9 +41,6 @@ public class DirtBlock extends Block {
     
     @Override
     public void onContact(Sprite interactor) {
-    if (interactor instanceof Player) {
-           Player player = (Player) interactor;
-           //player.accel();
-        }
+    
     }
 }

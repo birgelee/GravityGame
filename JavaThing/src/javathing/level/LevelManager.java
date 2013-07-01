@@ -53,7 +53,7 @@ public class LevelManager {
 	this.addKeyListener(screen.getKeyListener());
 	this.addUpdateable(screen);
 	if (gravitationalFeild == null) {
-	    double[] temp = {0, GameplaySettings.GRAVITATIONAL_FEILD};
+	    double[] temp = GameplaySettings.ACCELERATION_DUE_TO_GRAVITY;
 	    this.gravitationalFeild = new GravitationalFeild(new ArrayList(), temp);
 	} else {
 	this.gravitationalFeild = gravitationalFeild;
@@ -63,7 +63,7 @@ public class LevelManager {
     
     public double[] getGravity(double x, double y) {
 	
-	return gravitationalFeild.getGravity(x, y);
+	return getGravitationalFeild().getGravity(x, y);
     }
     
     public void setGravitationalFeild(GravitationalFeild feild) {
@@ -216,5 +216,12 @@ public class LevelManager {
     
     public void addPaintable(Paintable paintable, int zlevel) {
         getPaintables()[zlevel].add(paintable);
+    }
+
+    /**
+     * @return the gravitationalFeild
+     */
+    public GravitationalFeild getGravitationalFeild() {
+	return gravitationalFeild;
     }
 }

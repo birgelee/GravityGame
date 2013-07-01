@@ -22,8 +22,6 @@ public class Player extends Sprite {
 
     private double matter = 1;
     private double mass = 1;
-    private double yVolocity = 0;
-    private double xVolocity = 0;
     private double xAcceleration = 0;
     private double yAcceleration = 0;
     private double vOfJump = .4;
@@ -52,15 +50,16 @@ public class Player extends Sprite {
 	xAcceleration = (matter * gravitationalFeild[0]) / mass;
 	yAcceleration = (matter * gravitationalFeild[1]) / mass;
 
-	xVolocity += xAcceleration * Settings.SLEEPTIME;
-	yVolocity += yAcceleration * Settings.SLEEPTIME;
-	double xEffectiveVolocity =  xVolocity + addedXVolocity;
-	double yEffectiveVolocity = yVolocity + addedYVolocity;
+	xVolocity += xAcceleration * Settings.SLEEPTIME + singleFrameXAcceleration * Settings.SLEEPTIME;
+	yVolocity += yAcceleration * Settings.SLEEPTIME + singleFrameYAcceleration * Settings.SLEEPTIME;
 	
+	singleFrameXAcceleration = 0;
+	singleFrameYAcceleration = 0;
 	
-
-	
-
+	double xEffectiveVolocity =  xVolocity + addedXVolocity + singleFrameXVolocity;
+	double yEffectiveVolocity = yVolocity + addedYVolocity + singleFrameYVolocity;
+	singleFrameXVolocity = 0;
+	singleFrameYVolocity = 0;
 	//Variable def
 
 	int xTilePosition = TileMap.getTileLocation(getX());
@@ -169,9 +168,8 @@ public class Player extends Sprite {
 	}
 
 	//Block 3: update position
-
 	if (getX() + width + xEffectiveVolocity * Settings.SLEEPTIME < xMax) {
-	    if (getX() + xEffectiveVolocity * Settings.SLEEPTIME > xMin) {
+	    if (getX() + xEffectiveVolocity * Settings.SLEEPTIME > xMin + 1) {//Note +1 added to fix phazing glitch due to boarder values
 		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
 		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
 
@@ -185,7 +183,7 @@ public class Player extends Sprite {
 	}
 
 	if (getY() + height - yEffectiveVolocity * Settings.SLEEPTIME < yMax) {
-	    if (getY() - yEffectiveVolocity * Settings.SLEEPTIME > yMin) {
+	    if (getY() - yEffectiveVolocity * Settings.SLEEPTIME > yMin + 1) {
 		setY(getY() - yEffectiveVolocity * Settings.SLEEPTIME);
 	    } else {
 		setY(yMin);
