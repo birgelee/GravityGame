@@ -143,7 +143,7 @@ public class Convenience {
 	try {
 	    buttonBackground = ImageIO.read(
 			Convenience.class.getClassLoader().getResourceAsStream(
-			"javathing/resources/graphics/menubutton.png"));
+			"javathing/resources/graphics/menu/menubutton.png"));
 	} catch (IOException ex) {
 	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -158,7 +158,7 @@ public class Convenience {
 	try {
 	    setMenuManager(new MenuManager(buttons, ImageIO.read(
 		    Convenience.class.getClassLoader().getResourceAsStream(
-		    "javathing/resources/graphics/menubackground.jpg"))));
+		    "javathing/resources/graphics/menu/menubackground.jpg"))));
 	} catch (IOException ex) {
 	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
 	}

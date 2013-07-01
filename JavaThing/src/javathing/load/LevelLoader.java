@@ -14,6 +14,7 @@ import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.LevelEnd;
 import javathing.block.PointMassBlock;
+import javathing.block.Spike;
 import javathing.level.gravity.GravitationalFeild;
 import javathing.level.gravity.GravitySource;
 import javathing.level.gravity.PointMass;
@@ -26,40 +27,42 @@ import javathing.utils.Convenience;
  * @author lausd_user
  */
 public class LevelLoader {
+
     private LevelManager levelManager;
+
     public LevelLoader(String filePath) throws FileNotFoundException {
-        String fileString = LoadingUtils.fileReader(filePath);
-        int yDimention = fileString.replaceAll("[^\n]", "").length()+1;
-        //int yDimention = fileString.split("\n").length;
-        int xDimention = fileString.indexOf("\n");
-        //int startingChar = fileString.indexOf("#");
+	String fileString = LoadingUtils.fileReader(filePath);
+	int yDimention = fileString.replaceAll("[^\n]", "").length() + 1;
+	//int yDimention = fileString.split("\n").length;
+	int xDimention = fileString.indexOf("\n");
+	//int startingChar = fileString.indexOf("#");
 	List<GravitySource> gs = new ArrayList();
 	GravitationalFeild gf = new GravitationalFeild(gs, GameplaySettings.ACCELERATION_DUE_TO_GRAVITY);
-        levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), gf);
-        char[] chars = fileString.toLowerCase().toCharArray();
-        int x =0;
-        int y =0;
-        for (int i = 0; i < chars.length; i++) {
-            switch (chars[i]) {
-                case ' ':
-                    Convenience.addAirBlock(levelManager, x, y);
-		    
-                    x++;
-                    break;
-                case 'x':
-                    Convenience.addDirtBlock(levelManager, x, y);
-                    x++;
-                    break;
-                case '\n':
-                    y++;
-                    x = 0;
-                    break;
-                case '#':
+	levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), gf);
+	char[] chars = fileString.toLowerCase().toCharArray();
+	int x = 0;
+	int y = 0;
+	for (int i = 0; i < chars.length; i++) {
+	    switch (chars[i]) {
+		case ' ':
+		    Convenience.addAirBlock(levelManager, x, y);
+
+		    x++;
+		    break;
+		case 'x':
+		    Convenience.addDirtBlock(levelManager, x, y);
+		    x++;
+		    break;
+		case '\n':
+		    y++;
+		    x = 0;
+		    break;
+		case '#':
 		    levelManager.getPlayer().setX(x * Settings.TILE_SIZE);
 		    levelManager.getPlayer().setY(y * Settings.TILE_SIZE);
-                    levelManager.setStartingPosition(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
-                    Convenience.addAirBlock(levelManager, x, y);
-                    x++;
+		    levelManager.setStartingPosition(new Point(x * Settings.TILE_SIZE, y * Settings.TILE_SIZE));
+		    Convenience.addAirBlock(levelManager, x, y);
+		    x++;
 		    break;
 		case '*':
 		    levelManager.addBlock(new LevelEnd(x, y));
@@ -74,22 +77,23 @@ public class LevelLoader {
 		    levelManager.addBlock(new Accelerator(x, y));
 		    x++;
 		    break;
-		    case '<':
+		case '<':
 		    levelManager.addBlock(new Accelerator(x, y, -GameplaySettings.ACCELERATOR_STRENGTH));
 		    x++;
 		    break;
-            }
-            
-        }
-	
-	
-        
-        
+		case 'v':
+		    levelManager.addBlock(new Spike(x, y));
+		    x++;
+	    }
+
+	}
+
+
+
+
     }
-    
-    
-    
+
     public LevelManager getLevelManager() {
-        return levelManager;
+	return levelManager;
     }
 }
