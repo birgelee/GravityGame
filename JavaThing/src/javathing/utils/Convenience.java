@@ -8,13 +8,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javathing.GameContainer;
 import javathing.level.LevelManager;
 import javathing.MainClass;
@@ -34,6 +35,7 @@ import javathing.menu.RectangleMenuButton;
 import javathing.render.Paintable;
 import javathing.settings.Settings;
 import javathing.statics.Statics;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -137,7 +139,15 @@ public class Convenience {
 	    MainClass.getMenuManager().deactivateListeners();
 	}
 	List<MenuButton> buttons = new ArrayList<MenuButton>();
-	buttons.add(new RectangleMenuButton(20, 20, 100, 50, Color.red, "Start Game", new ButtonEvent() {
+	BufferedImage buttonBackground = null;
+	try {
+	    buttonBackground = ImageIO.read(
+			Convenience.class.getClassLoader().getResourceAsStream(
+			"javathing/resources/graphics/menubutton.png"));
+	} catch (IOException ex) {
+	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, .7F, "Start Game", Color.white, new ButtonEvent() {
 	    @Override
 	    public void pressed() {
 		Statics.levelVariables.setLevelNumber(1);
@@ -145,7 +155,13 @@ public class Convenience {
 		setMenuManager(null);
 	    }
 	}));
-	setMenuManager(new MenuManager(buttons, Color.BLACK));
+	try {
+	    setMenuManager(new MenuManager(buttons, ImageIO.read(
+		    Convenience.class.getClassLoader().getResourceAsStream(
+		    "javathing/resources/graphics/menubackground.jpg"))));
+	} catch (IOException ex) {
+	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
+	}
 	//menuManager.addMouseListener(new MenuMouseListener());
 	setContainer(new MenuContainer("Game:Menu:Main"));
 	MainClass.getMenuManager().activateListeners();

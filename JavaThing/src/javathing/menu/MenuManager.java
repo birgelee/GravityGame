@@ -9,11 +9,13 @@ import java.awt.Graphics;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import javathing.MainClass;
 import javathing.input.MenuMouseListener;
 import javathing.settings.Settings;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -27,11 +29,23 @@ public class MenuManager {
 	addMouseListener(new MenuMouseListener());//Yea... I might move this somewhere else, but it will be here for now.
     }
     
+    public MenuManager(List<MenuButton> buttons, BufferedImage background) {
+        this.buttons = buttons;
+	this.background = background;
+	addMouseListener(new MenuMouseListener());//Yea... I might move this somewhere else, but it will be here for now.
+    }
+    
     private Color bgColor;
+    private BufferedImage background;
     
     public void paint(Graphics g) {
+	if (background != null) {
+	    g.drawImage(background, 0, 0, null);
+	}
+	else {
         g.setColor(bgColor);
         g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
+	}
         for (MenuButton b : buttons) {
             b.paint(g);
         }
