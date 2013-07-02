@@ -5,6 +5,10 @@
 
 package javathing.block;
 
+import javathing.sprite.BlockSide;
+import javathing.sprite.Player;
+import javathing.sprite.Sprite;
+
 /**
  *
  * @author Henry
@@ -16,6 +20,13 @@ public class Spike extends StandardBlock {
 	
 	
 	
+    }
+    
+    @Override
+    public void onContact(Sprite interactor, BlockSide side) {
+	if (interactor instanceof Player) {
+	    ((Player)interactor).kill();
+	}
     }
 
 }

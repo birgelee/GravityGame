@@ -12,6 +12,7 @@ import javathing.level.TileMap;
 import javathing.block.Block;
 import javathing.input.PlayerKeyListener;
 import javathing.settings.GameplaySettings;
+import javathing.utils.Convenience;
 import javathing.utils.MathUtils;
 
 /**
@@ -226,12 +227,20 @@ public class Player extends Sprite {
 	double angle = MathUtils.getAngle(-gravity[0],-gravity[1] );//       /_
 	addedXVolocity = 0;
 	addedYVolocity = 0;
+	double[] gravityUnitVector = MathUtils.getUnitVector(gravity[0], gravity[1]);
+	if (Math.abs(xVolocity) > GameplaySettings.RUN_SPEED) {
+	    return;
+	}
 	if (getKeyListener().getArrowKeys()[1] == true) {
+	    if (Math.abs(xVolocity) < GameplaySettings.RUN_SPEED)
+		xVolocity = 0;
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle - Math.PI / 2);
 	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle - Math.PI / 2);
 	}
 	
 	if (getKeyListener().getArrowKeys()[0] == true) {
+	     if (Math.abs(xVolocity) < GameplaySettings.RUN_SPEED)
+	    xVolocity = 0;
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle + Math.PI / 2);
 	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle + Math.PI / 2);
 	}
@@ -284,6 +293,10 @@ public class Player extends Sprite {
     
     public  void accel() {
         xVolocity +=  .1;
+    }
+    
+    public void kill() {
+	Convenience.initMainMenu();
     }
 
     /*

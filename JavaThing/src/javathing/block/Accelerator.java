@@ -46,14 +46,14 @@ public class Accelerator extends Block {
     public void onContact(Sprite interactor, BlockSide blockSide) {
 	switch (blockSide) {
 	    case Top:
-		interactor.addSingleFrameVolocity(strength, 0);
+		interactor.addSingleFrameAcceleration(strength, 0);
 		break;
 	    case Right:
-		interactor.addSingleFrameVolocity(0, -strength);
+		interactor.addSingleFrameAcceleration(0, -strength);
 	    case Bottom:
-		interactor.addSingleFrameVolocity(-strength, 0);
+		interactor.addSingleFrameAcceleration(-strength, 0);
 	    case Left:
-		interactor.addSingleFrameVolocity(0, strength);
+		interactor.addSingleFrameAcceleration(0, strength);
 	}
 	
 	    
