@@ -27,18 +27,6 @@ public class PauseButton extends Component {
         g.fillRect(Settings.PAUSE_BUTTON_LOCATION[0], Settings.PAUSE_BUTTON_LOCATION[1], 20, 20);
     }
     
-    public void addToLevel(LevelManager levelmanager) {
-        levelmanager.addPaintable((Paintable)this, 4);
-        levelmanager.addMouseListener(new ButtonMouseListener(Settings.PAUSE_BUTTON_LOCATION[0], Settings.PAUSE_BUTTON_LOCATION[1], 20, 20, new ButtonEvent() {
-
-            @Override
-            public void pressed() {
-                Convenience.initMainMenu();
-            }
-            
-        }));
-	
-    }
     
     
     @Override
@@ -47,7 +35,7 @@ public class PauseButton extends Component {
 
             @Override
             public void pressed() {
-                Convenience.initMainMenu();
+                Convenience.initPauseMenu();
             }
             
         });

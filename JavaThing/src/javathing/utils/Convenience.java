@@ -25,6 +25,7 @@ import javathing.Updateable;
 import javathing.block.AirBlock;
 import javathing.block.Block;
 import javathing.block.DirtBlock;
+import javathing.container.LevelContainer;
 import javathing.container.MenuContainer;
 import javathing.level.PauseButton;
 import javathing.load.LevelLoader;
@@ -64,7 +65,6 @@ public class Convenience {
     }
 
     public static void initLevel(int levelNumber, String levelPath) {
-	final int finalLevelNumber = levelNumber;
 	try {
 	    LevelLoader loader = new LevelLoader(levelPath);
 	    MainClass.setLevelManager(loader.getLevelManager());
@@ -74,62 +74,7 @@ public class Convenience {
 	PauseButton pb = new PauseButton();
 	MainClass.getLevelManager().getGUI().addComponenet(pb);
 	//levelManager.activateListeners();
-	setContainer(new GameContainer() {
-	    @Override
-	    public void paint(Graphics g) {
-		BufferedImage level = new BufferedImage((int)(Settings.SCREEN_WIDTH * Math.sqrt(2)), (int) (Settings.SCREEN_HTIGHT * Math.sqrt(2)), BufferedImage.TYPE_INT_BGR);
-		Graphics levelgr = level.createGraphics();
-		int transformFactorX = (int) ((Math.sqrt(2) - 1) * Settings.SCREEN_WIDTH / 2);
-		int transformFactorY =  (int) ((Math.sqrt(2) - 1) * Settings.SCREEN_HTIGHT / 2);
-		levelgr.translate(transformFactorX, transformFactorY);
-
-		BufferedImage viewport = new BufferedImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT, BufferedImage.TYPE_INT_BGR);
-		Graphics2D viewportgr = viewport.createGraphics();
-
-		for (List<Paintable> paintables : MainClass.getLevelManager().getPaintables()) {
-		    for (Paintable paintable : paintables) {
-			paintable.paint(levelgr);
-		    }
-		}
-		levelgr.translate(-transformFactorX, -transformFactorY);
-	        viewportgr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		viewportgr.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);   //code works but slows down game a lot
-		//viewportgr.setPaint(new TexturePaint(level, new Rectangle2D.Float(0, 0, level.getWidth(), level.getHeight())));
-		AffineTransform transform = new AffineTransform();
-		transform.rotate(MainClass.getLevelManager().getScreen().getTilt(), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HTIGHT / 2);
-		
-		viewportgr.setTransform(transform);
-		//viewportgr.translate((int) ((Math.sqrt(2) - 1) * Settings.SCREEN_WIDTH / 2), (int) ((Math.sqrt(2) - 1) * Settings.SCREEN_HTIGHT / 2));
-		viewportgr.drawImage(level, -transformFactorX, -transformFactorY, null);
-		//viewportgr.fillRect(0, 0, level.getWidth(), level.getHeight());
-		viewportgr.setTransform(new AffineTransform());
-		viewportgr.setPaint(null);
-		viewportgr.drawImage(MainClass.getLevelManager().getGUI().getUIOverlay(), 0, 0, null);
-
-		g.drawImage(viewport, 0, 0, null);
-	    }
-
-	    @Override
-	    public void update() {
-		for (Updateable updateable : MainClass.getLevelManager().getUpdateables()) {
-		    updateable.update();
-		}
-	    }
-
-	    @Override
-	    public String getName() {
-		return "Game:Level:" + finalLevelNumber;
-	    }
-
-	    @Override
-	    public void init() {
-	    }
-
-	    @Override
-	    public void dispose() {
-		MainClass.getLevelManager().deactivateListeners();
-	    }
-	});
+	setContainer(new LevelContainer(levelNumber));
 	MainClass.getLevelManager().activateListeners();
 	//levelManager.activateListeners();
     }
@@ -167,5 +112,44 @@ public class Convenience {
 	MainClass.getMenuManager().activateListeners();
 
 
+    }
+    public static void initPauseMenu() {
+	if (MainClass.getLevelManager() != null) {
+	    MainClass.getLevelManager().deactivateListeners();
+	}
+	List<MenuButton> buttons = new ArrayList<MenuButton>();
+	BufferedImage buttonBackground = null;
+	BufferedImage button2Background = null;
+	try {
+	    buttonBackground = ImageIO.read(
+			Convenience.class.getClassLoader().getResourceAsStream(
+			"javathing/resources/graphics/menu/pausemenubutton.png"));
+	    button2Background = ImageIO.read(
+			Convenience.class.getClassLoader().getResourceAsStream(
+			"javathing/resources/graphics/menu/pausemenubutton.png"));
+	} catch (IOException ex) {
+	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, .7F, "Resume Game", Color.white, new ButtonEvent() {
+	    @Override
+	    public void pressed() {
+		MainClass.getLevelManager().activateListeners();
+		setContainer(new LevelContainer(Statics.levelVariables.getLevelNumber()));
+		setMenuManager(null);
+	    }
+	}));
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, .7F, "Main Menu", Color.white, new ButtonEvent() {
+	    @Override
+	    public void pressed() {
+		Convenience.initMainMenu();
+	    }
+	}));
+	 Graphics g = MainClass.getLastImage().createGraphics();
+	 g.setColor(new Color(0, 0, 0, .6F));
+	 g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
+	    setMenuManager(new MenuManager(buttons, MainClass.getLastImage()));
+	//menuManager.addMouseListener(new MenuMouseListener());
+	setContainer(new MenuContainer("Game:Menu:Pause"));
+	MainClass.getMenuManager().activateListeners();
     }
 }

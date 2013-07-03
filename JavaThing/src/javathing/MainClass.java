@@ -9,6 +9,7 @@ import javathing.settings.Settings;
 import javathing.level.LevelManager;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -200,5 +201,13 @@ public class MainClass {
      */
     public static void setMenuManager(MenuManager aMenuManager) {
         menuManager = aMenuManager;
+    }
+    private static BufferedImage lastImage;
+    public static BufferedImage getLastImage() {
+	return lastImage;
+    }
+    
+    public static void setLastImage(BufferedImage image) {
+	lastImage = image;
     }
 }

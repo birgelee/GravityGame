@@ -46,6 +46,5 @@ public class MenuContainer implements GameContainer {
 
     @Override
     public void init() {
-        MainClass.setLevelManager(null); //To change body of generated methods, choose Tools | Templates.
     }
 }
