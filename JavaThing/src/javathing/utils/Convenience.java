@@ -22,6 +22,7 @@ import javathing.MainClass;
 import static javathing.MainClass.setContainer;
 import static javathing.MainClass.setMenuManager;
 import javathing.Updateable;
+import javathing.animation.SinAnimator;
 import javathing.block.AirBlock;
 import javathing.block.Block;
 import javathing.block.DirtBlock;
@@ -92,7 +93,7 @@ public class Convenience {
 	} catch (IOException ex) {
 	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
 	}
-	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, .7F, "Start Game", Color.white, new ButtonEvent() {
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, new SinAnimator(500, .5F, .8F), "Start Game", Color.white, new ButtonEvent() {
 	    @Override
 	    public void pressed() {
 		Statics.levelVariables.setLevelNumber(1);
@@ -130,7 +131,7 @@ public class Convenience {
 	} catch (IOException ex) {
 	    Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
 	}
-	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, .7F, "Resume Game", Color.white, new ButtonEvent() {
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, new SinAnimator(500), "Resume Game", Color.white, new ButtonEvent() {
 	    @Override
 	    public void pressed() {
 		MainClass.getLevelManager().activateListeners();
@@ -138,7 +139,7 @@ public class Convenience {
 		setMenuManager(null);
 	    }
 	}));
-	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, .7F, "Main Menu", Color.white, new ButtonEvent() {
+	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, new SinAnimator(500), "Main Menu", Color.white, new ButtonEvent() {
 	    @Override
 	    public void pressed() {
 		Convenience.initMainMenu();

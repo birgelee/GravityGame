@@ -6,16 +6,15 @@ package javathing.menu;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import javathing.animation.Animator;
+import javathing.animation.OneWayAnimation;
 
 /**
  *
@@ -29,7 +28,7 @@ public class RectangleMenuButton extends MenuButton {
     Color textColor = Color.BLACK;
     BufferedImage backgroundImage;
     String text;
-    float opacity;
+    Animator opacityAnimator;
     ButtonEvent buttonEvent;
 
     public RectangleMenuButton(int x, int y, int width, int height, Color color, String text, Color textColor, ButtonEvent buttonEvent) {
@@ -40,14 +39,15 @@ public class RectangleMenuButton extends MenuButton {
 	this.text = text;
     }
 
-    public RectangleMenuButton(int x, int y, int width, int height, BufferedImage backgroundImage, float opacity, String text, Color textColor, ButtonEvent buttonEvent) {
+    public RectangleMenuButton(int x, int y, int width, int height, BufferedImage backgroundImage, Animator opacityAnimator, String text, Color textColor, ButtonEvent buttonEvent) {
 	size = new Dimension(width, height);
 	position = new Point(x, y);
 	this.backgroundImage = backgroundImage;
 	this.buttonEvent = buttonEvent;
 	this.text = text;
 	this.textColor = textColor;
-	this.opacity = opacity;
+	this.opacityAnimator = opacityAnimator;
+	opacityAnimator.start();
     }
 
     public RectangleMenuButton(int x, int y, int width, int height, Color color, String text, ButtonEvent buttonEvent) {
@@ -56,11 +56,12 @@ public class RectangleMenuButton extends MenuButton {
 
     @Override
     public void paint(Graphics g) {
+	opacityAnimator.update();
 	if (backgroundColor != null) {
 	    g.setColor(backgroundColor);
 	    g.fillRect(position.x, position.y, size.width, size.height);
 	} else {
-	    float[] scales = {1f, 1f, 1f, opacity};
+	    float[] scales = {1f, 1f, 1f, (float) opacityAnimator.getPercent()};
 	    float[] offsets = new float[4];
 	    RescaleOp rop = new RescaleOp(scales, offsets, null);
 	    ((Graphics2D)g).drawImage(backgroundImage, rop, position.x, position.y);

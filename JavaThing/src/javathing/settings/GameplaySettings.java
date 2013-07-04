@@ -17,6 +17,6 @@ public class GameplaySettings {
     
     
     public static final double POINT_MASS_STRENGTH = 5;
-    public static final double ACCELERATOR_STRENGTH = .002;
+    public static final double ACCELERATOR_STRENGTH = .02;
 
 }
