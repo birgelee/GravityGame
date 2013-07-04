@@ -11,7 +11,7 @@ package javathing.statics;
  */
 public class LevelVariables {
     
-    private int levelNumber;
+    private int levelNumber = 1;
     private int maxLevelNumber;
 
     /**

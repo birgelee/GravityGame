@@ -19,6 +19,7 @@ public class MenuMouseListener extends MouseAdapter{
     
     @Override
     public void mouseReleased(MouseEvent e) {
+	if (MainClass.getMenuManager() != null)
 	MainClass.getMenuManager().handleMouseRelease(e);
     }
 

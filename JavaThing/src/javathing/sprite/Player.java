@@ -296,7 +296,7 @@ public class Player extends Sprite {
     }
     
     public void kill() {
-	Convenience.initMainMenu();
+	Convenience.initDeathMenu();
     }
 
     /*

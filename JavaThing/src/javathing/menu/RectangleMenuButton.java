@@ -37,6 +37,7 @@ public class RectangleMenuButton extends MenuButton {
 	this.backgroundColor = color;
 	this.buttonEvent = buttonEvent;
 	this.text = text;
+	this.textColor = textColor;
     }
 
     public RectangleMenuButton(int x, int y, int width, int height, BufferedImage backgroundImage, Animator opacityAnimator, String text, Color textColor, ButtonEvent buttonEvent) {
@@ -56,11 +57,12 @@ public class RectangleMenuButton extends MenuButton {
 
     @Override
     public void paint(Graphics g) {
-	opacityAnimator.update();
+	
 	if (backgroundColor != null) {
 	    g.setColor(backgroundColor);
 	    g.fillRect(position.x, position.y, size.width, size.height);
 	} else {
+	    opacityAnimator.update();
 	    float[] scales = {1f, 1f, 1f, (float) opacityAnimator.getPercent()};
 	    float[] offsets = new float[4];
 	    RescaleOp rop = new RescaleOp(scales, offsets, null);
