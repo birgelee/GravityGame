@@ -45,6 +45,8 @@ public class PlayerKeyListener extends KeyAdapter {
                 //MainClass.getMainClass.getLevelManager().getPlayer().arrowKeyReleased(3);
                 break;
             case KeyEvent.VK_SPACE:
+		
+		System.out.println("VK_SPACE = " + KeyEvent.VK_SPACE);
                 space = true;
                 break;
         }

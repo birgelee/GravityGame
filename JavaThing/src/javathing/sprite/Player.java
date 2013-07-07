@@ -6,12 +6,16 @@ package javathing.sprite;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javathing.MainClass;
 import javathing.settings.Settings;
 import javathing.level.TileMap;
 import javathing.block.Block;
 import javathing.input.PlayerKeyListener;
 import javathing.settings.GameplaySettings;
+import javathing.transform.CordinateTransform;
 import javathing.utils.Convenience;
 import javathing.utils.MathUtils;
 
@@ -26,10 +30,8 @@ public class Player extends Sprite {
     private double xAcceleration = 0;
     private double yAcceleration = 0;
     private double vOfJump = .4;
-    
     private double addedXVolocity = 0;
     private double addedYVolocity = 0;
-    
     private PlayerKeyListener keyListener;
 
     public Player(int x, int y) {
@@ -37,14 +39,13 @@ public class Player extends Sprite {
 	keyListener = new PlayerKeyListener();
 	spriteColor = Color.white;
     }
-    
     boolean rightArrow = false;
     boolean leftArrow = false;
     boolean[] fandd = new boolean[2];
 
     @Override
     public void update() {
-        super.update();
+	super.update();
 	//Block 1: update volocity and acceleration
 	processKeyInput();
 	double[] gravitationalFeild = MainClass.getLevelManager().getGravity(x, y);
@@ -53,11 +54,11 @@ public class Player extends Sprite {
 
 	xVolocity += xAcceleration * Settings.SLEEPTIME + singleFrameXAcceleration * Settings.SLEEPTIME;
 	yVolocity += yAcceleration * Settings.SLEEPTIME + singleFrameYAcceleration * Settings.SLEEPTIME;
-	
+
 	singleFrameXAcceleration = 0;
 	singleFrameYAcceleration = 0;
-	
-	double xEffectiveVolocity =  xVolocity + addedXVolocity + singleFrameXVolocity;
+
+	double xEffectiveVolocity = xVolocity + addedXVolocity + singleFrameXVolocity;
 	double yEffectiveVolocity = yVolocity + addedYVolocity + singleFrameYVolocity;
 	singleFrameXVolocity = 0;
 	singleFrameYVolocity = 0;
@@ -171,8 +172,8 @@ public class Player extends Sprite {
 	//Block 3: update position
 	if (getX() + width + xEffectiveVolocity * Settings.SLEEPTIME < xMax) {
 	    if (getX() + xEffectiveVolocity * Settings.SLEEPTIME > xMin + 1) {//Note +1 added to fix phazing glitch due to boarder values
-		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
-		    setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
+		setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
+		setX(getX() + xEffectiveVolocity * Settings.SLEEPTIME);
 
 	    } else {
 		setX(xMin);
@@ -221,44 +222,89 @@ public class Player extends Sprite {
 	    }
 	}
     }
-    
+
     private void processKeyInput() {
 	double[] gravity = MainClass.getLevelManager().getGravity(x, y);
-	double angle = MathUtils.getAngle(-gravity[0],-gravity[1] );//       /_
+	double angle = MathUtils.getAngle(-gravity[0], -gravity[1]);//       /_
 	addedXVolocity = 0;
 	addedYVolocity = 0;
-	double[] gravityUnitVector = MathUtils.getUnitVector(gravity[0], gravity[1]);
-	if (Math.abs(xVolocity) > GameplaySettings.RUN_SPEED) {
+	double transformedXVolocity, transformedYVolocity;
+	CordinateTransform ct = new CordinateTransform(gravity[0], gravity[1]);
+	transformedXVolocity = ct.getTransformedCordinates(xVolocity, yVolocity)[0];
+	transformedYVolocity = ct.getTransformedCordinates(xVolocity, yVolocity)[1];
+	if (Math.abs(transformedXVolocity) > GameplaySettings.RUN_SPEED) {
 	    return;
 	}
 	if (getKeyListener().getArrowKeys()[1] == true) {
-	    if (Math.abs(xVolocity) < GameplaySettings.RUN_SPEED)
-		xVolocity = 0;
+	    if (Math.abs(transformedXVolocity) <= GameplaySettings.RUN_SPEED) {
+		xVolocity = ct.getOriginalCordinates(0, transformedYVolocity)[0];
+		yVolocity = ct.getOriginalCordinates(0, transformedYVolocity)[1];
+	    }
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle - Math.PI / 2);
 	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle - Math.PI / 2);
 	}
-	
+
 	if (getKeyListener().getArrowKeys()[0] == true) {
-	     if (Math.abs(xVolocity) < GameplaySettings.RUN_SPEED)
-	    xVolocity = 0;
+	    if (Math.abs(transformedXVolocity) <= GameplaySettings.RUN_SPEED) {
+		xVolocity = ct.getOriginalCordinates(0, transformedYVolocity)[0];
+		yVolocity = ct.getOriginalCordinates(0, transformedYVolocity)[1];
+	    }
 	    addedXVolocity += GameplaySettings.RUN_SPEED * Math.cos(angle + Math.PI / 2);
 	    addedYVolocity += GameplaySettings.RUN_SPEED * Math.sin(angle + Math.PI / 2);
 	}
-
-	if (getKeyListener().isSpace() && canJump()) {
-	    yVolocity = vOfJump;
+	angle = (angle + Math.PI * 2)% (Math.PI * 2);
+	List<JumpDirection> possiblejds = new ArrayList<JumpDirection>();
+	if (in60Of(angle, Math.PI / 2))
+	    possiblejds.add(JumpDirection.UP);
+	if (in60Of(angle, Math.PI))
+	    possiblejds.add(JumpDirection.LEFT);
+	if (in60Of(angle, Math.PI * 3 / 2))
+	    possiblejds.add(JumpDirection.DOWN);
+	if (in60Of((angle + Math.PI / 2) % (Math.PI * 2), Math.PI / 2))
+	    possiblejds.add(JumpDirection.RIGHT);
+	if (getKeyListener().isSpace() && containsAny(possiblejds, canJump())) {
+	    
+	    transformedYVolocity = vOfJump;
+	    xVolocity = ct.getOriginalCordinates(transformedXVolocity, transformedYVolocity)[0];
+	    yVolocity = ct.getOriginalCordinates(transformedXVolocity, transformedYVolocity)[1];
 	}
     }
+    
+    private boolean in60Of(double angle, double targetAngle) {
+	return Math.abs(angle - targetAngle) <= Math.PI / 3;
+    }
+    
+    private boolean containsAny(Collection c1, Collection c2) {
+	for (Object obj : c1) {
+	    if (c2.contains(obj)) {
+		return true;
+	    }
+	}
+	return false;
+    }
 
-    private boolean canJump() {
+    private List<JumpDirection> canJump() {
+	ArrayList returnVal = new ArrayList();
 	if (TileMap.getTileLocation(getY() + height) == MainClass.getLevelManager().getTileMap().yDimention) {
-	    return true;
+	    returnVal.add(JumpDirection.UP);
 	}
 	if (TileMap.isOnTile(getY() + height)
 		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y + height)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x + width), TileMap.getTileLocation(y + height)))) {
-	    return true;
+	    returnVal.add(JumpDirection.UP);
 	}
-	return false;
+	if (TileMap.isOnTile(getY())
+		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x + width), TileMap.getTileLocation(y)))) {
+	    returnVal.add(JumpDirection.DOWN);
+	}
+	if (TileMap.isOnTile(getX())
+		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y + height)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y)))) {
+	    returnVal.add(JumpDirection.RIGHT);
+	}
+	if (TileMap.isOnTile(getX() + width)
+		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x + width), TileMap.getTileLocation(y + height)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x+ width), TileMap.getTileLocation(y)))) {
+	    returnVal.add(JumpDirection.LEFT);
+	}
+	return returnVal;
     }
 
     public void processFPress() {
@@ -266,7 +312,7 @@ public class Player extends Sprite {
 	    mass += GameplaySettings.MASS_INCREASE_CONSTANT;
 	    fandd[0] = true;
 	}
-	
+
     }
 
     public void processFRelease() {
@@ -274,7 +320,7 @@ public class Player extends Sprite {
 	    mass -= GameplaySettings.MASS_INCREASE_CONSTANT;
 	    fandd[0] = false;
 	}
-	
+
     }
 
     public void processDPress() {
@@ -290,24 +336,25 @@ public class Player extends Sprite {
 	    fandd[1] = false;
 	}
     }
-    
-    public  void accel() {
-        xVolocity +=  .1;
+
+    public void accel() {
+	xVolocity += .1;
     }
-    
+
     public void kill() {
 	Convenience.initDeathMenu();
     }
 
     /*
      * public void arrowKeyPressed(int arrowKey) { switch (arrowKey) { case 0:
-     * xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; case 1: xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; } }
+     * xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; case 1:
+     * xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; } }
      */
     /*
      * public void arrowKeyReleased(int arrowKey) { switch (arrowKey) { case 0:
-     * xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; case 1: xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; } }
+     * xEffectiveVolocity += GameplaySettings.RUN_SPEED; break; case 1:
+     * xEffectiveVolocity -= GameplaySettings.RUN_SPEED; break; } }
      */
-
     /**
      * @return the keyListener
      */

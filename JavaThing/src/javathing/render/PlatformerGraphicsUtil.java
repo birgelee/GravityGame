@@ -5,15 +5,10 @@
 package javathing.render;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
 import java.awt.image.ImageObserver;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javathing.MainClass;
-import javathing.settings.Settings;
 
 /**
  *

@@ -9,6 +9,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javathing.input.ScreenKeyListener;
+import javathing.settings.GameplaySettings;
+import javathing.utils.MathUtils;
 
 /**
  *
@@ -39,6 +41,7 @@ public class Screen implements Updateable {
     public void setScreenPosition(Point p) {
         screenPosition = p;
     }
+    @Override
     public void update() {
 	if (skl.getR()) {
 	    rotation += .01;
@@ -49,6 +52,7 @@ public class Screen implements Updateable {
     }
     double rotation; //in radions
     public double getTilt() {
+	//return -MathUtils.getAngle(GameplaySettings.ACCELERATION_DUE_TO_GRAVITY[0], GameplaySettings.ACCELERATION_DUE_TO_GRAVITY[1]);
 	return rotation;
     }
     ScreenKeyListener skl = new ScreenKeyListener();
