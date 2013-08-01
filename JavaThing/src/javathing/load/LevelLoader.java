@@ -5,8 +5,10 @@
 package javathing.load;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javathing.block.Accelerator;
 import javathing.level.LevelManager;
@@ -20,6 +22,7 @@ import javathing.level.gravity.GravitySource;
 import javathing.level.gravity.PointMass;
 import javathing.settings.GameplaySettings;
 import javathing.sprite.Player;
+import javathing.sprite.Vilin;
 import javathing.utils.Convenience;
 
 /**
@@ -90,7 +93,14 @@ public class LevelLoader {
 
 
 
-
+                    
+            
+            
+        
+	LinkedList<Point2D.Double> tempList = new LinkedList<Point2D.Double>();
+        tempList.add(new Point2D.Double(10, 10));
+        tempList.add(new Point2D.Double(500, 10));
+	levelManager.addSprite(new Vilin(20, 20, .1, tempList));
     }
 
     public LevelManager getLevelManager() {

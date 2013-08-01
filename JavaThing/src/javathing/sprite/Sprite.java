@@ -9,9 +9,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import javathing.GameObject;
 import javathing.MainClass;
 import javathing.level.TileMap;
+import javathing.level.Zone;
 import javathing.render.PlatformerGraphicsUtil;
 
 /**
@@ -33,7 +37,8 @@ public abstract class Sprite extends GameObject {
     protected double singleFrameXAcceleration;
     protected double singleFrameYAcceleration;
     private BlockSide BlockSide;
-    
+    private List<Zone> registaredZones = new ArrayList<Zone>();
+
     public Sprite(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
@@ -44,40 +49,58 @@ public abstract class Sprite extends GameObject {
     @Override
     public void paint(Graphics g) {
         PlatformerGraphicsUtil.translateGraphics(g);
-        if (spriteImage != null) {
-            g.drawImage(spriteImage, (int) getX(), (int) getY(), null);
+        if (getSpriteImage() != null) {
+            g.drawImage(getSpriteImage(), (int) getX(), (int) getY(), null);
         } else {
             if (spriteColor != null) {
                 g.setColor(spriteColor);
             } else {
                 g.setColor(Color.red);
             }
-            g.fillRect((int) getX(), (int) getY(), (int) width, (int) height);
+            g.fillRect((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
         }
         PlatformerGraphicsUtil.unTranslateGraphics(g);
 
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle((int) getX(), (int) getY(), (int) width, (int) height);
+        return new Rectangle((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight());
+    }
+
+    public void onContact(Sprite interactor) {
+    }
+
+    private void checkSprites(List<Zone> zones) {
+        for (Zone z : zones) {
+            for (Sprite s : z.getSprites()) {
+                if (s.equals(this)) {
+                    continue;
+                }
+                if (s.getRectangle().intersects(this.getRectangle())) {
+                    this.onContact(s);
+                }
+            }
+        }
     }
 
     @Override
     public void update() {
+        registaredZones = MainClass.getLevelManager().getZoneMap().regesterSprite(this);
+        checkSprites(registaredZones);
         int tileX = TileMap.getTileLocation(getX());
         int tileY = TileMap.getTileLocation(getY());
         MainClass.getLevelManager().getTileMap().getBlock(tileX, tileY).whenInside(this);
 
         if (!(tileX == TileMap.getTileLocation(x + width) && tileY == TileMap.getTileLocation(y + height))) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height)).whenInside(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + getWidth()), TileMap.getTileLocation(getY() + getHeight())).whenInside(this);
         }
 
         if (!(tileX == TileMap.getTileLocation(x) && tileY == TileMap.getTileLocation(y + height))) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + height)).whenInside(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + getHeight())).whenInside(this);
         }
 
         if (!(tileX == TileMap.getTileLocation(x + width) && tileY == TileMap.getTileLocation(y))) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY())).whenInside(this);
+            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + getWidth()), TileMap.getTileLocation(getY())).whenInside(this);
         }
 
         if (TileMap.isOnTile(getX() + width)) {
@@ -92,61 +115,98 @@ public abstract class Sprite extends GameObject {
             if (TileMap.getTileLocation(getX()) != TileMap.getTileLocation(getX() + width)) {
                 MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() - 1)).onContact(this, BlockSide.Bottom);
             }
-        }
 
-        if (TileMap.isOnTile(getX())) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY())).onContact(this, BlockSide.Right);
-            if (TileMap.getTileLocation(getY()) != TileMap.getTileLocation(getY() + height)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY() + height)).onContact(this, BlockSide.Right);
+            if (TileMap.isOnTile(getX())) {
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY())).onContact(this, BlockSide.Right);
+                if (TileMap.getTileLocation(getY()) != TileMap.getTileLocation(getY() + height)) {
+                    MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() - 1), TileMap.getTileLocation(getY() + height)).onContact(this, BlockSide.Right);
+                }
             }
-        }
 
-        if (TileMap.isOnTile(getY() + height)) {
-            MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
-            if (TileMap.getTileLocation(getX()) != TileMap.getTileLocation(getX() + width)) {
-                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
+            if (TileMap.isOnTile(getY() + height)) {
+                MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX()), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
+                if (TileMap.getTileLocation(getX()) != TileMap.getTileLocation(getX() + width)) {
+                    MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
+                }
             }
+
         }
-
-
-
     }
-    
+
     public void addSingleFrameAcceleration(double xAccelerationToAdd, double yAccelerationToAdd) {
-	singleFrameXAcceleration += xAccelerationToAdd;
-	singleFrameYAcceleration += yAccelerationToAdd;
+        singleFrameXAcceleration += xAccelerationToAdd;
+        singleFrameYAcceleration += yAccelerationToAdd;
     }
-    
+
     public void addSingleFrameVolocity(double xVolocityToAdd, double yVolocityToAdd) {
-	singleFrameXVolocity += xVolocityToAdd;
-	singleFrameYVolocity += yVolocityToAdd;
+        singleFrameXVolocity += xVolocityToAdd;
+        singleFrameYVolocity += yVolocityToAdd;
     }
-    
+
     /**
      * @return the x
      */
     public double getX() {
-	return x;
+        return x;
     }
 
     /**
      * @param x the x to set
      */
     public void setX(double x) {
-	this.x = x;
+        this.x = x;
     }
 
     /**
      * @return the y
      */
     public double getY() {
-	return y;
+        return y;
     }
 
     /**
      * @param y the y to set
      */
     public void setY(double y) {
-	this.y = y;
+        this.y = y;
+    }
+
+    public Point2D.Double getPosition() {
+        return new Point2D.Double(x, y);
+    }
+
+    /**
+     * @return the width
+     */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * @return the height
+     */
+    public double getHeight() {
+        return height;
+    }
+
+    /**
+     * @return the spriteImage
+     */
+    public Image getSpriteImage() {
+        return spriteImage;
+    }
+
+    /**
+     * @param spriteImage the spriteImage to set
+     */
+    public void setSpriteImage(Image spriteImage) {
+        this.spriteImage = spriteImage;
+    }
+
+    /**
+     * @return the registaredZones
+     */
+    public List<Zone> getRegistaredZones() {
+        return registaredZones;
     }
 }

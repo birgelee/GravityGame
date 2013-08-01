@@ -32,6 +32,7 @@ public class LevelManager {
     private List<Sprite> sprites;
     private Point startingPosition;
     private TileMap tileMap;
+    private ZoneMap zoneMap;
     private Player player;
     private Screen screen;
     private GravitationalFeild gravitationalFeild;
@@ -44,6 +45,7 @@ public class LevelManager {
         this.sprites = sprites;
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
+        this.zoneMap = new ZoneMap();
 	this.player = player;
 	if (player != null) {
 	    addSprite(player);
@@ -219,9 +221,16 @@ public class LevelManager {
     }
 
     /**
+<<<<<<< HEAD
      * @return the gravitationalFeild
      */
     public GravitationalFeild getGravitationalFeild() {
 	return gravitationalFeild;
+    }
+     /*
+     * @return the zoneMap
+     */
+    public ZoneMap getZoneMap() {
+        return zoneMap;
     }
 }

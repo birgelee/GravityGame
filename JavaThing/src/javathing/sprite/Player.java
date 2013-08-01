@@ -67,14 +67,14 @@ public class Player extends Sprite {
 	int xTilePosition = TileMap.getTileLocation(getX());
 	int xTilePosition2;
 	if (!TileMap.isOnTile(x + width)) {
-	    xTilePosition2 = TileMap.getTileLocation(getX() + width);
+	    xTilePosition2 = TileMap.getTileLocation(getX() + getWidth());
 	} else {
 	    xTilePosition2 = xTilePosition;
 	}
 	int yTilePosition = TileMap.getTileLocation(getY());
 	int yTilePosition2;
 	if (!TileMap.isOnTile(y + height)) {
-	    yTilePosition2 = TileMap.getTileLocation(getY() + height);
+	    yTilePosition2 = TileMap.getTileLocation(getY() + getHeight());
 	} else {
 	    yTilePosition2 = yTilePosition;
 	}
@@ -180,7 +180,7 @@ public class Player extends Sprite {
 		xVolocity = 0;
 	    }
 	} else {
-	    setX(xMax - width);
+	    setX(xMax - getWidth());
 	    xVolocity = 0;
 	}
 
@@ -192,7 +192,7 @@ public class Player extends Sprite {
 		yVolocity = 0;
 	    }
 	} else {
-	    setY(yMax - height);
+	    setY(yMax - getHeight());
 	    yVolocity = 0;
 	}
 
@@ -288,7 +288,7 @@ public class Player extends Sprite {
 	if (TileMap.getTileLocation(getY() + height) == MainClass.getLevelManager().getTileMap().yDimention) {
 	    returnVal.add(JumpDirection.UP);
 	}
-	if (TileMap.isOnTile(getY() + height)
+	if (TileMap.isOnTile(getY() + getHeight())
 		&& (!MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x), TileMap.getTileLocation(y + height)) || !MainClass.getLevelManager().getTileMap().getPassable(TileMap.getTileLocation(x + width), TileMap.getTileLocation(y + height)))) {
 	    returnVal.add(JumpDirection.UP);
 	}

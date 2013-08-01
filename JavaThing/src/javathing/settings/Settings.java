@@ -13,5 +13,6 @@ public class Settings {
         public static final int SCREEN_WIDTH = 500;
         public static final int SCREEN_HTIGHT = 500;
         public static final int TILE_SIZE = 30;
+        public static final int ZoneSize = 4;
         public static final int[] PAUSE_BUTTON_LOCATION = {SCREEN_WIDTH - 40, 20};
 }
