@@ -112,7 +112,7 @@ public class Convenience {
 	}
 	//menuManager.addMouseListener(new MenuMouseListener());
 	setContainer(new MenuContainer("Game:Menu:Main"));
-	MainClass.getMenuManager().activateListeners();
+	MainClass.getMenuManager().activateListeners(200);
 
 
     }
@@ -153,7 +153,7 @@ public class Convenience {
 	    setMenuManager(new MenuManager(buttons, MainClass.getLastImage()));
 	//menuManager.addMouseListener(new MenuMouseListener());
 	setContainer(new MenuContainer("Game:Menu:Pause"));
-	MainClass.getMenuManager().activateListeners();
+	MainClass.getMenuManager().activateListeners(200);
     }
     
     public static void initDeathMenu() {
@@ -177,8 +177,9 @@ public class Convenience {
 	buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, new StaticAnimator(1), "Retry Level", Color.white, new ButtonEvent() {
 	    @Override
 	    public void pressed() {
+                MainClass.getMenuManager().deactivateListeners();
 		MainClass.getLevelManager().activateListeners();
-		MainClass.getMenuManager().deactivateListeners();
+		
 		initLevel(Statics.levelVariables.getLevelNumber(), "C:\\users\\henry\\desktop\\level\\level" + Statics.levelVariables.getLevelNumber() + ".txt");
 		setMenuManager(null);
 	    }
@@ -191,6 +192,6 @@ public class Convenience {
 	}));
 	setMenuManager(new MenuManager(buttons, Color.BLACK));
 	setContainer(new MenuContainer("Game:Menu:Death"));
-	MainClass.getMenuManager().activateListeners();
+	MainClass.getMenuManager().activateListeners(200);
     }
 }

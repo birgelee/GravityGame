@@ -12,6 +12,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javathing.MainClass;
 import javathing.input.MenuMouseListener;
 import javathing.settings.Settings;
@@ -89,6 +91,27 @@ public class MenuManager {
 	    MainClass.removeMouseListener(mouseListener);
 	}
     }
+    
+    public void activateListeners(long millsDelay) {//This code could result in a null menu manager changing global vars in an unreversable way
+        final long finalDelay = millsDelay;
+        final MenuManager finalMenu = this;
+        Thread t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(finalDelay);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MenuManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                finalMenu.activateListeners();
+                
+            }
+            
+        });
+        t.start();
+    }
+    
     public void activateListeners() {
 	listenersAreActive = true;
 	for (KeyListener kl : keyListeners) {
