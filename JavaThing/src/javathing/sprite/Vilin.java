@@ -28,6 +28,7 @@ public class Vilin extends Sprite {
     @Override
     public void onContact(Sprite interactor) {
         if (interactor instanceof Player) {
+            ((Player) interactor).kill();
         }
     }
 
