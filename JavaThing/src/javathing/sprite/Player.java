@@ -342,6 +342,7 @@ public class Player extends Sprite {
     }
 
     public void kill() {
+        //Need to remove sprite
 	Convenience.initDeathMenu();
     }
 

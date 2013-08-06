@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import javathing.animation.Animator;
-import javathing.animation.OneWayAnimation;
 
 /**
  *
@@ -62,7 +61,7 @@ public class RectangleMenuButton extends MenuButton {
 	    g.setColor(backgroundColor);
 	    g.fillRect(position.x, position.y, size.width, size.height);
 	} else {
-	    opacityAnimator.update();
+	    opacityAnimator.update();//This line mixes update and paint and should be moved to a seperate update method.
 	    float[] scales = {1f, 1f, 1f, (float) opacityAnimator.getPercent()};
 	    float[] offsets = new float[4];
 	    RescaleOp rop = new RescaleOp(scales, offsets, null);
