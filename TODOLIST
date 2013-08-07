@@ -1,3 +1,6 @@
-1. Fix menu glitch.
-2. Inprove sprite interactions.
+*1. Fix menu glitch.
+*2. Inprove sprite interactions.
 3. Add menu fade ins.
+4. Inprove next level menu.
+5. Move level data to inside the jar.
+6. Add meta data for each level.

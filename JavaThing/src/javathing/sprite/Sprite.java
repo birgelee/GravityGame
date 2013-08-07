@@ -7,7 +7,6 @@ package javathing.sprite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 import javathing.GameObject;
 import javathing.MainClass;
 import javathing.level.TileMap;
-import javathing.level.Zone;
 import javathing.render.PlatformerGraphicsUtil;
 
 /**
@@ -37,7 +35,6 @@ public abstract class Sprite extends GameObject {
     protected double singleFrameXAcceleration;
     protected double singleFrameYAcceleration;
     private BlockSide BlockSide;
-    private List<Zone> registaredZones = new ArrayList<Zone>();
 
     public Sprite(double x, double y, double width, double height) {
         this.x = x;
@@ -70,23 +67,8 @@ public abstract class Sprite extends GameObject {
     public void onContact(Sprite interactor) {
     }
 
-    private void checkSprites(List<Zone> zones) {
-        for (Zone z : zones) {
-            for (Sprite s : z.getSprites()) {
-                if (s.equals(this)) {
-                    continue;
-                }
-                if (s.getRectangle().intersects(this.getRectangle())) {
-                    this.onContact(s);
-                }
-            }
-        }
-    }
-
     @Override
     public void update() {
-        registaredZones = MainClass.getLevelManager().getZoneMap().regesterSprite(this);
-        checkSprites(registaredZones);
         int tileX = TileMap.getTileLocation(getX());
         int tileY = TileMap.getTileLocation(getY());
         MainClass.getLevelManager().getTileMap().getBlock(tileX, tileY).whenInside(this);
@@ -201,12 +183,5 @@ public abstract class Sprite extends GameObject {
      */
     public void setSpriteImage(Image spriteImage) {
         this.spriteImage = spriteImage;
-    }
-
-    /**
-     * @return the registaredZones
-     */
-    public List<Zone> getRegistaredZones() {
-        return registaredZones;
     }
 }

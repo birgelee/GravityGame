@@ -5,12 +5,8 @@
 package javathing;
 
 import java.awt.Point;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javathing.input.ScreenKeyListener;
-import javathing.settings.GameplaySettings;
-import javathing.utils.MathUtils;
 
 /**
  *
