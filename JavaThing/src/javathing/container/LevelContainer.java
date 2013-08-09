@@ -11,7 +11,6 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.List;
-import javathing.GameContainer;
 import javathing.MainClass;
 import javathing.Updateable;
 import javathing.render.Paintable;
@@ -43,14 +42,11 @@ public class LevelContainer implements GameContainer {
 		levelgr.translate(-transformFactorX, -transformFactorY);
 	        viewportgr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		viewportgr.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);   //code works but slows down game a lot
-		//viewportgr.setPaint(new TexturePaint(level, new Rectangle2D.Float(0, 0, level.getWidth(), level.getHeight())));
 		AffineTransform transform = new AffineTransform();
 		transform.rotate(MainClass.getLevelManager().getScreen().getTilt(), Settings.SCREEN_WIDTH / 2, Settings.SCREEN_HTIGHT / 2);
 		
 		viewportgr.setTransform(transform);
-		//viewportgr.translate((int) ((Math.sqrt(2) - 1) * Settings.SCREEN_WIDTH / 2), (int) ((Math.sqrt(2) - 1) * Settings.SCREEN_HTIGHT / 2));
-		viewportgr.drawImage(level, -transformFactorX, -transformFactorY, null);
-		//viewportgr.fillRect(0, 0, level.getWidth(), level.getHeight());
+                viewportgr.drawImage(level, -transformFactorX, -transformFactorY, null);
 		viewportgr.setTransform(new AffineTransform());
 		viewportgr.setPaint(null);
 		viewportgr.drawImage(MainClass.getLevelManager().getGUI().getUIOverlay(), 0, 0, null);

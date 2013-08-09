@@ -4,7 +4,9 @@
  */
 package javathing;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import javathing.settings.Settings;
 import javax.swing.JApplet;
 
 /**
@@ -14,18 +16,15 @@ import javax.swing.JApplet;
 public class MainApplet extends JApplet {
     
     //private LevelManager levelManager = MainClass.getLevelManager();
-    
+    boolean fristTime = true;
     @Override
     public void paint(Graphics g) {
+        if (fristTime) {
+            fristTime = false;
+            g.setColor(Color.black);
+            g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
+        }
         MainClass.getContainer().paint(g);
-        
-        /*this.addKeyListener(new KeyAdapter() {
-
-            @Override
-            public void keyPressed(KeyEvent ke) {
-            }
-            
-        });*/
         
     }
 }

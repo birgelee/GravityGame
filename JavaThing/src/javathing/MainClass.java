@@ -4,6 +4,7 @@
  */
 package javathing;
 
+import javathing.container.GameContainer;
 import java.awt.Color;
 import javathing.settings.Settings;
 import javathing.level.LevelManager;
@@ -181,11 +182,14 @@ public class MainClass {
      * @param aContainer the container to set
      */
     public static void setContainer(GameContainer aContainer) {
-        
-	if (container != null) {
-	    container.dispose();
-	}
+        if (aContainer == null)
+            return;
+        GameContainer oldContainer = container;
+	
 	container = aContainer;
+        if (oldContainer != null) {
+	    oldContainer.dispose();
+	}
         containerChange = true;
     }
 

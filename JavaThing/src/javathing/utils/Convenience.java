@@ -22,6 +22,7 @@ import javathing.animation.StaticAnimator;
 import javathing.block.AirBlock;
 import javathing.block.Block;
 import javathing.block.DirtBlock;
+import javathing.container.FadeInContainer;
 import javathing.container.LevelContainer;
 import javathing.container.MenuContainer;
 import javathing.level.PauseButton;
@@ -111,9 +112,9 @@ public class Convenience {
             Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
         }
         //menuManager.addMouseListener(new MenuMouseListener());
-        setContainer(new MenuContainer("Game:Menu:Main"));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Main"), 10000));
         MainClass.getMenuManager().activateListeners();
-
+        
 
     }
 
@@ -157,7 +158,7 @@ public class Convenience {
         g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
         setMenuManager(new MenuManager(buttons, MainClass.getLastImage()));
         //menuManager.addMouseListener(new MenuMouseListener());
-        setContainer(new MenuContainer("Game:Menu:Pause"));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Pause"), 1000));
         MainClass.getMenuManager().activateListeners();
     }
 
@@ -202,7 +203,7 @@ public class Convenience {
             }
         }));
         setMenuManager(new MenuManager(buttons, Color.BLACK));
-        setContainer(new MenuContainer("Game:Menu:Death"));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Death"), 1000));
         MainClass.getMenuManager().activateListeners();
     }
 }

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package javathing;
+package javathing.container;
 
 import java.awt.Graphics;
 

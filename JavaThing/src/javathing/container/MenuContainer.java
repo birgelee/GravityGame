@@ -6,7 +6,6 @@ package javathing.container;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import javathing.GameContainer;
 import javathing.MainClass;
 import javathing.settings.Settings;
 
