@@ -4,6 +4,7 @@
  */
 package javathing.menu;
 
+import javathing.menu.button.MenuButton;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;
@@ -49,6 +50,12 @@ public class MenuManager {
         }
         for (MenuButton b : buttons) {
             b.paint(g);
+        }
+    }
+    
+    public void update() {
+        for (MenuButton button : buttons) {
+            button.update();
         }
     }
 

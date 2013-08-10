@@ -4,23 +4,41 @@
  */
 package javathing.level;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import javathing.sprite.Sprite;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javathing.GameObject;
 import javathing.MainClass;
 import javathing.Screen;
 import javathing.render.Paintable;
 import javathing.Updateable;
+import javathing.animation.SinAnimator;
 import javathing.block.Block;
+import javathing.container.FadeInContainer;
+import javathing.container.MenuContainer;
 import javathing.level.gravity.GravitationalFeild;
+import javathing.load.GraphicsLoader;
+import javathing.menu.button.ButtonEvent;
+import javathing.menu.button.MenuButton;
+import javathing.menu.MenuManager;
+import javathing.menu.button.GoToMainMenuButton;
+import javathing.menu.button.RectangleMenuButton;
 import javathing.settings.GameplaySettings;
+import javathing.settings.Settings;
 import javathing.sprite.Player;
+import javathing.statics.Statics;
 import javathing.ui.GUI;
+import javathing.utils.Convenience;
+import javax.imageio.ImageIO;
 
 public class LevelManager {
 
@@ -218,11 +236,13 @@ public class LevelManager {
     }
 
     /**
-     * <<<<<<< HEAD
-     *
      * @return the gravitationalFeild
      */
     public GravitationalFeild getGravitationalFeild() {
         return gravitationalFeild;
+    }
+
+    public void levelUp() {
+        Convenience.initTransitionMenu();
     }
 }

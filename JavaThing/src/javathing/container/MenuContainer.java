@@ -31,6 +31,7 @@ public class MenuContainer implements GameContainer {
 
     @Override
     public void update() {
+        MainClass.getMenuManager().update();
     }
 
     @Override

@@ -19,11 +19,22 @@ public class FadeInContainer implements GameContainer {
 
     private GameContainer container;
     private double duration, currentFrame;
+    private float max, min;
 
-    public FadeInContainer(GameContainer container, double duration) {
+    public FadeInContainer(GameContainer container, double duration, float min, float max) {
         this.container = container;
-        this.duration = duration;
+        this.duration = duration * 1 / (max - min);//the global var is the duration if max = 1 and min = 0.
+        this.max = max;
+        this.min = min;
+        currentFrame = min * this.duration;
 
+    }
+    
+    public FadeInContainer(GameContainer container, double duration) {
+        this(container, duration, 0, .5F);
+    }
+    public FadeInContainer(GameContainer container) {
+        this(container, 5000);
     }
 
     @Override
@@ -43,9 +54,8 @@ public class FadeInContainer implements GameContainer {
 
     @Override
     public void update() {
-        container.update();
         currentFrame++;
-        if (currentFrame > duration) {
+        if ((currentFrame / duration) > max) {
             MainClass.setContainer(container);
         }
     }

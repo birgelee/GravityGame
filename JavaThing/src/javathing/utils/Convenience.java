@@ -26,11 +26,13 @@ import javathing.container.FadeInContainer;
 import javathing.container.LevelContainer;
 import javathing.container.MenuContainer;
 import javathing.level.PauseButton;
+import javathing.load.GraphicsLoader;
 import javathing.load.LevelLoader;
-import javathing.menu.ButtonEvent;
-import javathing.menu.MenuButton;
+import javathing.menu.button.ButtonEvent;
+import javathing.menu.button.MenuButton;
 import javathing.menu.MenuManager;
-import javathing.menu.RectangleMenuButton;
+import javathing.menu.button.GoToMainMenuButton;
+import javathing.menu.button.RectangleMenuButton;
 import javathing.settings.Settings;
 import javathing.statics.Statics;
 import javax.imageio.ImageIO;
@@ -71,7 +73,7 @@ public class Convenience {
         PauseButton pb = new PauseButton();
         MainClass.getLevelManager().getGUI().addComponenet(pb);
         //levelManager.activateListeners();
-        setContainer(new LevelContainer(levelNumber));
+        setContainer(new FadeInContainer(new LevelContainer(levelNumber)));
         MainClass.getLevelManager().activateListeners();
         //levelManager.activateListeners();
     }
@@ -89,7 +91,7 @@ public class Convenience {
         } catch (IOException ex) {
             Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
         }
-        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, new SinAnimator(400, .6F, .8F), "New Game", Color.white, new ButtonEvent() {
+        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "New Game", Color.white, new ButtonEvent() {
             @Override
             public void pressed() {
                 Statics.levelVariables.setLevelNumber(1);
@@ -97,7 +99,7 @@ public class Convenience {
                 setMenuManager(null);
             }
         }));
-        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, new SinAnimator(400, .6F, .8F), "Resume Game", Color.white, new ButtonEvent() {
+        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Resume Game", Color.white, new ButtonEvent() {
             @Override
             public void pressed() {
                 Convenience.initLevel(Statics.levelVariables.getLevelNumber(), "C:\\users\\henry\\desktop\\level\\level" + Statics.levelVariables.getLevelNumber() + ".txt");
@@ -112,7 +114,7 @@ public class Convenience {
             Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
         }
         //menuManager.addMouseListener(new MenuMouseListener());
-        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Main"), 10000));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Main"), 1300));
         MainClass.getMenuManager().activateListeners();
         
 
@@ -143,22 +145,13 @@ public class Convenience {
                 setMenuManager(null);
             }
         }));
-        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, new SinAnimator(500), "Main Menu", Color.white, new ButtonEvent() {
-            @Override
-            public void pressed() {
-                if (MainClass.getMenuManager() != null) {
-                    MainClass.getMenuManager().deactivateListeners();
-                }
-                Convenience.initMainMenu();
-
-            }
-        }));
+        buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, buttonBackground));
         Graphics g = MainClass.getLastImage().createGraphics();
         g.setColor(new Color(0, 0, 0, .6F));
         g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
         setMenuManager(new MenuManager(buttons, MainClass.getLastImage()));
         //menuManager.addMouseListener(new MenuMouseListener());
-        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Pause"), 1000));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Pause")));
         MainClass.getMenuManager().activateListeners();
     }
 
@@ -193,17 +186,46 @@ public class Convenience {
                 setMenuManager(null);
             }
         }));
-        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, new SinAnimator(500), "Main Menu", Color.white, new ButtonEvent() {
-            @Override
-            public void pressed() {
-                if (MainClass.getMenuManager() != null) {
-                    MainClass.getMenuManager().deactivateListeners();
-                }
-                Convenience.initMainMenu();
-            }
-        }));
+        buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, buttonBackground));
         setMenuManager(new MenuManager(buttons, Color.BLACK));
-        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Death"), 1000));
+        setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Death")));
         MainClass.getMenuManager().activateListeners();
+    }
+    
+    public static void initTransitionMenu() {
+        if (MainClass.getContainer().getName().startsWith("Game:Menu:Transition")) {
+            return;
+        }
+        if (MainClass.getMenuManager() != null) {
+            MainClass.getMenuManager().deactivateListeners();
+        }
+        if (Statics.levelVariables.getLevelNumber() < Statics.levelVariables.getMaxLevelNumber()) {
+            List<MenuButton> buttons = new ArrayList<MenuButton>();
+            BufferedImage buttonBackground = GraphicsLoader.getButtonBackground();
+
+            buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Next Level", Color.white, new ButtonEvent() {
+                @Override
+                public void pressed() {
+                    Statics.levelVariables.setLevelNumber(Statics.levelVariables.getLevelNumber() + 1);
+                    Convenience.initLevel(Statics.levelVariables.getLevelNumber(), "C:\\users\\henry\\desktop\\level\\level" + Statics.levelVariables.getLevelNumber() + ".txt");
+                    MainClass.setMenuManager(null);
+                }
+            }));
+
+            buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, buttonBackground));
+
+            MainClass.setMenuManager(new MenuManager(buttons, GraphicsLoader.getNextLevelMenuBackground()));
+            MainClass.getMenuManager().activateListeners();
+            MainClass.setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Transition")));
+        } else {
+
+            List<MenuButton> buttons = new ArrayList<MenuButton>();
+            BufferedImage buttonBackground = GraphicsLoader.getButtonBackground();
+
+            buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, buttonBackground));
+            MainClass.setMenuManager(new MenuManager(buttons, GraphicsLoader.getNextLevelMenuBackground()));
+            MainClass.getMenuManager().activateListeners();
+            MainClass.setContainer(new FadeInContainer(new MenuContainer("Game:Menu:Transition:Final")));
+        }
     }
 }

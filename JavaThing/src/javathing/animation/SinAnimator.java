@@ -16,6 +16,10 @@ public class SinAnimator implements Animator {
     
     float minPercent = 0;
     float maxPercent = 1F;
+    
+    public static SinAnimator getDefualtAnimator() {
+        return new SinAnimator(700, .6F, 1F);
+    }
     public SinAnimator(int frameCount) {
 	this.maxFrame = frameCount;
     }

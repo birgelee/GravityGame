@@ -9,7 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import javathing.input.ButtonMouseListener;
-import javathing.menu.ButtonEvent;
+import javathing.menu.button.ButtonEvent;
 import javathing.render.Paintable;
 import javathing.settings.Settings;
 import javathing.ui.Component;

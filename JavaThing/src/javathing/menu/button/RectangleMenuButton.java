@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package javathing.menu;
+package javathing.menu.button;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -61,7 +61,6 @@ public class RectangleMenuButton extends MenuButton {
 	    g.setColor(backgroundColor);
 	    g.fillRect(position.x, position.y, size.width, size.height);
 	} else {
-	    opacityAnimator.update();//This line mixes update and paint and should be moved to a seperate update method.
 	    float[] scales = {1f, 1f, 1f, (float) opacityAnimator.getPercent()};
 	    float[] offsets = new float[4];
 	    RescaleOp rop = new RescaleOp(scales, offsets, null);
@@ -86,5 +85,12 @@ public class RectangleMenuButton extends MenuButton {
 	    }
 	}
 	return false;
+    }
+
+    @Override
+    public void update() {
+        if (opacityAnimator != null) {
+            opacityAnimator.update();
+        }
     }
 }
