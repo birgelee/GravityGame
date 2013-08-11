@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javathing.settings.GameplaySettings;
 import javathing.sprite.BlockSide;
-import javathing.sprite.Player;
 import javathing.sprite.Sprite;
 
 /**

@@ -16,7 +16,7 @@ import java.io.InputStream;
 public class LoadingUtils {
 
     static String fileReader(String filePath) throws FileNotFoundException {
-	InputStream fsStream = new FileInputStream(filePath);
+	InputStream fsStream = LoadingUtils.class.getClassLoader().getResourceAsStream(filePath);
 	StringBuilder output = new StringBuilder();
 
 	while (true) {

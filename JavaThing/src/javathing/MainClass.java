@@ -53,7 +53,7 @@ public class MainClass {
 	 * screen
 	 * 
 	 */
-	MetadataLoader mdl = new MetadataLoader("C:\\users\\henry\\desktop\\level\\levelmd.txt");
+	MetadataLoader mdl = new MetadataLoader("javathing/resources/level/levelmd.txt");
 	Statics.levelVariables.setMaxLevelNumber(mdl.getAsInt("maxlevel"));
 	
 	frame = new JFrame();
