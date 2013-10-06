@@ -15,4 +15,6 @@ public class Settings {
         public static final int TILE_SIZE = 30;
         public static final int ZoneSize = 4;
         public static final int[] PAUSE_BUTTON_LOCATION = {SCREEN_WIDTH - 40, 20};
+        public static final String LEVEL_MAP_LOCATION = "javathing/resources/level/level:.map";
+        public static final String LEVEL_POPULATION_LOCATION = "javathing/resources/level/level:.population";
 }

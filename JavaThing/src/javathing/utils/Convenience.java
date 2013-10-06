@@ -63,11 +63,11 @@ public class Convenience {
         lm.addBlock(block);
     }
 
-    public static void initLevel(int levelNumber, String levelPath) {
+    public static void initLevel(int levelNumber, String levelPath, String populationPath) {
         try {
-            LevelLoader loader = new LevelLoader(levelPath);
+            LevelLoader loader = new LevelLoader(levelPath, populationPath);
             MainClass.setLevelManager(loader.getLevelManager());
-        } catch (FileNotFoundException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         PauseButton pb = new PauseButton();
@@ -95,14 +95,14 @@ public class Convenience {
             @Override
             public void pressed() {
                 Statics.levelVariables.setLevelNumber(1);
-                Convenience.initLevel(1, "javathing/resources/level/level1.txt");
+                Convenience.initLevel(1, Settings.LEVEL_MAP_LOCATION.replace(":", ""+1), Settings.LEVEL_POPULATION_LOCATION.replace(":", ""+1));
                 setMenuManager(null);
             }
         }));
         buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Resume Game", Color.white, new ButtonEvent() {
             @Override
             public void pressed() {
-                Convenience.initLevel(Statics.levelVariables.getLevelNumber(), "javathing/resources/level/level" + Statics.levelVariables.getLevelNumber() + ".txt");
+                Convenience.initLevel(Statics.levelVariables.getLevelNumber(), Settings.LEVEL_MAP_LOCATION.replace(":", "" + Statics.levelVariables.getLevelNumber()), Settings.LEVEL_POPULATION_LOCATION.replace(":", ""+Statics.levelVariables.getLevelNumber()));
                 setMenuManager(null);
             }
         }));
@@ -185,7 +185,7 @@ public class Convenience {
                 MainClass.getMenuManager().deactivateListeners();
                 MainClass.getLevelManager().activateListeners();
 
-                initLevel(Statics.levelVariables.getLevelNumber(), "C:\\users\\henry\\desktop\\level\\level" + Statics.levelVariables.getLevelNumber() + ".txt");
+                initLevel(Statics.levelVariables.getLevelNumber(), Settings.LEVEL_MAP_LOCATION.replace(":", ""+ Statics.levelVariables.getLevelNumber()), Settings.LEVEL_POPULATION_LOCATION.replace(":", ""+Statics.levelVariables.getLevelNumber()));
                 setMenuManager(null);
             }
         }));
@@ -210,7 +210,7 @@ public class Convenience {
                 @Override
                 public void pressed() {
                     Statics.levelVariables.setLevelNumber(Statics.levelVariables.getLevelNumber() + 1);
-                    Convenience.initLevel(Statics.levelVariables.getLevelNumber(), "C:\\users\\henry\\desktop\\level\\level" + Statics.levelVariables.getLevelNumber() + ".txt");
+                    Convenience.initLevel(Statics.levelVariables.getLevelNumber(), Settings.LEVEL_MAP_LOCATION.replace(":", "" + Statics.levelVariables.getLevelNumber()), Settings.LEVEL_POPULATION_LOCATION.replace(":", ""+Statics.levelVariables.getLevelNumber()));
                     MainClass.setMenuManager(null);
                 }
             }));

@@ -8,3 +8,4 @@
 8. Add turrent enemy.
 9. Add gravity enemy.
 10. Add gravity feild.
+11. Fix level end null pointer exceptions.

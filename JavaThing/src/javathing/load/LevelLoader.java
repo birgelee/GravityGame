@@ -7,6 +7,7 @@ package javathing.load;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,16 +34,17 @@ public class LevelLoader {
 
     private LevelManager levelManager;
 
-    public LevelLoader(String filePath) throws FileNotFoundException {
-	String fileString = LoadingUtils.fileReader(filePath);
+    public LevelLoader(String levelPath, String populationPath) throws FileNotFoundException, IOException {
+	String fileString = LoadingUtils.fileReader(levelPath);
 	int yDimention = fileString.replaceAll("[^\n]", "").length() + 1;
 	//int yDimention = fileString.split("\n").length;
 	int xDimention = fileString.indexOf("\n");
 	//int startingChar = fileString.indexOf("#");
 	List<GravitySource> gs = new ArrayList();
 	GravitationalFeild gf = new GravitationalFeild(gs, GameplaySettings.ACCELERATION_DUE_TO_GRAVITY);
-	levelManager = new LevelManager(new TileMap(xDimention, yDimention), new ArrayList(), new ArrayList(), new Point(0, 0), new Player(0, 0), gf);
+	levelManager = new LevelManager(new TileMap(xDimention, yDimention), new Population(), new Point(0, 0), new Player(0, 0), gf);
 	char[] chars = fileString.toLowerCase().toCharArray();
+        TokenResolver tokenResolver = new TokenResolver();
 	int x = 0;
 	int y = 0;
 	for (int i = 0; i < chars.length; i++) {
@@ -87,20 +89,18 @@ public class LevelLoader {
 		case 'v':
 		    levelManager.addBlock(new Spike(x, y));
 		    x++;
+                default:
+                    tokenResolver.addToken(chars[i] + "", x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
 	    }
 
 	}
-
-
-
-                    
-            
-            
+        PopulationLoader poploader = new PopulationLoader(populationPath);
+        try {
+        levelManager.setPopulation(poploader.getPopulation(tokenResolver));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
-	LinkedList<Point2D.Double> tempList = new LinkedList<Point2D.Double>();
-        tempList.add(new Point2D.Double(10, 10));
-        tempList.add(new Point2D.Double(500, 10));
-	levelManager.addSprite(new Vilin(20, 20, .1, tempList));
     }
 
     public LevelManager getLevelManager() {

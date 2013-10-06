@@ -6,7 +6,10 @@ package javathing.sprite;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import javathing.load.PopulationLoader;
+import javathing.load.TokenResolver;
 
 /**
  *
@@ -15,14 +18,25 @@ import java.util.LinkedList;
 public class Vilin extends Sprite {
 
     LinkedList<Point2D.Double> path;
+    ArrayList<Point2D.Double> loop;
     private double speed;
+    private int loopPoint;
 
-    public Vilin(double x, double y, double speed, LinkedList<Point2D.Double> path) {
+    public Vilin(double x, double y, double speed, LinkedList<Point2D.Double> path, ArrayList<Point2D.Double> loop) {
 
         super(x, y, 30, 30);
         this.spriteColor = Color.white;
         this.speed = speed;
         this.path = path;
+        this.loop = loop;
+    }
+    
+    public static Vilin getFromArgs(String args, TokenResolver tokenResolver) throws Exception {
+        Object[] objArgs = PopulationLoader.getObjectsFromParams(args, tokenResolver);
+        double x = (Double) objArgs[0];
+        double y = (Double) objArgs[1];
+        double speed = (Double) objArgs[2];
+        return new Vilin(x,y,speed, new LinkedList<Point2D.Double>(), new ArrayList<Point2D.Double>());
     }
 
     @Override
@@ -35,23 +49,39 @@ public class Vilin extends Sprite {
     @Override
     public void update() {
         super.update();
-        if (path.size() != 0) {
+        if (!path.isEmpty()) {
             if (this.getPosition().distance(path.getFirst()) < 2) {
                 this.x = path.getFirst().x;
                 this.y = path.getFirst().y;
                 path.pop();
             } else {
-                Point2D.Double motionVector = (Point2D.Double) path.getFirst().clone();
-                motionVector.x -= this.getX();
-                motionVector.y -= this.getY();
-                double scalingFactor = speed / (new Point2D.Double()).distance(motionVector);
-                double deltax = motionVector.x * scalingFactor;
-                double deltay = motionVector.y * scalingFactor;
-                this.x += deltax;
-                this.y += deltay;
+                moveTo(path.getFirst());
 
+            }
+        } else if (!loop.isEmpty()) {
+            if (this.getPosition().distance(loop.get(loopPoint)) < 2) {
+                this.x = loop.get(loopPoint).x;
+                this.y = loop.get(loopPoint).y;
+                if (loopPoint + 1 < loop.size()) {
+                    loopPoint++;
+                } else {
+                    loopPoint = 0;
+                }
+            } else {
+                moveTo(loop.get(loopPoint));
             }
         }
 
+    }
+
+    private void moveTo(Point2D.Double location) {
+        Point2D.Double motionVector = (Point2D.Double) location.clone();
+        motionVector.x -= this.getX();
+        motionVector.y -= this.getY();
+        double scalingFactor = speed / (new Point2D.Double()).distance(motionVector);
+        double deltax = motionVector.x * scalingFactor;
+        double deltay = motionVector.y * scalingFactor;
+        this.x += deltax;
+        this.y += deltay;
     }
 }

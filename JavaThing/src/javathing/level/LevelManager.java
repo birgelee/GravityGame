@@ -18,6 +18,7 @@ import javathing.render.Paintable;
 import javathing.Updateable;
 import javathing.block.Block;
 import javathing.level.gravity.GravitationalFeild;
+import javathing.load.Population;
 import javathing.settings.GameplaySettings;
 import javathing.sprite.Player;
 import javathing.ui.GUI;
@@ -25,20 +26,16 @@ import javathing.utils.Convenience;
 
 public class LevelManager {
 
-    private List<Updateable> updateables;
-    private List<Paintable>[] paintables;
-    private List<Sprite> sprites;
     private Point startingPosition;
     private TileMap tileMap;
     private Player player;
     private Screen screen;
     private GravitationalFeild gravitationalFeild;
     private GUI gui;
+    private Population population;
 
-    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, List<Paintable>[] paintales, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
-        this.updateables = updateables;
-        this.paintables = paintales;
-        this.sprites = sprites;
+    public LevelManager(TileMap tileMap, Population population, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
+        this.population = population;
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
         this.player = player;
@@ -55,10 +52,10 @@ public class LevelManager {
         } else {
             this.gravitationalFeild = gravitationalFeild;
         }
-        updateables.add(new SpriteInteractionManager());
+        population.getUpdateables().add(new SpriteInteractionManager());
         gui = new GUI();
     }
-
+    
     public double[] getGravity(double x, double y) {
 
         return getGravitationalFeild().getGravity(x, y);
@@ -68,11 +65,8 @@ public class LevelManager {
         this.gravitationalFeild = feild;
     }
 
-    public LevelManager(TileMap tileMap, List<Sprite> sprites, List<Updateable> updateables, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
-        this(tileMap, sprites, updateables, getEmptyPaintables(), startingPosition, player, gravitationalFeild);
-    }
 
-    private static List<Paintable>[] getEmptyPaintables() {
+    public static List<Paintable>[] getEmptyPaintables() {
         List<Paintable>[] paintablesReturn = new List[5];
         for (int i = 0; i < paintablesReturn.length; i++) {
             paintablesReturn[i] = new ArrayList();
@@ -82,14 +76,14 @@ public class LevelManager {
     }
 
     public List<Updateable> getUpdateables() {
-        return updateables;
+        return population.getUpdateables();
     }
 
     /**
      * @return the paintables
      */
     public List<Paintable>[] getPaintables() {
-        return paintables;
+        return population.getPaintables();
     }
 
     public TileMap getTileMap() {
@@ -117,22 +111,16 @@ public class LevelManager {
     }
 
     public void addSprite(Sprite sprite) {
-        getSprites().add(sprite);
-        addGameObject(sprite);
+        population.addSprite(sprite);
     }
 
     public void addBlock(Block block) {
         addGameObject(block);
         getTileMap().addBlock(block);
     }
-
-    /**
-     * @return the sprites
-     */
     public List<Sprite> getSprites() {
-        return sprites;
+        return  population.getSprites();
     }
-
     /**
      * @return the startingPosition
      */
@@ -227,5 +215,19 @@ public class LevelManager {
 
     public void levelUp() {
         Convenience.initTransitionMenu();
+    }
+
+    /**
+     * @return the population
+     */
+    public Population getPopulation() {
+        return population;
+    }
+
+    /**
+     * @param population the population to set
+     */
+    public void setPopulation(Population population) {
+        this.population = population;
     }
 }
