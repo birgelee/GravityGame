@@ -58,6 +58,8 @@ public class LevelLoader {
 		    Convenience.addDirtBlock(levelManager, x, y);
 		    x++;
 		    break;
+                case '\r':
+                    break;
 		case '\n':
 		    y++;
 		    x = 0;
@@ -90,13 +92,15 @@ public class LevelLoader {
 		    levelManager.addBlock(new Spike(x, y));
 		    x++;
                 default:
-                    tokenResolver.addToken(chars[i] + "", x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
+                    Convenience.addAirBlock(levelManager, x, y);
+                    tokenResolver.addToken(Character.toString(chars[i]), x * Settings.TILE_SIZE, y * Settings.TILE_SIZE);
+                    x++;
 	    }
 
 	}
         PopulationLoader poploader = new PopulationLoader(populationPath);
         try {
-        levelManager.setPopulation(poploader.getPopulation(tokenResolver));
+        levelManager.getPopulation().merge(poploader.getPopulation(tokenResolver));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

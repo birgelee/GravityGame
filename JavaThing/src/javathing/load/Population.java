@@ -93,4 +93,27 @@ public class Population {
     public List<Sprite> getSprites() {
         return sprites;
     }
+    
+    public Population copyMerge(Population population) {
+        Population p = new Population();
+        p.merge(population);
+        return p;
+    }
+    
+    public void merge(Population population) {
+        for (Updateable updateable : population.getUpdateables()) {
+            this.getUpdateables().add(updateable);
+        }
+        
+        for (Sprite sprite : population.getSprites()) {
+            this.getSprites().add(sprite);
+        }
+        
+        for (int i = 0; i < getPaintables().length; i++) {
+            for (Paintable paintable : population.getPaintables()[i]) {
+                getPaintables()[i].add(paintable);
+            }
+            
+        }
+    }
 }

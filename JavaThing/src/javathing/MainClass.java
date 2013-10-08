@@ -118,24 +118,6 @@ public class MainClass {
 
     }
     
-    public static void initMenu() {
-	List<MenuButton> buttons = new ArrayList<MenuButton>();
-	buttons.add(new RectangleMenuButton(20, 20, 100, 50, Color.red, "Start Game", new ButtonEvent() {
-
-	    @Override
-	    public void pressed() {
-		Statics.levelVariables.setLevelNumber(1);
-		Convenience.initLevel(1, "C:\\users\\henry\\desktop\\level\\level1.txt");
-		setMenuManager(null);
-	    }
-	    
-	}));
-	setMenuManager(new MenuManager(buttons, Color.BLACK));
-	//menuManager.addMouseListener(new MenuMouseListener());
-	setContainer(new MenuContainer("Game:Menu:Main"));
-        
-	
-    }
 
     /**
      * @return the levelManager

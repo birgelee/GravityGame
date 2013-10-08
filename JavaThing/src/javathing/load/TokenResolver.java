@@ -29,14 +29,14 @@ public class TokenResolver {
             tokens.get(token).add(new Double[]{x, y});
         }
     }
-    
+
     public Double[] resolveToken(String tokenString) throws Exception {
-        if (tokenString.indexOf(":") == -1) {
-            return tokens.get(tokenString).get(0);
-        }
-        String token = tokenString.split(":")[0];
-        String index = tokenString.split(":")[1];
         try {
+            if (tokenString.indexOf(":") == -1) {
+                return tokens.get(tokenString).get(0);
+            }
+            String token = tokenString.split(":")[0];
+            String index = tokenString.split(":")[1];
             return tokens.get(token).get(Integer.parseInt(index));
         } catch (Exception ex) {
             throw new Exception("Malformated Token.  From String: " + tokenString);

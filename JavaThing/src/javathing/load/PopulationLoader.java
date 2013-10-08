@@ -46,7 +46,7 @@ public class PopulationLoader {
             
             
             if (term.equals("Vilin")) {
-                population.addSprite(Vilin.getFromArgs(args, null));
+                population.addSprite(Vilin.getFromArgs(args, tokenResolver));
             }
         }
         return population;
@@ -59,6 +59,22 @@ public class PopulationLoader {
         this.population = population;
     }
     
+     public static double extrapolateToDouble(Object object) throws Exception {
+         return extrapolateToDouble(object, 0);
+        
+    }
+    public static double extrapolateToDouble(Object object, int index) throws Exception {
+        if (object instanceof Integer) {
+            return (Integer) object;
+        }
+        if (object instanceof Double) {
+            return (Double) object;
+        }
+        if (object.getClass().isArray()) {
+            return extrapolateToDouble(((Object[]) object)[index]);
+        }
+        throw new Exception("No double could be extrapalated from the data.");
+    }
     public static Object[] getObjectsFromParams(String params, TokenResolver tokenResolver) throws Exception {
         String[] objectReps = params.split(",");
         Object[] result = new Object[objectReps.length];
@@ -75,6 +91,10 @@ public class PopulationLoader {
                         try {
                             result[i] = getObjectsFromParams(objectReps[i].substring(objectReps[i].indexOf("{") + 1, objectReps[i].lastIndexOf("}")), tokenResolver);
                         } catch (Exception e3) {
+                            System.err.println("error as int: " + rex);
+                            System.err.println("error as double: " + e1);
+                            System.err.println("error as token: " + e2);
+                            System.err.println("error as array literal: " + e3);
                             throw new Exception("Could not parse object rep: " + objectReps[i] + " as an int, double, token, or obj array.");
                         }
                         
@@ -83,6 +103,6 @@ public class PopulationLoader {
                 
             }
         }
-        return objectReps;
+        return result;
     }
 }
