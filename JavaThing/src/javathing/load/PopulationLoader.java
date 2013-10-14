@@ -4,6 +4,7 @@
  */
 package javathing.load;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +60,20 @@ public class PopulationLoader {
         this.population = population;
     }
     
+    public static List<Point2D.Double> doubleArrayToPointList(Object doubles) {
+        List<Point2D.Double> result = new ArrayList<Point2D.Double>();
+        Object[] fristArray = (Object[]) doubles;
+        try {
+        for (int i1 = 0; i1 < fristArray.length; i1++) {
+            Object[] secondArray = ((Object[]) fristArray[i1]);
+            result.add(new Point2D.Double((Double) secondArray[0], (Double) secondArray[1]));
+        }
+        } catch (Exception ex) {
+            
+        }
+        return result;
+    }
+    
      public static double extrapolateToDouble(Object object) throws Exception {
          return extrapolateToDouble(object, 0);
         
@@ -76,33 +91,8 @@ public class PopulationLoader {
         throw new Exception("No double could be extrapalated from the data.");
     }
     public static Object[] getObjectsFromParams(String params, TokenResolver tokenResolver) throws Exception {
-        String[] objectReps = params.split(",");
-        Object[] result = new Object[objectReps.length];
-        for (int i = 0; i < result.length; i++) {
-            try {
-                result[i] = Integer.parseInt(objectReps[i]);
-            } catch (RuntimeException rex) {
-                try {
-                    result[i] = Double.parseDouble(objectReps[i]);
-                } catch (Exception e1) {
-                    try {
-                        result[i] = tokenResolver.resolveToken(objectReps[i]);
-                    } catch (Exception e2) {
-                        try {
-                            result[i] = getObjectsFromParams(objectReps[i].substring(objectReps[i].indexOf("{") + 1, objectReps[i].lastIndexOf("}")), tokenResolver);
-                        } catch (Exception e3) {
-                            System.err.println("error as int: " + rex);
-                            System.err.println("error as double: " + e1);
-                            System.err.println("error as token: " + e2);
-                            System.err.println("error as array literal: " + e3);
-                            throw new Exception("Could not parse object rep: " + objectReps[i] + " as an int, double, token, or obj array.");
-                        }
-                        
-                    }
-                }
-                
-            }
-        }
+        ObjectParser op = new ObjectParser(params, tokenResolver);
+        Object[] result = op.parse();
         return result;
     }
 }

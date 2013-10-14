@@ -1,0 +1,7 @@
+Documentation format:
+Stuff in greaterthan and lessthan signs can be read and interpreted logically.
+"..." is when you can have a list of iindefinate size.
+Everything else is interpreted literally.
+Whenever something takes two coridinates, x and y, they are given in list form so they only take one arg.
+
+Vilin:  Vilin({<x cordinate>,<y cordinate>},<speed>,{<path as a list of lists of x and y cordinates>},{loop as a list of lists of x and y cordinates}

@@ -33,11 +33,14 @@ public class Vilin extends Sprite {
     
     public static Vilin getFromArgs(String args, TokenResolver tokenResolver) throws Exception {
         Object[] objArgs = PopulationLoader.getObjectsFromParams(args, tokenResolver);
-        double x = PopulationLoader.extrapolateToDouble(objArgs[0], 0);
-        double y = PopulationLoader.extrapolateToDouble(objArgs[1], 1);
+        double x = ((Double[]) objArgs[0])[0], y = ((Double[]) objArgs[0])[1];
         double speed = PopulationLoader.extrapolateToDouble(objArgs[2]);
-        return new Vilin(x,y,speed, new LinkedList<Point2D.Double>(), new ArrayList<Point2D.Double>());
+        LinkedList<Point2D.Double> path = new LinkedList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[3]));
+        ArrayList<Point2D.Double> loop = new ArrayList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[4]));
+        return new Vilin(x,y,speed, path, loop);
     }
+    
+    
 
     @Override
     public void onContact(Sprite interactor) {
