@@ -4,7 +4,6 @@
  */
 package javathing.load;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javathing.Updateable;
@@ -31,6 +30,12 @@ public class Population {
         getUpdateables().add(sprite);
         getPaintables()[2].add(sprite);
         getSprites().add(sprite);
+    }
+    
+    public void removeSprite(Sprite sprite) {
+        getUpdateables().remove(sprite);
+        getPaintables()[2].remove(sprite);
+        getSprites().remove(sprite);
     }
 
     /**

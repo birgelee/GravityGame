@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javathing.level.gravity.GravityZone;
+import javathing.sprite.Turret;
 import javathing.sprite.Vilin;
 
 /**
@@ -39,9 +40,11 @@ public class PopulationLoader {
     public Population getPopulation(TokenResolver tokenResolver) throws Exception {
         population = new Population();
         for (String line : lines) {
+            if (line.isEmpty())
+                continue;
             int openIndex = line.indexOf("(");
             if (openIndex == -1) {
-                throw new Exception("Mal formated metadata");
+                throw new Exception("Malformated metadata");
             }
             String term = line.substring(0, openIndex);
             String args = line.substring(openIndex + 1, line.lastIndexOf(")"));
@@ -51,6 +54,8 @@ public class PopulationLoader {
                 population.addSprite(Vilin.getFromArgs(args, tokenResolver));
             } else if (term.equals("GravityZone")) {
                 population.getGravitationalFeild().getGravitySources().add(GravityZone.getFromArgs(args, tokenResolver));
+            } else if (term.equals("Turret")) {
+                population.addSprite(Turret.getFromArgs(args, tokenResolver));
             }
         }
         return population;

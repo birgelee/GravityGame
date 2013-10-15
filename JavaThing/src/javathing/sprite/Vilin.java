@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import javathing.MainClass;
 import javathing.load.PopulationLoader;
 import javathing.load.TokenResolver;
 
@@ -15,7 +16,7 @@ import javathing.load.TokenResolver;
  *
  * @author Henry
  */
-public class Vilin extends Sprite {
+public class Vilin extends Sprite implements Shootable {
 
     LinkedList<Point2D.Double> path;
     ArrayList<Point2D.Double> loop;
@@ -25,7 +26,7 @@ public class Vilin extends Sprite {
     public Vilin(double x, double y, double speed, LinkedList<Point2D.Double> path, ArrayList<Point2D.Double> loop) {
 
         super(x, y, 30, 30);
-        this.spriteColor = Color.white;
+        this.setSpriteImageFromResourceLocation("javathing/resources/graphics/sprite/villin.png");
         this.speed = speed;
         this.path = path;
         this.loop = loop;
@@ -86,5 +87,11 @@ public class Vilin extends Sprite {
         double deltay = motionVector.y * scalingFactor;
         this.x += deltax;
         this.y += deltay;
+    }
+
+    @Override
+    public void shot(Bullet bullet) {
+        MainClass.getLevelManager().removeSprite(this);
+        bullet.distroy();
     }
 }

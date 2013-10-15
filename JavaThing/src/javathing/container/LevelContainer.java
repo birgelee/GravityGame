@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import javathing.MainClass;
 import javathing.Updateable;
@@ -56,7 +57,8 @@ public class LevelContainer implements GameContainer {
 
 	    @Override
 	    public void update() {
-		for (Updateable updateable : MainClass.getLevelManager().getUpdateables()) {
+                List<Updateable> frozenUpdateables = new ArrayList<Updateable>(MainClass.getLevelManager().getUpdateables());
+		for (Updateable updateable : frozenUpdateables) {
 		    updateable.update();
 		}
 	    }

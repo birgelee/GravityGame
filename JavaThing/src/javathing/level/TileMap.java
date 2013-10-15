@@ -65,6 +65,16 @@ public class TileMap {
         return blocks[xTilePosition][yTilePosition];
     }
     
+    public boolean isInTileGrid(double x, double y) {
+        if (x < 0 || y < 0)
+            return false;
+        int tileX = getTileLocation(x) + 1, tileY = getTileLocation(y) + 1;
+        if (tileX >= xDimention || tileY >= yDimention) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

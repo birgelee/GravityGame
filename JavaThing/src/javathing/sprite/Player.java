@@ -23,7 +23,7 @@ import javathing.utils.MathUtils;
  *
  * @author lausd_user
  */
-public class Player extends Sprite {
+public class Player extends Sprite implements Shootable {
 
     private double matter = 1;
     private double mass = 1;
@@ -361,5 +361,10 @@ public class Player extends Sprite {
      */
     public PlayerKeyListener getKeyListener() {
 	return keyListener;
+    }
+
+    @Override
+    public void shot(Bullet bullet) {
+        kill();
     }
 }

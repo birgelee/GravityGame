@@ -9,12 +9,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javathing.GameObject;
 import javathing.MainClass;
 import javathing.level.TileMap;
 import javathing.render.PlatformerGraphicsUtil;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -71,8 +73,9 @@ public abstract class Sprite extends GameObject {
     public void update() {
         int tileX = TileMap.getTileLocation(getX());
         int tileY = TileMap.getTileLocation(getY());
+        
         MainClass.getLevelManager().getTileMap().getBlock(tileX, tileY).whenInside(this);
-
+        
         if (!(tileX == TileMap.getTileLocation(x + width) && tileY == TileMap.getTileLocation(y + height))) {
             MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + getWidth()), TileMap.getTileLocation(getY() + getHeight())).whenInside(this);
         }
@@ -183,5 +186,13 @@ public abstract class Sprite extends GameObject {
      */
     public void setSpriteImage(Image spriteImage) {
         this.spriteImage = spriteImage;
+    }
+    
+    public void setSpriteImageFromResourceLocation(String resourceLocation) {
+        try {
+            setSpriteImage(ImageIO.read(this.getClass().getClassLoader().getResourceAsStream(resourceLocation)));
+        } catch (IOException ex) {
+            Logger.getLogger(Sprite.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

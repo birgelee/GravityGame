@@ -19,7 +19,6 @@ import javathing.Updateable;
 import javathing.block.Block;
 import javathing.level.gravity.GravitationalFeild;
 import javathing.load.Population;
-import javathing.settings.GameplaySettings;
 import javathing.sprite.Player;
 import javathing.ui.GUI;
 import javathing.utils.Convenience;
@@ -105,6 +104,10 @@ public class LevelManager {
 
     public void addSprite(Sprite sprite) {
         population.addSprite(sprite);
+    }
+    
+    public void removeSprite(Sprite sprite) {
+        population.removeSprite(sprite);
     }
 
     public void addBlock(Block block) {
