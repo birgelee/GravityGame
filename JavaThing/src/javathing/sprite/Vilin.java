@@ -34,9 +34,9 @@ public class Vilin extends Sprite {
     public static Vilin getFromArgs(String args, TokenResolver tokenResolver) throws Exception {
         Object[] objArgs = PopulationLoader.getObjectsFromParams(args, tokenResolver);
         double x = ((Double[]) objArgs[0])[0], y = ((Double[]) objArgs[0])[1];
-        double speed = PopulationLoader.extrapolateToDouble(objArgs[2]);
-        LinkedList<Point2D.Double> path = new LinkedList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[3]));
-        ArrayList<Point2D.Double> loop = new ArrayList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[4]));
+        double speed = PopulationLoader.extrapolateToDouble(objArgs[1]);
+        LinkedList<Point2D.Double> path = new LinkedList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[2]));
+        ArrayList<Point2D.Double> loop = new ArrayList<Point2D.Double>(PopulationLoader.doubleArrayToPointList(objArgs[3]));
         return new Vilin(x,y,speed, path, loop);
     }
     

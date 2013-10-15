@@ -30,11 +30,10 @@ public class LevelManager {
     private TileMap tileMap;
     private Player player;
     private Screen screen;
-    private GravitationalFeild gravitationalFeild;
     private GUI gui;
     private Population population;
 
-    public LevelManager(TileMap tileMap, Population population, Point startingPosition, Player player, GravitationalFeild gravitationalFeild) {
+    public LevelManager(TileMap tileMap, Population population, Point startingPosition, Player player) {
         this.population = population;
         this.startingPosition = startingPosition;
         this.tileMap = tileMap;
@@ -46,12 +45,6 @@ public class LevelManager {
         this.screen = new Screen(startingPosition.x - 20, startingPosition.y - 20);
         this.addKeyListener(screen.getKeyListener());
         this.addUpdateable(screen);
-        if (gravitationalFeild == null) {
-            double[] temp = GameplaySettings.ACCELERATION_DUE_TO_GRAVITY;
-            this.gravitationalFeild = new GravitationalFeild(new ArrayList(), temp);
-        } else {
-            this.gravitationalFeild = gravitationalFeild;
-        }
         population.getUpdateables().add(new SpriteInteractionManager());
         gui = new GUI();
     }
@@ -62,7 +55,7 @@ public class LevelManager {
     }
 
     public void setGravitationalFeild(GravitationalFeild feild) {
-        this.gravitationalFeild = feild;
+        population.setGravitationalFeild(feild);
     }
 
 
@@ -210,7 +203,7 @@ public class LevelManager {
      * @return the gravitationalFeild
      */
     public GravitationalFeild getGravitationalFeild() {
-        return gravitationalFeild;
+        return population.getGravitationalFeild();
     }
 
     public void levelUp() {

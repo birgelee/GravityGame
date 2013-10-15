@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javathing.Updateable;
 import javathing.level.LevelManager;
+import javathing.level.gravity.GravitationalFeild;
 import javathing.level.gravity.GravitySource;
 import javathing.render.Paintable;
 import javathing.sprite.Sprite;
@@ -20,7 +21,7 @@ import javathing.sprite.Sprite;
 public class Population {
     private List<Updateable> updateables = new ArrayList<Updateable>();
     private List<Paintable>[] paintables = LevelManager.getEmptyPaintables();
-    private List<GravitySource> gravitySources = new ArrayList<GravitySource>();
+    private GravitationalFeild gravitationalFeild = new GravitationalFeild(new ArrayList<GravitySource>(), new double[] {0,0});
     private List<Sprite> sprites = new ArrayList<Sprite>();
     
     /**
@@ -48,15 +49,15 @@ public class Population {
     /**
      * @return the gravitySources
      */
-    public List<GravitySource> getGravitySources() {
-        return gravitySources;
+    public GravitationalFeild getGravitationalFeild() {
+        return gravitationalFeild;
     }
 
     /**
      * @param gravitySources the gravitySources to set
      */
-    public void setGravitySources(List<GravitySource> gravitySources) {
-        this.gravitySources = gravitySources;
+    public void setGravitationalFeild(GravitationalFeild gravitationalFeild) {
+        this.gravitationalFeild = gravitationalFeild;
     }
 
     /**
@@ -101,6 +102,9 @@ public class Population {
     }
     
     public void merge(Population population) {
+        for (GravitySource gs : population.getGravitationalFeild().getGravitySources()) {
+            this.getGravitationalFeild().getGravitySources().add(gs);
+        }
         for (Updateable updateable : population.getUpdateables()) {
             this.getUpdateables().add(updateable);
         }

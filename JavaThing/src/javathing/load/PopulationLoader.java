@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javathing.level.gravity.GravityZone;
 import javathing.sprite.Vilin;
 
 /**
@@ -48,6 +49,8 @@ public class PopulationLoader {
             
             if (term.equals("Vilin")) {
                 population.addSprite(Vilin.getFromArgs(args, tokenResolver));
+            } else if (term.equals("GravityZone")) {
+                population.getGravitationalFeild().getGravitySources().add(GravityZone.getFromArgs(args, tokenResolver));
             }
         }
         return population;
@@ -74,9 +77,16 @@ public class PopulationLoader {
         return result;
     }
     
+     public static double[] getPrimativeDoubleArryFromObjArry(Object[] objects) throws Exception {
+         double[] result = new double[objects.length];
+         for (int i = 0; i < objects.length; i++) {
+             result[i] = extrapolateToDouble(objects[i]);
+             
+         }
+         return result;
+     }
      public static double extrapolateToDouble(Object object) throws Exception {
          return extrapolateToDouble(object, 0);
-        
     }
     public static double extrapolateToDouble(Object object, int index) throws Exception {
         if (object instanceof Integer) {

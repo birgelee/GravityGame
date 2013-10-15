@@ -5,11 +5,9 @@
 package javathing.load;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import javathing.block.Accelerator;
 import javathing.level.LevelManager;
@@ -23,7 +21,6 @@ import javathing.level.gravity.GravitySource;
 import javathing.level.gravity.PointMass;
 import javathing.settings.GameplaySettings;
 import javathing.sprite.Player;
-import javathing.sprite.Vilin;
 import javathing.utils.Convenience;
 
 /**
@@ -40,9 +37,7 @@ public class LevelLoader {
 	//int yDimention = fileString.split("\n").length;
 	int xDimention = fileString.indexOf("\n");
 	//int startingChar = fileString.indexOf("#");
-	List<GravitySource> gs = new ArrayList();
-	GravitationalFeild gf = new GravitationalFeild(gs, GameplaySettings.ACCELERATION_DUE_TO_GRAVITY);
-	levelManager = new LevelManager(new TileMap(xDimention, yDimention), new Population(), new Point(0, 0), new Player(0, 0), gf);
+	levelManager = new LevelManager(new TileMap(xDimention, yDimention), new Population(), new Point(0, 0), new Player(0, 0));
 	char[] chars = fileString.toLowerCase().toCharArray();
         TokenResolver tokenResolver = new TokenResolver();
 	int x = 0;

@@ -1,1 +1,2 @@
-Vilin(a,{c},{a,b})
+Vilin(a,1,{c},{a,b})
+GravityZone(c,c:1,{0,-.001})
