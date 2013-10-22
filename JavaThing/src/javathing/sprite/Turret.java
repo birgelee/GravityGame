@@ -22,14 +22,15 @@ public class Turret extends Sprite {
     private int cooldown;
     private int currentTick = 0;
     private static final double size = 30;
-    public Turret(int x, int y, int cooldown) {
-        this(Settings.TILE_SIZE * x + ((Settings.TILE_SIZE - size) / 2 ), Settings.TILE_SIZE * y + ((Settings.TILE_SIZE - size) / 2 ), cooldown);
+    public Turret(int x, int y, int cooldown, int strtingTick) {
+        this(Settings.TILE_SIZE * x + ((Settings.TILE_SIZE - size) / 2 ), Settings.TILE_SIZE * y + ((Settings.TILE_SIZE - size) / 2 ), cooldown, strtingTick);
     }
-    public Turret(double x, double y, int cooldown) {
+    public Turret(double x, double y, int cooldown, int startingTick) {
         super(x, y, size, size);
         this.setSpriteImage(spriteImage);
         this.setSpriteImageFromResourceLocation("javathing/resources/graphics/sprite/turret.png");
         this.cooldown = cooldown;
+        this.currentTick = startingTick;
     }
 
     @Override
@@ -67,7 +68,8 @@ public class Turret extends Sprite {
         double x = PopulationLoader.extrapolateToDouble(((Object[]) objArgs[0])[0]);
         double y = PopulationLoader.extrapolateToDouble(((Object[]) objArgs[0])[1]);
         int cooldown = (int) PopulationLoader.extrapolateToDouble(objArgs[1]);
-        return new Turret(x, y, cooldown);
+        int startingTick = (int) PopulationLoader.extrapolateToDouble(objArgs[2]);
+        return new Turret(x, y, cooldown, startingTick);
     }
     
     

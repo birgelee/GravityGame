@@ -9,5 +9,5 @@ package javathing.sprite;
  * @author Henry
  */
 public interface Shootable {
-    public void shot(Bullet bullet);
+    public void shot(Object shooter);
 }

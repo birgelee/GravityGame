@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javathing.level.gravity.GravityZone;
+import javathing.sprite.Missle;
 import javathing.sprite.Turret;
 import javathing.sprite.Vilin;
 
@@ -56,6 +57,8 @@ public class PopulationLoader {
                 population.getGravitationalFeild().getGravitySources().add(GravityZone.getFromArgs(args, tokenResolver));
             } else if (term.equals("Turret")) {
                 population.addSprite(Turret.getFromArgs(args, tokenResolver));
+            } else if (term.equals("Missle")) {
+                population.addSprite(Missle.getFromArgs(args, tokenResolver));
             }
         }
         return population;

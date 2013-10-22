@@ -90,8 +90,7 @@ public class Vilin extends Sprite implements Shootable {
     }
 
     @Override
-    public void shot(Bullet bullet) {
+    public void shot(Object bullet) {
         MainClass.getLevelManager().removeSprite(this);
-        bullet.distroy();
     }
 }

@@ -5,7 +5,7 @@
 *5. Move level data to inside the jar.
 6. Add meta data for each level.
 *7. Standardize animations.
-8. Add turrent enemy.
+*8. Add turrent enemy.
 9. Add gravity enemy.
-10. Add gravity feild.
+*10. Add gravity zone.
 11. Fix level end null pointer exceptions.

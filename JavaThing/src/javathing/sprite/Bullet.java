@@ -6,6 +6,7 @@ package javathing.sprite;
 
 import java.awt.Color;
 import javathing.MainClass;
+import javathing.level.OutOfLevelException;
 import javathing.utils.MathUtils;
 
 /**
@@ -28,12 +29,11 @@ public class Bullet extends Sprite {
     public void update() {
         this.setX(this.getX() + xVolocity);
         this.setY(this.getY() + yVolocity);
-        if ((!MainClass.getLevelManager().getTileMap().isInTileGrid(getX(), getY()))|| (!MainClass.getLevelManager().getTileMap().isInTileGrid(getX() + getWidth(), getY() + getHeight()))) {
-            MainClass.getLevelManager().removeSprite(this);
-            return;
-        }
-        
+        try {
         super.update();
+        } catch (OutOfLevelException ex) {
+            MainClass.getLevelManager().removeSprite(this);
+        }
     }
 
     @Override
@@ -41,6 +41,7 @@ public class Bullet extends Sprite {
         super.onContact(interactor);
         if (interactor instanceof Shootable) {
             ((Shootable) interactor).shot(this);
+            this.distroy();
         }
     }
     

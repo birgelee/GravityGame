@@ -34,10 +34,14 @@ public class LevelContainer implements GameContainer {
 
 		BufferedImage viewport = new BufferedImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT, BufferedImage.TYPE_INT_BGR);
 		Graphics2D viewportgr = viewport.createGraphics();
-
+                
 		for (List<Paintable> paintables : MainClass.getLevelManager().getPaintables()) {
-		    for (Paintable paintable : paintables) {
-			paintable.paint(levelgr);
+		    for (int i = 0; i < paintables.size(); i++) {//Uses a standard for loop to pervent concurrency errors.
+                        try {
+			paintables.get(i).paint(levelgr);
+                        } catch (ArrayIndexOutOfBoundsException ex) {
+                            break;
+                        }
 		    }
 		}
 		levelgr.translate(-transformFactorX, -transformFactorY);

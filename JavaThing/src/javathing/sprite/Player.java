@@ -52,11 +52,10 @@ public class Player extends Sprite implements Shootable {
 	xAcceleration = (matter * gravitationalFeild[0]) / mass;
 	yAcceleration = (matter * gravitationalFeild[1]) / mass;
 
-	xVolocity += xAcceleration * Settings.SLEEPTIME + singleFrameXAcceleration * Settings.SLEEPTIME;
-	yVolocity += yAcceleration * Settings.SLEEPTIME + singleFrameYAcceleration * Settings.SLEEPTIME;
+	xVolocity += xAcceleration * Settings.SLEEPTIME;
+        yVolocity += yAcceleration * Settings.SLEEPTIME;
 
-	singleFrameXAcceleration = 0;
-	singleFrameYAcceleration = 0;
+	
 
 	double xEffectiveVolocity = xVolocity + addedXVolocity + singleFrameXVolocity;
 	double yEffectiveVolocity = yVolocity + addedYVolocity + singleFrameYVolocity;
@@ -364,7 +363,7 @@ public class Player extends Sprite implements Shootable {
     }
 
     @Override
-    public void shot(Bullet bullet) {
+    public void shot(Object shooter) {
         kill();
     }
 }

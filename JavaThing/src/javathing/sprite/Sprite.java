@@ -14,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javathing.GameObject;
 import javathing.MainClass;
+import javathing.level.OutOfLevelException;
 import javathing.level.TileMap;
 import javathing.render.PlatformerGraphicsUtil;
+import javathing.settings.Settings;
 import javax.imageio.ImageIO;
 
 /**
@@ -71,9 +73,16 @@ public abstract class Sprite extends GameObject {
 
     @Override
     public void update() {
+        xVolocity += singleFrameXAcceleration * Settings.SLEEPTIME;
+	yVolocity +=  singleFrameYAcceleration * Settings.SLEEPTIME;
+        singleFrameXAcceleration = 0;
+	singleFrameYAcceleration = 0;
         int tileX = TileMap.getTileLocation(getX());
         int tileY = TileMap.getTileLocation(getY());
-        
+        if (!checkInBound(tileX, MainClass.getLevelManager().getTileMap().xDimention) || !checkInBound(TileMap.getTileLocation(getX() + width), MainClass.getLevelManager().getTileMap().xDimention) || !checkInBound(tileY, MainClass.getLevelManager().getTileMap().yDimention) || !checkInBound(TileMap.getTileLocation(getY() + height), MainClass.getLevelManager().getTileMap().yDimention)) {
+            throw new OutOfLevelException();
+        }
+        try {
         MainClass.getLevelManager().getTileMap().getBlock(tileX, tileY).whenInside(this);
         
         if (!(tileX == TileMap.getTileLocation(x + width) && tileY == TileMap.getTileLocation(y + height))) {
@@ -114,10 +123,18 @@ public abstract class Sprite extends GameObject {
                     MainClass.getLevelManager().getTileMap().getBlock(TileMap.getTileLocation(getX() + width), TileMap.getTileLocation(getY() + height + 1)).onContact(this, BlockSide.Top);
                 }
             }
+            
 
         }
+        } catch (NullPointerException ex) {}
     }
 
+    private static boolean checkInBound(int tile, int max) {
+        if (tile >= 0 && tile < max) {
+            return true;
+        }
+        return false;
+    }
     public void addSingleFrameAcceleration(double xAccelerationToAdd, double yAccelerationToAdd) {
         singleFrameXAcceleration += xAccelerationToAdd;
         singleFrameYAcceleration += yAccelerationToAdd;
