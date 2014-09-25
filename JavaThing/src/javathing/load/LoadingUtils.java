@@ -16,11 +16,13 @@ import java.io.InputStream;
 public class LoadingUtils {
 
     static String fileReader(String filePath) throws FileNotFoundException {
-	InputStream fsStream = LoadingUtils.class.getClassLoader().getResourceAsStream(filePath);
 	StringBuilder output = new StringBuilder();
-
+        InputStream fsStream = LoadingUtils.class.getClassLoader().getResourceAsStream(filePath);
 	while (true) {
 	    try {
+                if (fsStream == null) {
+                    throw new FileNotFoundException("The file path: " + filePath + " could not be opened.");
+                }
 		int value = fsStream.read();
 		if (value == -1) {
 		    break;

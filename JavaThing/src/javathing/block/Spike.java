@@ -18,8 +18,11 @@ public class Spike extends StandardBlock {
 	super(x, y);
 	this.resourceLocation = "javathing/resources/graphics/block/spike.png";
 	
-	
-	
+    }
+
+    @Override
+    public boolean getPassable() {
+        return true;
     }
     
     @Override
@@ -29,4 +32,10 @@ public class Spike extends StandardBlock {
 	}
     }
 
+    @Override
+    public void whenInside(Sprite interactor) {
+        if (interactor instanceof Player) {
+	    ((Player)interactor).kill();
+	}
+    }
 }

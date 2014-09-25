@@ -4,6 +4,7 @@
  */
 package javathing.container;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -23,10 +24,10 @@ public class FadeInContainer implements GameContainer {
 
     public FadeInContainer(GameContainer container, double duration, float min, float max) {
         this.container = container;
-        this.duration = duration * (1 / (max - min));//the global var is the duration if max = 1 and min = 0.
+        this.duration = duration;
         this.max = max;
         this.min = min;
-        currentFrame = min * this.duration;
+        currentFrame = 0;
 
     }
     
@@ -46,9 +47,13 @@ public class FadeInContainer implements GameContainer {
         BufferedImage buf = new BufferedImage(Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics gr = buf.createGraphics();
         container.paint(gr);
-        float[] scales = {1f, 1f, 1f, (float) (currentFrame / duration)};
+        
+        float[] scales = {1f, 1f, 1f, (float) ((currentFrame / duration) * (max - min) + min)};
         float[] offsets = new float[4];
         RescaleOp rop = new RescaleOp(scales, offsets, null);
+        g.setColor(Color.black);
+        g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
+        
         ((Graphics2D)g).drawImage(buf, rop, 0, 0);
     }
 
@@ -56,7 +61,7 @@ public class FadeInContainer implements GameContainer {
     public void update() {
         currentFrame++;
         container.update();
-        if ((currentFrame / duration) > max) {
+        if (currentFrame >= duration) {
             MainClass.setContainer(container);
         }
     }

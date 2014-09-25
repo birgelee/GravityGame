@@ -57,9 +57,9 @@ public class Missle extends Sprite {
 
     public static Missle getFromArgs(String args, TokenResolver tokenResolver) throws Exception {
         Object[] objArgs = PopulationLoader.getObjectsFromParams(args, tokenResolver);
-        Double[] position = (Double[]) objArgs[0];
+        Object[] position = (Object[]) objArgs[0];
         Object[] volocities = (Object[]) objArgs[1];
         Double speed = PopulationLoader.extrapolateToDouble(objArgs[2]);
-        return new Missle(position[0], position[1], PopulationLoader.extrapolateToDouble(volocities[0]), PopulationLoader.extrapolateToDouble(volocities[1]), speed);
+        return new Missle(PopulationLoader.extrapolateToDouble(position[0]), PopulationLoader.extrapolateToDouble(position[1]), PopulationLoader.extrapolateToDouble(volocities[0]), PopulationLoader.extrapolateToDouble(volocities[1]), speed);
     }
 }

@@ -30,7 +30,7 @@ public class TokenResolver {
         }
     }
 
-    public Double[] resolveToken(String tokenString) throws Exception {
+    public Object[] resolveToken(String tokenString) throws Exception {
         try {
             if (tokenString.indexOf(":") == -1) {
                 return tokens.get(tokenString).get(0);
