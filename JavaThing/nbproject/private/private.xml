@@ -12,22 +12,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/container/FadeInContainer.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/ui/Component.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/block/StandardBlock.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/animation/StaticAnimator.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/level/gravity/GravityZone.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/ui/GUI.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/menu/button/RectangleMenuButton.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/load/LevelLoader.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/block/Spike.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/menu/MenuManager.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/load/LoadingUtils.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/utils/Convenience.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/animation/SinAnimator.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/animation/OneWayAnimation.java</file>
-            <file>file:/C:/Users/Henry/OneDrive/Documents/GitHub/JavaGame/JavaThing/src/javathing/block/Block.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

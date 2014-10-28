@@ -1,0 +1,4 @@
+GravityZone(g,g:1,{0,-.001})
+Vilin(a,1,{},{a,a:1})
+Vilin(y,1,{},{y,y:1})
+Vilin(t,1,{},{t,t:1})

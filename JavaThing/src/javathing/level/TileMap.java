@@ -20,7 +20,8 @@ public class TileMap {
     public final int yDimention;
     
      public static boolean isOnTile(double pixle) {
-        return pixle % Settings.TILE_SIZE == 0;
+         int ipixle = (int) Math.round(pixle);
+        return ipixle % Settings.TILE_SIZE == 0 || (ipixle + 1) % Settings.TILE_SIZE == 0 || (ipixle - 1) % Settings.TILE_SIZE == 0;
     }
     
     public static int getTileLocation(double pixle) {

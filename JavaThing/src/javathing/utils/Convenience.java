@@ -140,7 +140,7 @@ public class Convenience {
         } catch (IOException ex) {
             Logger.getLogger(Convenience.class.getName()).log(Level.SEVERE, null, ex);
         }
-        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 200, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Resume Game", Color.white, new ButtonEvent() {
+        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 150, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Resume Game", Color.white, new ButtonEvent() {
             @Override
             public void pressed() {
                 MainClass.getLevelManager().activateListeners();
@@ -148,7 +148,19 @@ public class Convenience {
                 setMenuManager(null);
             }
         }));
-        buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 300, buttonBackground));
+        
+        buttons.add(new RectangleMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 250, 100, 50, buttonBackground, SinAnimator.getDefualtAnimator(), "Restart Level", Color.white, new ButtonEvent() {
+            @Override
+            public void pressed() {
+                initLevel(Statics.levelVariables.getLevelNumber(), Settings.LEVEL_MAP_LOCATION.replace(":", ""+ Statics.levelVariables.getLevelNumber()), Settings.LEVEL_POPULATION_LOCATION.replace(":", ""+Statics.levelVariables.getLevelNumber()));
+                MainClass.getLevelManager().activateListeners();
+                MainClass.getMenuManager().deactivateListeners();
+                setContainer(new FadeInContainer(new LevelContainer(Statics.levelVariables.getLevelNumber())));
+                setMenuManager(null);
+            }
+        }));
+        
+        buttons.add(new GoToMainMenuButton((Settings.SCREEN_WIDTH - 100) / 2, 350, buttonBackground));
         Graphics g = MainClass.getLastImage().createGraphics();
         g.setColor(new Color(0, 0, 0, .6F));
         g.fillRect(0, 0, Settings.SCREEN_WIDTH, Settings.SCREEN_HTIGHT);
